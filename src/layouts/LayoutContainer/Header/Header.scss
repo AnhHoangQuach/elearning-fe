@@ -24,11 +24,11 @@
     margin-left: 50px;
     background: url("../../../assets/images/logo.png")
       no-repeat center / cover;
-  }
-  &-logoTitle{
-    margin-left: -535px;
-    margin-right: 138px;
-    
+      p{
+        width: 317px;
+        padding: 26px;
+        padding-left: 77px;
+      }
   }
   &-links {
     display: flex;
@@ -42,10 +42,13 @@
   }
 }
 
-@media (max-width: 790px) {
+@media (max-width: 900px) {
   .header {
     &-img {
       display: none;
+      p{
+        display: none;
+      }
     }
     &-links {
       flex: 1;

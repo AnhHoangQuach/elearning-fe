@@ -32,7 +32,7 @@ const BtnAddCart: React.FC<BtnAddCartProps> = ({ courseId, isBought }) => {
         dispatch(getTotalCart(carts.length));
 
         setIsLoading(false);
-        toast.success("Thêm vào giỏ hàng thành công", {
+        toast.success("Đăng kí khóa học thành coong", {
           position: "bottom-right",
         });
       } catch (error) {
@@ -55,7 +55,7 @@ const BtnAddCart: React.FC<BtnAddCartProps> = ({ courseId, isBought }) => {
   if (isRole !== "student" && isRole !== "") {
     return (
       <Button variant="contained" color="warning" disabled>
-        Học sinh mới được mua
+        Học sinh mới được đăng kí
       </Button>
     );
   }
@@ -65,8 +65,17 @@ const BtnAddCart: React.FC<BtnAddCartProps> = ({ courseId, isBought }) => {
       color="warning"
       onClick={handleAddCart}
       disabled={isLoading}
+      // width: "200px",
+      style={{
+        color: "white",
+        borderRadius: "36px",
+        fontWeight: "bold",
+        fontSize: "20px",   
+        cursor: "pointer",
+      
+      }}
     >
-      {!isLoading ? "Mua khoá học ngay" : <LoadingContent.Loading />}
+      {!isLoading ? "Đăng kí ngay" : <LoadingContent.Loading />}
     </Button>
   );
 };

@@ -240,11 +240,11 @@ const CourseDetail = () => {
               </span>
 
               {/* btn add cart */}
-              {/* <BtnAddCart
+              <BtnAddCart
                 courseId={courseDetail._id}
                 isBought={courseDetail.isBought}
-              /> */}
-              <button type="button" className="btnRegister" data-toggle="modal" data-target="#myModal">Đăng kí ngay</button>
+              />
+              {/* <button type="button" className="btnRegister" >Đăng kí ngay</button> */}
             </div>
             <CourseSummary
               title="Thông tin chi tiết khoá học"

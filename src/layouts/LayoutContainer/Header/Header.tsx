@@ -31,8 +31,7 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
           className="header-img"
           style={{ cursor: "pointer" }}
           onClick={() => navigate("/")}
-        ></div>      
-        <span className="header-logoTitle">Trung tâm Anh ngữ Sparkle</span>
+        ><p className="header-logoTitle">Trung tâm Anh ngữ Sparkle</p></div>      
 
         <div className="header-links">
           {titleShow && <HeaderNavigation links={linkHeader} />}
@@ -49,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
         </div>
       </div>
       {/* for mobile */}
-      {/* <div className="header-mobile">
+      <div className="header-mobile">
         <div
           className="icon-toggle"
           ref={nodeRef}
@@ -68,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
             <Logout />
           </div>
         )}
-      </div> */}
+      </div>
     </React.Fragment>
   );
 };

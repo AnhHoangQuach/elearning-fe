@@ -171,7 +171,7 @@ const CoursePage = () => {
         {/* input select item */}
         <div className="input-select">
           {categoryList && (
-            <Box sx={{ width: 150 }}>
+            <Box sx={{ width: 150,border: "0.75px solid #e1e8f2",borderRadius:"15px" }}>
               <FormControl.InputSelect
                 hideErrorMessage={true}
                 defaultValue={category}
@@ -184,7 +184,7 @@ const CoursePage = () => {
             </Box>
           )}
 
-          <Box sx={{ width: 200 }}>
+          <Box sx={{ width: 200,border: "0.75px solid #e1e8f2",borderRadius:"15px" }}>
             <FormControl.InputSelect
               hideErrorMessage={true}
               defaultValue={sort}
@@ -197,7 +197,7 @@ const CoursePage = () => {
           </Box>
 
 
-          <Box sx={{ width: 200 }}>
+          <Box sx={{ width: 200,border: "0.75px solid #e1e8f2",borderRadius:"15px" }}>
             <FormControl.InputSelect
                 hideErrorMessage={true}
                 defaultValue={price}
