@@ -1,82 +1,63 @@
-import { Button } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import cartApi from "src/apis/cartApi";
-import LoadingContent from "src/components/LoadingContent";
-import { getTotalCart, selectAuthorization } from "src/reducers";
+import { Button } from '@mui/material'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import myCourseApi from 'src/apis/myCourseApi'
+import LoadingContent from 'src/components/LoadingContent'
+import { selectAuthorization } from 'src/reducers'
 
 interface BtnAddCartProps {
-  courseId?: string;
-  isBought?: boolean;
+  courseId?: string
+  isBought?: boolean
 }
 
 const BtnAddCart: React.FC<BtnAddCartProps> = ({ courseId, isBought }) => {
-  const { isAuth, isRole } = useSelector(selectAuthorization);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isAuth, isRole } = useSelector(selectAuthorization)
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleAddCart = async () => {
     if (!isAuth) {
-      navigate("/login");
+      navigate('/login')
     } else {
-      const params = { course: courseId };
+      const params = { course: courseId }
       // console.log("params", params);
-      setIsLoading(true);
+      setIsLoading(true)
       try {
-        const response = await cartApi.addItemToCart(params);
-        const { carts }: any = response;
-        // console.log("carts", carts.length);
-        dispatch(getTotalCart(carts.length));
-
-        setIsLoading(false);
-        toast.success("Đăng kí khóa học thành coong", {
-          position: "bottom-right",
-        });
+        await myCourseApi.postMyCourse(params)
+        setIsLoading(false)
+        toast.success('Đăng kí khóa học thành công', {
+          position: 'bottom-right',
+        })
       } catch (error) {
-        console.log("lỗi rồi", { error });
-        setIsLoading(false);
+        console.log('lỗi rồi', { error })
+        setIsLoading(false)
         toast.warning(`${error}`, {
-          position: "bottom-right",
-        });
+          position: 'bottom-right',
+        })
       }
     }
-  };
+  }
 
   if (isBought) {
     return (
       <Button variant="contained" color="warning" disabled>
         Bạn đã sở hữu khoá này
       </Button>
-    );
+    )
   }
-  if (isRole !== "student" && isRole !== "") {
+  if (isRole !== 'student' && isRole !== '') {
     return (
       <Button variant="contained" color="warning" disabled>
         Học sinh mới được đăng kí
       </Button>
-    );
+    )
   }
   return (
-    <Button
-      variant="contained"
-      color="warning"
-      onClick={handleAddCart}
-      disabled={isLoading}
-      // width: "200px",
-      style={{
-        color: "white",
-        borderRadius: "36px",
-        fontWeight: "bold",
-        fontSize: "20px",   
-        cursor: "pointer",
-      
-      }}
-    >
-      {!isLoading ? "Đăng kí ngay" : <LoadingContent.Loading />}
+    <Button variant="contained" color="warning" onClick={handleAddCart} disabled={isLoading}>
+      {!isLoading ? 'Đăng kí ngay' : <LoadingContent.Loading />}
     </Button>
-  );
-};
-export default BtnAddCart;
+  )
+}
+export default BtnAddCart
