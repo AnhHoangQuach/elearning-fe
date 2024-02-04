@@ -1,23 +1,21 @@
-import React, { Suspense } from "react";
-import { useSelector } from "react-redux";
-import { Routes } from "react-router-dom";
-import LoadingContent from "./components/LoadingContent";
-import { selectAuthorization } from "./reducers";
+import React, { Suspense } from 'react'
+import { useSelector } from 'react-redux'
+import { Routes } from 'react-router-dom'
+import LoadingContent from './components/LoadingContent'
+import { selectAuthorization } from './reducers'
 import {
   ADMIN_ROUTE,
   authRoute,
   AUTH_ROUTE,
   DASHBOARD_ROUTE,
-  DIRECTOR_ROUTE,
   mainRoute,
   MAIN_ROUTE,
   privateRoute,
-  STUDENT_ROUTE,
   TEACHER_ROUTE,
-} from "./routes";
+} from './routes'
 
 function App() {
-  const { isLoading } = useSelector(selectAuthorization);
+  const { isLoading } = useSelector(selectAuthorization)
 
   return (
     <React.Fragment>
@@ -27,8 +25,6 @@ function App() {
           {authRoute(AUTH_ROUTE)}
           {privateRoute(ADMIN_ROUTE)}
           {privateRoute(TEACHER_ROUTE)}
-          {privateRoute(STUDENT_ROUTE)}
-          {privateRoute(DIRECTOR_ROUTE)}
           {/* Dashboard routes */}
           {privateRoute(DASHBOARD_ROUTE)}
         </Routes>
@@ -36,7 +32,7 @@ function App() {
 
       <LoadingContent.LoadingBackdrop isLoading={isLoading} />
     </React.Fragment>
-  );
+  )
 }
 
-export default App;
+export default App

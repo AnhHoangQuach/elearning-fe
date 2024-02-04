@@ -1,9 +1,7 @@
-import AuthLayout from "./AuthLayout";
-import SocialLogin from "./SocialLogin";
+import AuthLayout from './AuthLayout'
 
 const AuthPageContent = {
   AuthLayout: AuthLayout,
-  SocialLogin: SocialLogin,
-};
+}
 
-export default AuthPageContent;
+export default AuthPageContent
