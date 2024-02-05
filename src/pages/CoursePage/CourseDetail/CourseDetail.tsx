@@ -110,19 +110,19 @@ const CourseDetail = () => {
         <TextContent.NormalText type="title-header-large" content="Thông tin chi tiết khoá học" />
         <div className="course-preview">
           <div className="info">
-            {!!courseDetail.saleOff && (
+            {/* {!!courseDetail.saleOff && (
               <span className="sale-off">
                 -{formatCharacter.numberRound(courseDetail.saleOff)}%
               </span>
-            )}
+            )} */}
             <MediaContent.Image src={courseDetail.thumbnail} />
             <TextContent.NormalText content={courseDetail.name as string} />
             <span className="description">
               <ArticleReadMore title="Mô tả khoá học" content={courseDetail.description} />
             </span>
-            <div className="rating">
+            {/* <div className="rating">
               <CourseRating ratingComments={ratingComments} />
-            </div>
+            </div> */}
           </div>
           <div className="content-detail">
             <div className="detail-info">

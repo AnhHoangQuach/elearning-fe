@@ -90,14 +90,14 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
             <MenuItem
               value={item.value}
               key={index}
-              sx={{
-                fontSize: '14px',
-                color: '#000',
-                fontWeight: 'medium',
-                gap: '8px',
-              }}
+              // sx={{
+              //   fontSize: '14px',
+              //   color: '#000',
+              //   fontWeight: 'medium',
+              //   gap: '8px',
+              // }}
             >
-              {icon && <MediaContent.Icon icon={icon} size={18} />}
+              {icon && <MediaContent.Icon icon={icon} size={18} />} 
               {item.name}
             </MenuItem>
           ))}

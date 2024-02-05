@@ -202,13 +202,13 @@ export default function AccountList() {
             />
           </Box>
         }
-        btnHandle={
-          <>
-            <Button variant="contained" color="success" onClick={() => setShowUpload(true)}>
-              Upload file excel
-            </Button>
-          </>
-        }
+        // btnHandle={
+        //   <>
+        //     <Button variant="contained" color="success" onClick={() => setShowUpload(true)}>
+        //       Upload file excel
+        //     </Button>
+        //   </>
+        // }
         onPage={(page) => setPage(Number(page))}
         onPageSize={(pageSize) => setPageSize(Number(pageSize))}
         getRowId={(row) => row._id}

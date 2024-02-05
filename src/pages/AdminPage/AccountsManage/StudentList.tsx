@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
@@ -11,7 +11,7 @@ import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
 import UploadAccountByExcel from './UploadAccountByExcel'
-
+import FormControl from 'src/components/FormControl'
 const columnsHeader: GridColDef[] = [
   {
     field: 'status',
@@ -143,13 +143,25 @@ export default function StudentList() {
   return (
     <>
       <Table
-        btnHandle={
-          <>
-            <Button variant="contained" color="success" onClick={() => setShowUpload(true)}>
-              Upload file excel
-            </Button>
-          </>
+
+        btnSearch={
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <FormControl.Input
+              style={{ width: 250 }}
+              placeholder="Tìm kiếm bằng địa chỉ email"
+              onChange={(e: any) => setValue(e.target.value)}
+            />
+           
+          </Box>
         }
+        
         onPage={(page) => setPage(Number(page))}
         onPageSize={(pageSize) => setPageSize(Number(pageSize))}
         getRowId={(row) => row._id}
