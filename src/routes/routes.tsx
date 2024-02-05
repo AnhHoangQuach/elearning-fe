@@ -113,6 +113,13 @@ const DASHBOARD_ROUTE = [
         icon: 'user',
       },
       {
+        path: 'dashboard/student',
+        href: '/admin/dashboard/student',
+        element: DASHBOARD_PAGE.ADMIN_DASHBOARD.StudentList,
+        title: 'Quản lý học sinh',
+        icon: 'user',
+      },
+      {
         path: 'dashboard/categories',
         href: '/admin/dashboard/categories',
         element: DASHBOARD_PAGE.ADMIN_DASHBOARD.CategoryList,

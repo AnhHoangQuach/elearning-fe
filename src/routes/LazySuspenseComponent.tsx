@@ -33,6 +33,7 @@ const TeacherCourseDetail = React.lazy(
 //DASHBOARD PAGE
 const DashboardLayout = React.lazy(() => import('src/layouts/Dashboard/DashboardLayout'))
 const UserList = React.lazy(() => import('src/pages/AdminPage/AccountsManage/AccountList'))
+const StudentList = React.lazy(() => import('src/pages/AdminPage/AccountsManage/StudentList'))
 
 const CategoryList = React.lazy(() => import('src/pages/AdminPage/CategoriesManage/CategoryList'))
 const CouponList = React.lazy(() => import('src/pages/AdminPage/CouponManage/CouponList'))
@@ -96,6 +97,7 @@ const ADMIN_PAGE = {
   ADMIN_DASHBOARD: {
     ProfilePage: <ProfilePage />,
     UserList: <UserList />,
+    StudentList: <StudentList />,
     CategoryList: <CategoryList />,
     CourseList: <CourseList />,
     InvoiceList: <InvoiceList />,

@@ -1,12 +1,12 @@
-import InfoIcon from "@mui/icons-material/Info";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, Tooltip } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import classNames from "classnames";
-import React, { useState } from "react";
-import TableNone from "./TableNone/TableNone";
-import { TableProps } from "./Table.type";
-import "./Table.scss";
+import InfoIcon from '@mui/icons-material/Info'
+import EditIcon from '@mui/icons-material/Edit'
+import { Box, Button, Tooltip } from '@mui/material'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import classNames from 'classnames'
+import React, { useState } from 'react'
+import TableNone from './TableNone/TableNone'
+import { TableProps } from './Table.type'
+import './Table.scss'
 
 const Table: React.FC<TableProps> = ({
   title,
@@ -15,14 +15,15 @@ const Table: React.FC<TableProps> = ({
   btnMultiDeleted = true,
   btnHandle,
   btnSearch,
-  titleBtnAdd = "Thêm mới",
-  titleBtnMultiDelete = "Xoá thông tin",
+  titleBtnAdd = 'Thêm mới',
+  titleBtnMultiDelete = 'Xoá thông tin',
   rowsData,
   columnsData = [],
   isLoading = false,
   isCheckBoxSelection = true,
   isModify = true,
   isViewDetail = true,
+  isViewActions = true,
   onPageSize,
   onPage,
   getRowId,
@@ -33,76 +34,62 @@ const Table: React.FC<TableProps> = ({
   onModifyItem,
   onViewItemDetail,
 }) => {
-  const [pageSize, setPageSize] = useState(5);
-  const [multiSelect, setMultiSelect] = useState<string[] | number[]>([]);
+  const [pageSize, setPageSize] = useState(5)
+  const [multiSelect, setMultiSelect] = useState<string[] | number[]>([])
 
   const actions: GridColDef = {
-    field: "actions",
-    headerName: "Thao tác",
+    field: 'actions',
+    headerName: 'Thao tác',
     sortable: false,
-    type: "actions",
+    type: 'actions',
     flex: 1,
     renderCell: ({ id }) => {
       return (
-        <div style={{ display: "flex", gap: 20 }}>
+        <div style={{ display: 'flex', gap: 20 }}>
           {isModify && (
-            <Tooltip
-              title="Cập nhật thông tin"
-              onClick={() => onModifyItem?.(id)}
-            >
-              <EditIcon sx={{ cursor: "pointer" }} />
+            <Tooltip title="Cập nhật thông tin" onClick={() => onModifyItem?.(id)}>
+              <EditIcon sx={{ cursor: 'pointer' }} />
             </Tooltip>
           )}
           {isViewDetail && (
-            <Tooltip
-              title="Thông tin chi tiết"
-              onClick={() => onViewItemDetail?.(id)}
-            >
-              <InfoIcon sx={{ cursor: "pointer" }} />
+            <Tooltip title="Thông tin chi tiết" onClick={() => onViewItemDetail?.(id)}>
+              <InfoIcon sx={{ cursor: 'pointer' }} />
             </Tooltip>
           )}
         </div>
-      );
+      )
     },
-  };
+  }
 
   const handleChangePage = (newPage: number) => {
-    onPage?.(newPage + 1);
-  };
+    onPage?.(newPage + 1)
+  }
 
   const handlePageSizeChange = (pageSize: number) => {
-    onPageSize?.(pageSize);
-    setPageSize(pageSize);
-  };
+    onPageSize?.(pageSize)
+    setPageSize(pageSize)
+  }
 
   const handleDeleteMultiSelectItem = () => {
-    onDeleteSelectMultiItem?.(multiSelect);
-  };
+    onDeleteSelectMultiItem?.(multiSelect)
+  }
 
   return (
-    <div className={classNames(className, "table-container")}>
+    <div className={classNames(className, 'table-container')}>
       <span className="title">{title}</span>
 
       <div className="btns">
         <Box className="search">{btnSearch}</Box>
         <Box className="handle">
           {btnAdd && (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleAddItem}
-            >
+            <Button variant="contained" color="secondary" onClick={handleAddItem}>
               {titleBtnAdd}
             </Button>
           )}
           {btnHandle}
 
           {btnMultiDeleted && multiSelect.length > 0 && (
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={handleDeleteMultiSelectItem}
-            >
+            <Button variant="contained" color="warning" onClick={handleDeleteMultiSelectItem}>
               {titleBtnMultiDelete}
             </Button>
           )}
@@ -121,7 +108,7 @@ const Table: React.FC<TableProps> = ({
         }}
         componentsProps={{
           pagination: {
-            labelRowsPerPage: "Số lượng hiển thị",
+            labelRowsPerPage: 'Số lượng hiển thị',
           },
         }}
         onSelectionModelChange={(id: any) => setMultiSelect(id)}
@@ -130,7 +117,7 @@ const Table: React.FC<TableProps> = ({
         onPageChange={handleChangePage}
         onPageSizeChange={handlePageSizeChange}
         rows={rowsData?.length > 0 ? rowsData : []}
-        columns={[...columnsData, actions]}
+        columns={isViewActions ? [...columnsData, actions] : columnsData}
         // page={page}
         pageSize={pageSize}
         rowCount={total}
@@ -140,6 +127,6 @@ const Table: React.FC<TableProps> = ({
         pagination
       />
     </div>
-  );
-};
-export default Table;
+  )
+}
+export default Table
