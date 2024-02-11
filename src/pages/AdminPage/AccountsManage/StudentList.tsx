@@ -1,41 +1,46 @@
-import { Box, Button } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
 import Table from 'src/components/Table'
-import { useTypingDebounce } from 'src/hooks'
 import { IUser } from 'src/types/user'
 import { getHeaderColumns, getNewHeaderColumn } from 'src/utils'
-import translateVi from 'src/utils/translateVi'
 import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
 import UploadAccountByExcel from './UploadAccountByExcel'
-import FormControl from 'src/components/FormControl'
+
 const columnsHeader: GridColDef[] = [
   {
-    field: 'status',
-    headerName: 'Trạng thái',
-    width: 120,
-  },
-  {
     field: 'email',
-    headerName: 'Địa chỉ email',
-    width: 200,
+    headerName: 'Họ và tên',
+    flex: 1,
   },
   {
     field: 'fullName',
     headerName: 'Họ và tên',
-    width: 150,
+    flex: 1,
   },
-  { field: 'phone', headerName: 'Số điện thoại', width: 200 },
   {
-    field: 'gender',
-    headerName: 'Giới tính',
-    width: 120,
+    field: 'phone',
+    headerName: 'Số điện thoại',
+    flex: 1,
   },
-  { field: 'course', headerName: 'Khóa học' },
-  { field: 'isPaid', headerName: 'Đã Nộp' },
+  {
+    field: 'course',
+    headerName: 'Khóa học',
+    flex: 1,
+    renderCell: ({ value }) => {
+      return <div>{value.name}</div>
+    },
+  },
+  {
+    field: 'isPaid',
+    headerName: 'Đã Nộp',
+    flex: 1,
+    renderCell: ({ value }) => {
+      return <div>{value?.isPaid ? 'Đã Nộp' : 'Chưa Nộp'}</div>
+    },
+  },
 ]
 
 export default function StudentList() {
@@ -49,11 +54,6 @@ export default function StudentList() {
   const [pageSize, setPageSize] = useState<number>(5)
   const [page, setPage] = useState<number>(1)
 
-  //debounce
-  const [value, setValue] = useState<string>()
-  const debouncedValue = useTypingDebounce(value)
-  const [email, setEmail] = useState<string>()
-
   //modal
   const [showDelete, setShowDelete] = useState(false)
   const [showMultiDelete, setShowMultiDelete] = useState(false)
@@ -64,41 +64,23 @@ export default function StudentList() {
   const [isCreateCompleted, setIsCreateCompleted] = useState(false)
   const [isDeleteCompleted, setIsDeleteCompleted] = useState(false)
   const [isMultiDeleteCompleted, setIsMultiDeleteCompleted] = useState(false)
-  const [isUpdateCompleted, setIsUpdateCompleted] = useState(false)
   const [isUploadCompleted, setIsUploadCompleted] = useState(false)
 
   useEffect(() => {
     getStudents()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email, page, pageSize])
+  }, [page, pageSize])
 
   useEffect(() => {
-    if (
-      isCreateCompleted ||
-      isDeleteCompleted ||
-      isMultiDeleteCompleted ||
-      isUpdateCompleted ||
-      isUploadCompleted
-    ) {
+    if (isCreateCompleted || isDeleteCompleted || isMultiDeleteCompleted || isUploadCompleted) {
       getStudents()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isCreateCompleted,
-    isDeleteCompleted,
-    isMultiDeleteCompleted,
-    isUpdateCompleted,
-    isUploadCompleted,
-  ])
-
-  //debounce to search
-  useEffect(() => {
-    setEmail(debouncedValue)
-  }, [debouncedValue])
+  }, [isCreateCompleted, isDeleteCompleted, isMultiDeleteCompleted, isUploadCompleted])
 
   const getStudents = async () => {
     setLoading(true)
-    const params = { active: email, page, limit: pageSize }
+    const params = { page, limit: pageSize }
     // console.log("params nè", params);
     try {
       const response = await adminApi.getStudents(params)
@@ -113,8 +95,8 @@ export default function StudentList() {
           return {
             ...data,
             email: users[index].account.email,
-            role: translateVi(users[index].account.role),
-            status: users[index].account.isActive ? 'Hoạt động' : 'Đang khoá',
+            phone: users[index].user.phone,
+            fullName: users[index].user.fullName,
           }
         })
 
@@ -143,25 +125,13 @@ export default function StudentList() {
   return (
     <>
       <Table
-
-        btnSearch={
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            <FormControl.Input
-              style={{ width: 250 }}
-              placeholder="Tìm kiếm bằng địa chỉ email"
-              onChange={(e: any) => setValue(e.target.value)}
-            />
-           
-          </Box>
-        }
-        
+        // btnHandle={
+        //   <>
+        //     <Button variant="contained" color="success" onClick={() => setShowUpload(true)}>
+        //       Upload file excel
+        //     </Button>
+        //   </>
+        // }
         onPage={(page) => setPage(Number(page))}
         onPageSize={(pageSize) => setPageSize(Number(pageSize))}
         getRowId={(row) => row._id}
