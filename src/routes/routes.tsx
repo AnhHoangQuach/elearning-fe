@@ -222,6 +222,13 @@ const DASHBOARD_ROUTE = [
         icon: 'user',
       },
       {
+        path: 'dashboard/student',
+        href: '/teacher/dashboard/student',
+        element: DASHBOARD_PAGE.ADMIN_DASHBOARD.StudentList,
+        title: 'Quản lý học sinh',
+        icon: 'user',
+      },
+      {
         path: 'dashboard/categories',
         href: '/teacher/dashboard/categories',
         element: DASHBOARD_PAGE.ADMIN_DASHBOARD.CategoryList,

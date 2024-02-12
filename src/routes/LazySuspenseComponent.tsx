@@ -130,6 +130,7 @@ const TEACHER_PAGE = {
   QuizDetail: <QuizDetail />,
   TEACHER_DASHBOARD: {
     ProfilePage: <ProfilePage />,
+    StudentList: <StudentList />,
     TeacherInfo: <TeacherInfo />,
     ManagerCourse: <TeacherCourse />,
     TeacherRevenue: <TeacherRevenue />,
