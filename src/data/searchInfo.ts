@@ -9,7 +9,7 @@ export const genderTypes = [
 export const accountTypes = [
   { value: "student", name: "Học viên" },
   { value: "teacher", name: "Nhân viên" },
-  { value: "admin", name: "Quản trị viên" },
+  // { value: "admin", name: "Quản trị viên" },
 ];
 export const statusTypes = [
   { value: false, name: "Đang khoá" },
