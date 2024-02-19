@@ -8,8 +8,27 @@ import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
 import UploadAccountByExcel from './UploadAccountByExcel'
+import AccountDetail from './AccountDetail'
+import { Box } from '@mui/material'
+import FormControl from 'src/components/FormControl'
+import { useTypingDebounce } from 'src/hooks'
+import UpdateAccount from './UpdateAccount'
+
 
 const columnsHeader: GridColDef[] = [
+  {
+    field: '_id',
+    headerName: 'STT',
+    width: 60,
+    hide: true,
+  },
+  {
+    field: 'id',
+    headerName: 'STT',
+    width: 60,
+    align: 'center',
+    headerAlign: 'center',
+  },
   {
     field: 'email',
     headerName: 'Họ và tên',
@@ -28,7 +47,7 @@ const columnsHeader: GridColDef[] = [
   {
     field: 'course',
     headerName: 'Khóa học',
-    flex: 1,
+    flex: 1.5,
     renderCell: ({ value }) => {
       return <div>{value.name}</div>
     },
@@ -36,7 +55,7 @@ const columnsHeader: GridColDef[] = [
   {
     field: 'isPaid',
     headerName: 'Đã Nộp',
-    flex: 1,
+    flex: 0.75,
     renderCell: ({ value }) => {
       return <div>{value?.isPaid ? 'Đã Nộp' : 'Chưa Nộp'}</div>
     },
@@ -49,6 +68,12 @@ export default function StudentList() {
   const [userIds, setUserIds] = useState<string[] | number[]>([])
   const [loading, setLoading] = useState(false)
 
+  // debounce
+  const [value, setValue] = useState<string>()
+  const debouncedValue = useTypingDebounce(value)
+  const [email, setEmail] = useState<string>()
+
+  
   //pagination
   const [total, setTotal] = useState<number>(0)
   const [pageSize, setPageSize] = useState<number>(5)
@@ -58,12 +83,15 @@ export default function StudentList() {
   const [showDelete, setShowDelete] = useState(false)
   const [showMultiDelete, setShowMultiDelete] = useState(false)
   const [showCreate, setShowCreate] = useState(false)
+  const [showUpdate, setShowUpdate] = useState(false)
   const [showUpload, setShowUpload] = useState(false)
+  const [showDetail, setShowDetail] = useState(false)
 
   //check status
   const [isCreateCompleted, setIsCreateCompleted] = useState(false)
   const [isDeleteCompleted, setIsDeleteCompleted] = useState(false)
   const [isMultiDeleteCompleted, setIsMultiDeleteCompleted] = useState(false)
+  const [isUpdateCompleted, setIsUpdateCompleted] = useState(false)
   const [isUploadCompleted, setIsUploadCompleted] = useState(false)
 
   useEffect(() => {
@@ -72,11 +100,11 @@ export default function StudentList() {
   }, [page, pageSize])
 
   useEffect(() => {
-    if (isCreateCompleted || isDeleteCompleted || isMultiDeleteCompleted || isUploadCompleted) {
+    if (isCreateCompleted || isDeleteCompleted || isMultiDeleteCompleted || isUploadCompleted || isUpdateCompleted) {
       getStudents()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCreateCompleted, isDeleteCompleted, isMultiDeleteCompleted, isUploadCompleted])
+  }, [isCreateCompleted, isDeleteCompleted, isMultiDeleteCompleted, isUploadCompleted,isUpdateCompleted])
 
   const getStudents = async () => {
     setLoading(true)
@@ -111,7 +139,19 @@ export default function StudentList() {
       setLoading(false)
     }
   }
+//debounce to search
+useEffect(() => {
+  setEmail(debouncedValue)
+}, [debouncedValue])
 
+const handleModifyItem = async (id: string | number) => {
+  setUserId(id)
+  setShowUpdate(true)
+}
+const handleViewDetail = async (id: string | number) => {
+  setUserId(id)
+  setShowDetail(true)
+}
   const handleDelete = (id: string | number) => {
     setUserId(id)
     setShowDelete(true)
@@ -121,16 +161,26 @@ export default function StudentList() {
     setUserIds(ids)
     setShowMultiDelete(true)
   }
-
   return (
     <>
       <Table
+      // search Students //////////////
         // btnHandle={
-        //   <>
-        //     <Button variant="contained" color="success" onClick={() => setShowUpload(true)}>
-        //       Upload file excel
-        //     </Button>
-        //   </>
+        //   <Box
+        //     sx={{
+        //       display: 'flex',
+        //       flexDirection: 'row',
+        //       alignItems: 'center',
+        //       gap: 1,
+        //     }}
+        //   >
+        //     <FormControl.Input
+        //       style={{ width: 250 }}
+        //       placeholder="Tìm kiếm bằng địa chỉ email"
+        //       onChange={(e: any) => setValue(e.target.value)}
+        //     />
+            
+        //   </Box>
         // }
         onPage={(page) => setPage(Number(page))}
         onPageSize={(pageSize) => setPageSize(Number(pageSize))}
@@ -143,8 +193,10 @@ export default function StudentList() {
         total={total}
         handleAddItem={() => setShowCreate(true)}
         onDeleteItem={handleDelete}
+        onViewItemDetail={handleViewDetail}
+        onModifyItem={handleModifyItem}
         onDeleteSelectMultiItem={handleMultiDeleted}
-        isViewActions={false}
+        // isViewActions={false}
       />
       <DeleteAccount
         isUpdate={(status) => setIsDeleteCompleted(status)}
@@ -166,12 +218,20 @@ export default function StudentList() {
         onClose={() => setShowCreate(false)}
         setShow={setShowCreate}
       />
+      <UpdateAccount
+        id={userId}
+        show={showUpdate}
+        isUpdate={(status) => setIsUpdateCompleted(status)}
+        onClose={() => setShowUpdate(false)}
+        setShow={setShowUpdate}
+      />
       <UploadAccountByExcel
         isUpdate={(status) => setIsUploadCompleted(status)}
         show={showUpload}
         onClose={() => setShowUpload(false)}
         setShow={setShowUpload}
       />
+      <AccountDetail id={userId} show={showDetail} onClose={() => setShowDetail(false)} />
     </>
   )
 }

@@ -214,13 +214,13 @@ const DASHBOARD_ROUTE = [
         title: 'Quản lý khoá học',
         icon: 'book',
       },
-      {
-        path: 'dashboard/user',
-        href: '/teacher/dashboard/user',
-        element: DASHBOARD_PAGE.ADMIN_DASHBOARD.UserList,
-        title: 'Quản lý người dùng',
-        icon: 'user',
-      },
+      // {
+      //   path: 'dashboard/user',
+      //   href: '/teacher/dashboard/user',
+      //   element: DASHBOARD_PAGE.ADMIN_DASHBOARD.UserList,
+      //   title: 'Quản lý người dùng',
+      //   icon: 'user',
+      // },
       {
         path: 'dashboard/student',
         href: '/teacher/dashboard/student',
