@@ -43,24 +43,6 @@ const statisticApi = {
     const url = STATISTIC_API + "/coupons";
     return axiosClient.get(url, { params });
   },
-
-  //teacher revenue
-  getTeacherRevenueByMonth: (params?: any) => {
-    const url = STATISTIC_API + "/revenues/teachers";
-    return axiosClient.get(url, { params });
-  },
-  getTeacherRevenueById: (id?: string, params?: any) => {
-    const url = STATISTIC_API + "/revenues/teachers/" + id;
-    return axiosClient.get(url, { params });
-  },
-  getTopTeacherRevenueByEveryMonth: (params?: any) => {
-    const url = STATISTIC_API + "/top-teachers-of-months";
-    return axiosClient.get(url, { params });
-  },
-  getTopTeacherRevenueByYear: (params?: any) => {
-    const url = STATISTIC_API + "/top-teachers-of-year";
-    return axiosClient.get(url, { params });
-  },
 };
 
 export default statisticApi;

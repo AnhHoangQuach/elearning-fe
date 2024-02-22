@@ -39,11 +39,6 @@ const ADMIN_ROUTE = [
   { role: 'admin', path: '/admin', element: ADMIN_PAGE.AdminPage },
   {
     role: 'admin',
-    path: '/admin/dashboard/statistic/revenue-teachers/:id',
-    element: ADMIN_PAGE.RevenueTeacherDetail,
-  },
-  {
-    role: 'admin',
     path: 'admin/dashboard/courses/:id',
     element: ADMIN_PAGE.CourseLearningDetail,
   },
@@ -140,34 +135,14 @@ const DASHBOARD_ROUTE = [
         title: 'Biểu đồ thống kê',
         icon: 'bar-chart',
         children: [
-          // {
-          //   path: "users",
-          //   href: "/admin/dashboard/statistic/users",
-          //   title: "Thống kê người dùng",
-          //   element: DASHBOARD_PAGE.ADMIN_DASHBOARD.UserStatistic,
-          //   // icon: "info",
-          // },
           {
             path: 'revenues',
             href: '/admin/dashboard/statistic/revenues',
             title: 'Thống kê doanh thu',
             element: DASHBOARD_PAGE.ADMIN_DASHBOARD.RevenueStatistic,
-            // icon: "money",
+            icon: "money",
           },
-          // {
-          //   path: "revenue-teachers",
-          //   href: "/admin/dashboard/statistic/revenue-teachers",
-          //   title: "Doanh thu giảng viên",
-          //   element: DASHBOARD_PAGE.ADMIN_DASHBOARD.RevenueTeacherStatistic,
-          //   // icon: "money",
-          // },
-          // {
-          //   path: "courses",
-          //   href: "/admin/dashboard/statistic/courses",
-          //   title: "Thống kê khoá học",
-          //   element: DASHBOARD_PAGE.ADMIN_DASHBOARD.StatisticCourses,
-          //   // icon: "money",
-          // },
+          
         ],
       },
       // {

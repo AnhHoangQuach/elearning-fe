@@ -45,7 +45,7 @@ const CategoryDetail: React.FC<CategoryDetailProps> = ({
           value={categoryDetail.name}
           disabled
         />
-        <FormControl.Input label="slug" value={categoryDetail.slug} disabled />
+        <FormControl.Input label="Tiêu đề" value={categoryDetail.slug} disabled />
 
         <FormControl.InputSelect
           label="Xuất bản"

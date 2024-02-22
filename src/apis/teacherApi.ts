@@ -19,9 +19,9 @@ const teacherApi = {
     const url = TEACHER_API + "/info/" + id;
     return axiosClient.put(url, params);
   },
-  getTeacherRevenueByRangeDate: (params?: any) => {
-    const url = TEACHER_API + "/my-revenue";
-    return axiosClient.get(url, { params });
-  },
+  // getTeacherRevenueByRangeDate: (params?: any) => {
+  //   const url = TEACHER_API + "/my-revenue";
+  //   return axiosClient.get(url, { params });
+  // },
 };
 export default teacherApi;

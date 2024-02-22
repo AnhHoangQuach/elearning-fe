@@ -235,3 +235,7 @@ const handleViewDetail = async (id: string | number) => {
     </>
   )
 }
+
+
+
+

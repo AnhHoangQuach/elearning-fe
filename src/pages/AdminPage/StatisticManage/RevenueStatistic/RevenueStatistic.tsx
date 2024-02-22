@@ -1,6 +1,5 @@
 import { Box, Divider } from "@mui/material";
 import React from "react";
-import RevenueByEveryMonth from "./RevenueByEveryMonth";
 import RevenueByRangeDate from "./RevenueByRangeDate";
 import RevenueByRangeYear from "./RevenueByRangeYear";
 
@@ -16,8 +15,6 @@ export default function RevenueStatistic() {
       }}
     >
       <RevenueByRangeDate />
-      <Divider />
-      <RevenueByEveryMonth />
       <Divider />
       <RevenueByRangeYear />
     </Box>

@@ -20,9 +20,9 @@ const Register = React.lazy(() => import('src/pages/AuthPage/Register/Register')
 
 //ADMIN PAGE
 const AdminPage = React.lazy(() => import('src/pages/AdminPage/AdminPage'))
-const RevenueTeacherDetail = React.lazy(
-  () => import('src/pages/AdminPage/StatisticManage/RevenueTeacherStatistic/RevenueTeacherDetail')
-)
+// const RevenueTeacherDetail = React.lazy(
+//   () => import('src/pages/AdminPage/StatisticManage/RevenueTeacherStatistic/RevenueTeacherDetail')
+// )
 
 //TEACHER PAGE
 const TeacherCourse = React.lazy(() => import('src/pages/TeacherPage/ManageCourses/TeacherCourse'))
@@ -38,36 +38,36 @@ const StudentList = React.lazy(() => import('src/pages/AdminPage/AccountsManage/
 const CategoryList = React.lazy(() => import('src/pages/AdminPage/CategoriesManage/CategoryList'))
 const CouponList = React.lazy(() => import('src/pages/AdminPage/CouponManage/CouponList'))
 const CourseList = React.lazy(() => import('src/pages/AdminPage/CoursesManage/CourseList'))
-const InvoiceList = React.lazy(() => import('src/pages/AdminPage/InvoiceManage/InvoiceList'))
-const StatisticCourses = React.lazy(
-  () => import('src/pages/AdminPage/StatisticManage/CourseStatistic/CoursesStatistic')
-)
+// const InvoiceList = React.lazy(() => import('src/pages/AdminPage/InvoiceManage/InvoiceList'))
+// const StatisticCourses = React.lazy(
+//   () => import('src/pages/AdminPage/StatisticManage/CourseStatistic/CoursesStatistic')
+// )
 const RevenueStatistic = React.lazy(
   () => import('src/pages/AdminPage/StatisticManage/RevenueStatistic/RevenueStatistic')
 )
 
-const RevenueTeacherStatistic = React.lazy(
-  () =>
-    import('src/pages/AdminPage/StatisticManage/RevenueTeacherStatistic/RevenueTeacherStatistic')
-)
+// const RevenueTeacherStatistic = React.lazy(
+//   () =>
+//     import('src/pages/AdminPage/StatisticManage/RevenueTeacherStatistic/RevenueTeacherStatistic')
+// )
 const StatisticManage = React.lazy(
   () => import('src/pages/AdminPage/StatisticManage/StatisticViews')
 )
-const UserStatistic = React.lazy(
-  () => import('src/pages/AdminPage/StatisticManage/UserStatistic/UserStatistic')
-)
+// const UserStatistic = React.lazy(
+//   () => import('src/pages/AdminPage/StatisticManage/UserStatistic/UserStatistic')
+// )
 
 const BoughtCourses = React.lazy(
   () => import('src/pages/CourseLearning/BoughtCourses/BoughtCourses')
 )
 
-const Message = React.lazy(() => import('src/pages/Message/Message'))
+// const Message = React.lazy(() => import('src/pages/Message/Message'))
 const ProfilePage = React.lazy(() => import('src/pages/ProfilePage/ProfilePage'))
 
 const TeacherInfo = React.lazy(() => import('src/pages/TeacherPage/ManageProfile/TeacherInfo'))
-const TeacherRevenue = React.lazy(
-  () => import('src/pages/TeacherPage/ManageProfile/TeacherRevenue/TeacherRevenue')
-)
+// const TeacherRevenue = React.lazy(
+//   () => import('src/pages/TeacherPage/ManageProfile/TeacherRevenue/TeacherRevenue')
+// )
 
 //QUIZ PAGE
 const QuizPage = React.lazy(() => import('src/pages/QuizPage'))
@@ -92,7 +92,7 @@ const AUTH_PAGE = {
 const ADMIN_PAGE = {
   AdminPage: <AdminPage />,
   QuizPage: <QuizPage />,
-  RevenueTeacherDetail: <RevenueTeacherDetail />,
+  // RevenueTeacherDetail: <RevenueTeacherDetail />,
   CourseLearningDetail: <CourseLearningDetail />,
   ADMIN_DASHBOARD: {
     ProfilePage: <ProfilePage />,
@@ -100,14 +100,14 @@ const ADMIN_PAGE = {
     StudentList: <StudentList />,
     CategoryList: <CategoryList />,
     CourseList: <CourseList />,
-    InvoiceList: <InvoiceList />,
+    // InvoiceList: <InvoiceList />,
     CouponList: <CouponList />,
     StatisticManage: <StatisticManage />,
-    UserStatistic: <UserStatistic />,
+    // UserStatistic: <UserStatistic />,
     RevenueStatistic: <RevenueStatistic />,
-    RevenueTeacherStatistic: <RevenueTeacherStatistic />,
-    StatisticCourses: <StatisticCourses />,
-    Message: <Message />,
+    // RevenueTeacherStatistic: <RevenueTeacherStatistic />,
+    // StatisticCourses: <StatisticCourses />,
+    // Message: <Message />,
   },
 }
 
@@ -118,7 +118,7 @@ const STUDENT_PAGE = {
     ProfilePage: <ProfilePage />,
     BoughtCourses: <BoughtCourses />,
     QuizDetail: <QuizDetail />,
-    Message: <Message />,
+    // Message: <Message />,
   },
 }
 
@@ -133,15 +133,15 @@ const TEACHER_PAGE = {
     StudentList: <StudentList />,
     TeacherInfo: <TeacherInfo />,
     ManagerCourse: <TeacherCourse />,
-    TeacherRevenue: <TeacherRevenue />,
+    // TeacherRevenue: <TeacherRevenue />,
     CouponList: <CouponList />,
-    Message: <Message />,
+  //   Message: <Message />,
   },
 }
 
 const DASHBOARD_PAGE = {
   DashboardLayout: <DashboardLayout />,
-  Message: <Message />,
+  // Message: <Message />,
   TEACHER_DASHBOARD: TEACHER_PAGE.TEACHER_DASHBOARD,
   ADMIN_DASHBOARD: ADMIN_PAGE.ADMIN_DASHBOARD,
   STUDENT_DASHBOARD: STUDENT_PAGE.STUDENT_DASHBOARD,
