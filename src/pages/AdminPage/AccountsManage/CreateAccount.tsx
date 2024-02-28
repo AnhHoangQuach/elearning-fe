@@ -130,7 +130,11 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
           <FormControl.InputSelect
             label="Chức vụ"
             list={accountTypes}
-            onChange={(e) => formik.setFieldValue("role", e.target.value)}
+            onChange={(e) => {
+              formik.setFieldValue("role", e)
+              // console.log(e)
+            }
+          }
             defaultValue={formik.values.role}
           />
         </Box>
