@@ -18,11 +18,6 @@ const MAIN_ROUTE = [
     path: '/courses/:id',
     element: MAIN_PAGE.CourseDetail,
   },
-  {
-    role: 'page',
-    path: 'user/:id',
-    element: MAIN_PAGE.PortfolioPage,
-  },
   { role: 'page', path: '/unauthorized', element: MAIN_PAGE.UnauthorizedPage },
   { role: 'page', path: '/*', element: MAIN_PAGE.NotFound },
 ]
@@ -140,9 +135,8 @@ const DASHBOARD_ROUTE = [
             href: '/admin/dashboard/statistic/revenues',
             title: 'Thống kê doanh thu',
             element: DASHBOARD_PAGE.ADMIN_DASHBOARD.RevenueStatistic,
-            icon: "money",
+            icon: 'money',
           },
-          
         ],
       },
       // {

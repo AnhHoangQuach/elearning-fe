@@ -11,7 +11,6 @@ const CourseDetail = React.lazy(() => import('src/pages/CoursePage/CourseDetail/
 
 const NotFound = React.lazy(() => import('src/pages/MainPage/ErrorPage/NotFound'))
 const UnauthorizedPage = React.lazy(() => import('src/pages/MainPage/ErrorPage/UnauthorizedPage'))
-const PortfolioPage = React.lazy(() => import('src/pages/MainPage/PortfolioPage/PortfolioPage'))
 
 //AUTH PAGE
 const ForgotPassword = React.lazy(() => import('src/pages/AuthPage/ForgotPassword/ForgotPassword'))
@@ -78,7 +77,6 @@ const QuizDetail = React.lazy(() => import('src/pages/QuizDetail'))
 const MAIN_PAGE = {
   MainPage: <MainPage />,
   CourseDetail: <CourseDetail />,
-  PortfolioPage: <PortfolioPage />,
   UnauthorizedPage: <UnauthorizedPage />,
   NotFound: <NotFound />,
 }
@@ -135,7 +133,7 @@ const TEACHER_PAGE = {
     ManagerCourse: <TeacherCourse />,
     // TeacherRevenue: <TeacherRevenue />,
     CouponList: <CouponList />,
-  //   Message: <Message />,
+    //   Message: <Message />,
   },
 }
 

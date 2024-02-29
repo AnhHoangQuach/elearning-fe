@@ -5,7 +5,6 @@ import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import * as React from 'react'
 import MediaContent from 'src/components/MediaContent'
-
 import TextContent from 'src/components/TextContent'
 import { InputSelectProps, ValueInputSelectType } from './InputSelect.type'
 
@@ -54,6 +53,7 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
 
       <FormControl fullWidth>
         <Select
+          {...rest}
           disabled={disabled}
           displayEmpty
           renderValue={
@@ -61,6 +61,7 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
               ? undefined
               : () => <Box sx={{ color: '#aaa', fontWeight: 'normal' }}>{placeholder}</Box>
           }
+          variant="outlined"
           onChange={handleChange}
           sx={{
             fontSize: '14px',
@@ -79,25 +80,15 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
               border: border ? '1px solid #e2e8f0' : 'none',
             },
             '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-              border: border ? '1px solid #1976d2' : 'none',
+              border: border ? '1px solid #e2e8f0' : 'none',
             },
             ...style,
           }}
-          {...rest}
           value={value}
         >
           {list.map((item: any, index) => (
-            <MenuItem
-              value={item.value}
-              key={index}
-              // sx={{
-              //   fontSize: '14px',
-              //   color: '#000',
-              //   fontWeight: 'medium',
-              //   gap: '8px',
-              // }}
-            >
-              {icon && <MediaContent.Icon icon={icon} size={18} />} 
+            <MenuItem value={item.value} key={index}>
+              {icon && <MediaContent.Icon icon={icon} size={18} />}
               {item.name}
             </MenuItem>
           ))}
