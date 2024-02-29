@@ -132,7 +132,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
             list={accountTypes}
             onChange={(e) => {
               formik.setFieldValue("role", e)
-              // console.log(e)
+              console.log(e)
             }
           }
             defaultValue={formik.values.role}
