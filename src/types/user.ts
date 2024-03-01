@@ -1,4 +1,5 @@
 import { IAccount } from "./auth";
+import { IMyCourse } from "./myCourse";
 import { ITeacherStatus } from "./teacher";
 
 export interface IGetUser {
@@ -28,6 +29,7 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
   teacher?: ITeacherStatus;
+  myCourse?: IMyCourse;
 }
 
 export type Role =

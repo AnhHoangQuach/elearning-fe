@@ -11,6 +11,11 @@ export const accountTypes = [
   { value: "teacher", name: "Giảng viên" },
   // { value: "admin", name: "Quản trị viên" },
 ];
+export const paidTypes = [
+  { value: true, name: "Đã nộp" },
+  { value: false, name: "Chưa nộp" },
+  // { value: "admin", name: "Quản trị viên" },
+];
 export const statusTypes = [
   { value: false, name: "Đang khoá" },
   { value: true, name: "Hoạt động" },

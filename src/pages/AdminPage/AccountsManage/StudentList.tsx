@@ -2,7 +2,6 @@ import { GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
 import Table from 'src/components/Table'
-import { useTypingDebounce } from 'src/hooks'
 import { IUser } from 'src/types/user'
 import { getHeaderColumns, getNewHeaderColumn } from 'src/utils'
 import AccountDetail from './AccountDetail'
@@ -11,6 +10,8 @@ import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
 import UpdateAccount from './UpdateAccount'
 import UploadAccountByExcel from './UploadAccountByExcel'
+import { ICourse } from 'src/types'
+import courseApi from 'src/apis/courseApi'
 
 const columnsHeader: GridColDef[] = [
   {
@@ -50,7 +51,7 @@ const columnsHeader: GridColDef[] = [
     },
   },
   {
-    field: 'isPaid',
+    field: 'myCourse',
     headerName: 'Đã Nộp',
     flex: 0.75,
     renderCell: ({ value }) => {
@@ -64,11 +65,7 @@ export default function StudentList() {
   const [userId, setUserId] = useState<string | number>('')
   const [userIds, setUserIds] = useState<string[] | number[]>([])
   const [loading, setLoading] = useState(false)
-
-  // debounce
-  const [value, setValue] = useState<string>()
-  const debouncedValue = useTypingDebounce(value)
-  const [email, setEmail] = useState<string>()
+  const [courses, setCourses] = useState<ICourse[]>([])
 
   //pagination
   const [total, setTotal] = useState<number>(0)
@@ -92,6 +89,7 @@ export default function StudentList() {
 
   useEffect(() => {
     getStudents()
+    getCourses()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, pageSize])
 
@@ -146,10 +144,18 @@ export default function StudentList() {
       setLoading(false)
     }
   }
-  //debounce to search
-  useEffect(() => {
-    setEmail(debouncedValue)
-  }, [debouncedValue])
+
+  const getCourses = async () => {
+    setLoading(true)
+    try {
+      const response = await courseApi.getCourses({ publish: true })
+      const { courses }: any = response
+      setCourses(courses)
+    } catch (error) {
+      console.log('lỗi rồi', { error })
+      setLoading(false)
+    }
+  }
 
   const handleModifyItem = async (id: string | number) => {
     setUserId(id)
@@ -206,6 +212,7 @@ export default function StudentList() {
         show={showCreate}
         onClose={() => setShowCreate(false)}
         setShow={setShowCreate}
+        courses={courses}
       />
       <UpdateAccount
         id={userId}
@@ -213,6 +220,7 @@ export default function StudentList() {
         isUpdate={(status) => setIsUpdateCompleted(status)}
         onClose={() => setShowUpdate(false)}
         setShow={setShowUpdate}
+        courses={courses}
       />
       <UploadAccountByExcel
         isUpdate={(status) => setIsUploadCompleted(status)}
@@ -220,7 +228,12 @@ export default function StudentList() {
         onClose={() => setShowUpload(false)}
         setShow={setShowUpload}
       />
-      <AccountDetail id={userId} show={showDetail} onClose={() => setShowDetail(false)} />
+      <AccountDetail
+        id={userId}
+        show={showDetail}
+        courses={courses}
+        onClose={() => setShowDetail(false)}
+      />
     </>
   )
 }
