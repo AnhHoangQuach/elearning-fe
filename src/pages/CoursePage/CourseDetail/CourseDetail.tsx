@@ -1,4 +1,3 @@
-import { Box, Divider } from '@mui/material'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -7,14 +6,12 @@ import ArticleReadMore from 'src/components/ArticleReadMore'
 import BoxContent from 'src/components/BoxContent'
 import MediaContent from 'src/components/MediaContent'
 import NavigationHeader from 'src/components/NavigationHeader'
-import Pagination from 'src/components/Pagination'
 import TextContent from 'src/components/TextContent'
 import { getPanelActive, getVideoView } from 'src/reducers'
 import { ICourse } from 'src/types'
 import formatCharacter from 'src/utils/formatCharacter'
 import translateVi from 'src/utils/translateVi'
 import BtnAddCart from '../BtnAddCart'
-import CourseContainer from '../CourseContainer'
 import CourseSummary from '../CourseSummary'
 import CourseTarget from '../CourseTarget'
 import './CourseDetail.scss'
@@ -25,14 +22,7 @@ const CourseDetail = () => {
   const dispatch = useDispatch()
 
   const [courseDetail, setCourseDetail] = useState<ICourse>({})
-  const [courseRelates, setCourseRelates] = useState<ICourse[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false)
-
-  //search
-  const [limit, setLimit] = useState(4)
-  const [page, setPage] = useState(1)
-  const [total, setTotal] = useState<number>(0)
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0)
@@ -41,20 +31,10 @@ const CourseDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
-  //call page
-  useEffect(() => {
-    window.screen.width <= 430 && setLimit(1)
-  }, [])
-
   useEffect(() => {
     getCourseDetail()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
-
-  useEffect(() => {
-    courseDetail.slug && getCourseRelates()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseDetail.slug, limit, page])
 
   const getCourseDetail = async () => {
     setIsLoadingDetail(true)
@@ -67,24 +47,6 @@ const CourseDetail = () => {
     } catch (error) {
       setIsLoadingDetail(false)
       console.log('lỗi', { error })
-    }
-  }
-
-  const getCourseRelates = async () => {
-    const params = { limit, page }
-    // console.log("params", params);
-    setIsLoading(true)
-    try {
-      const response = await courseApi.getCoursesRelated(courseDetail.slug, params)
-      // console.log("response", response);
-      const { courses, total }: any = response
-      // console.log(" courses", courses);
-      setTotal(formatCharacter.numberRound(total / limit))
-      setIsLoading(false)
-      setCourseRelates(courses)
-    } catch (error) {
-      setIsLoading(false)
-      console.log('lỗi rồi', { error })
     }
   }
 
@@ -172,31 +134,6 @@ const CourseDetail = () => {
             />
           </div>
         </div>
-
-        <Divider sx={{ marginY: 20 }} />
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 90,
-            paddingBottom: 10,
-          }}
-        >
-          <CourseContainer
-            title="Khoá học liên quan"
-            courses={courseRelates}
-            isLoading={isLoading}
-          />
-          {total > 0 && (
-            <Pagination
-              pageActive={page}
-              total={total}
-              onChangeValue={(value: number) => setPage(value)}
-            />
-          )}
-        </Box>
       </div>
     </>
   )

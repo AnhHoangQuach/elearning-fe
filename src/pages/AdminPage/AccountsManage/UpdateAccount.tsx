@@ -6,9 +6,9 @@ import { toast } from 'react-toastify'
 import adminApi from 'src/apis/adminApi'
 import FormControl from 'src/components/FormControl'
 import ModalContainer from 'src/components/ModalContainer'
-import { accountTypes, genderTypes, statusTypes } from 'src/data'
+import { accountTypes, genderTypes, paidTypes, statusTypes } from 'src/data'
 import { isPending, isSuccess } from 'src/reducers'
-import { IUser } from 'src/types'
+import { ICourse, IUser } from 'src/types'
 import * as Yup from 'yup'
 
 interface UpdateAccountProps {
@@ -17,6 +17,7 @@ interface UpdateAccountProps {
   isUpdate: (status: boolean) => void
   setShow?: React.Dispatch<React.SetStateAction<boolean>>
   onClose?: () => void
+  courses?: ICourse[]
 }
 
 const UpdateAccount: React.FC<UpdateAccountProps> = ({
@@ -25,9 +26,12 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
   isUpdate,
   show = false,
   onClose,
+  courses,
 }) => {
   const dispatch = useDispatch()
   const [userDetail, setUserDetail] = useState<IUser>({})
+  const coursesType =
+    courses?.map((courses) => ({ name: courses.name!, value: courses._id! })) ?? []
 
   useEffect(() => {
     id && getUserDetail(id)
@@ -44,12 +48,14 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
   }
 
   const handleUpdateAccount = async (values: any) => {
-    const { role, birthday, fullName, gender, isActive, password, phone } = values
+    const { role, birthday, fullName, gender, isActive, password, phone, isPaid, courseId } = values
     isUpdate?.(false)
     dispatch(isPending())
     const params = {
       account: { password: password ? password : null, isActive, role },
       user: { fullName, birthday, gender, phone },
+      isPaid,
+      courseId,
     }
     try {
       await adminApi.updateUserInfo(id, params)
@@ -79,6 +85,8 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
       gender: userDetail.gender,
       phone: userDetail.phone,
       isActive: userDetail.account?.isActive,
+      isPaid: userDetail.myCourse?.isPaid,
+      courseId: userDetail.myCourse?.course,
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Vui lòng nhập họ tên'),
@@ -100,13 +108,13 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
         id="update-account"
         style={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: 'column',
           justifyContent: 'space-between',
           gap: 20,
         }}
         onSubmit={formik.handleSubmit}
       >
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginY: 8 }}>
           <FormControl.Input
             label="Địa chỉ email"
             placeholder="Nhập địa chỉ email"
@@ -131,20 +139,21 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
             list={accountTypes}
             onChange={(e) => formik.setFieldValue('role', e.target.value)}
             defaultValue={formik.values.role}
+            style={{ border: '1px solid #e2e8f0' }}
           />
-        </Box>
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
           <FormControl.InputSelect
             label="Giới tính"
             list={genderTypes}
             onChange={(e) => formik.setFieldValue('gender', e.target.value)}
             defaultValue={formik.values.gender}
+            style={{ border: '1px solid #e2e8f0' }}
           />
           <FormControl.InputSelect
             label="Trạng thái"
             list={statusTypes}
             onChange={(e) => formik.setFieldValue('isActive', e.target.value)}
             defaultValue={formik.values.isActive}
+            style={{ border: '1px solid #e2e8f0' }}
           />
           <FormControl.Input
             label="Số điện thoại"
@@ -156,6 +165,24 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
             type="date"
             label="Ngày sinh nhật"
             {...formik.getFieldProps('birthday')}
+          />
+          <FormControl.InputSelect
+            label="Trạng thái"
+            list={paidTypes}
+            onChange={(e) => {
+              formik.setFieldValue('isPaid', e)
+            }}
+            style={{ border: '1px solid #e2e8f0' }}
+            defaultValue={formik.values.isPaid}
+          />
+          <FormControl.InputSelect
+            label="Khóa học"
+            list={coursesType}
+            onChange={(e) => {
+              formik.setFieldValue('courseId', e)
+            }}
+            style={{ border: '1px solid #e2e8f0' }}
+            defaultValue={formik.values.courseId as string}
           />
         </Box>
       </form>
