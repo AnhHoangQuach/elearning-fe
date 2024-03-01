@@ -205,13 +205,6 @@ const DASHBOARD_ROUTE = [
         icon: 'newspaper-o',
       },
       {
-        path: 'dashboard/courses',
-        title: 'Quản lý khoá học',
-        href: '/teacher/dashboard/courses',
-        element: DASHBOARD_PAGE.ADMIN_DASHBOARD.CourseList,
-        icon: 'book',
-      },
-      {
         path: 'dashboard/statistic',
         href: '/teacher/dashboard/statistic',
         element: DASHBOARD_PAGE.ADMIN_DASHBOARD.StatisticManage,
