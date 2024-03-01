@@ -2,18 +2,15 @@ import { GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
 import Table from 'src/components/Table'
+import { useTypingDebounce } from 'src/hooks'
 import { IUser } from 'src/types/user'
 import { getHeaderColumns, getNewHeaderColumn } from 'src/utils'
+import AccountDetail from './AccountDetail'
 import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
-import UploadAccountByExcel from './UploadAccountByExcel'
-import AccountDetail from './AccountDetail'
-import { Box } from '@mui/material'
-import FormControl from 'src/components/FormControl'
-import { useTypingDebounce } from 'src/hooks'
 import UpdateAccount from './UpdateAccount'
-
+import UploadAccountByExcel from './UploadAccountByExcel'
 
 const columnsHeader: GridColDef[] = [
   {
@@ -73,7 +70,6 @@ export default function StudentList() {
   const debouncedValue = useTypingDebounce(value)
   const [email, setEmail] = useState<string>()
 
-  
   //pagination
   const [total, setTotal] = useState<number>(0)
   const [pageSize, setPageSize] = useState<number>(5)
@@ -100,11 +96,23 @@ export default function StudentList() {
   }, [page, pageSize])
 
   useEffect(() => {
-    if (isCreateCompleted || isDeleteCompleted || isMultiDeleteCompleted || isUploadCompleted || isUpdateCompleted) {
+    if (
+      isCreateCompleted ||
+      isDeleteCompleted ||
+      isMultiDeleteCompleted ||
+      isUploadCompleted ||
+      isUpdateCompleted
+    ) {
       getStudents()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCreateCompleted, isDeleteCompleted, isMultiDeleteCompleted, isUploadCompleted,isUpdateCompleted])
+  }, [
+    isCreateCompleted,
+    isDeleteCompleted,
+    isMultiDeleteCompleted,
+    isUploadCompleted,
+    isUpdateCompleted,
+  ])
 
   const getStudents = async () => {
     setLoading(true)
@@ -113,7 +121,6 @@ export default function StudentList() {
     try {
       const response = await adminApi.getStudents(params)
       const { users, total }: any = response
-      // console.log(users, total);
 
       if (users.length > 0) {
         const keys = getHeaderColumns(users[0], ['account'])
@@ -139,19 +146,19 @@ export default function StudentList() {
       setLoading(false)
     }
   }
-//debounce to search
-useEffect(() => {
-  setEmail(debouncedValue)
-}, [debouncedValue])
+  //debounce to search
+  useEffect(() => {
+    setEmail(debouncedValue)
+  }, [debouncedValue])
 
-const handleModifyItem = async (id: string | number) => {
-  setUserId(id)
-  setShowUpdate(true)
-}
-const handleViewDetail = async (id: string | number) => {
-  setUserId(id)
-  setShowDetail(true)
-}
+  const handleModifyItem = async (id: string | number) => {
+    setUserId(id)
+    setShowUpdate(true)
+  }
+  const handleViewDetail = async (id: string | number) => {
+    setUserId(id)
+    setShowDetail(true)
+  }
   const handleDelete = (id: string | number) => {
     setUserId(id)
     setShowDelete(true)
@@ -164,27 +171,9 @@ const handleViewDetail = async (id: string | number) => {
   return (
     <>
       <Table
-      // search Students //////////////
-        // btnHandle={
-        //   <Box
-        //     sx={{
-        //       display: 'flex',
-        //       flexDirection: 'row',
-        //       alignItems: 'center',
-        //       gap: 1,
-        //     }}
-        //   >
-        //     <FormControl.Input
-        //       style={{ width: 250 }}
-        //       placeholder="Tìm kiếm bằng địa chỉ email"
-        //       onChange={(e: any) => setValue(e.target.value)}
-        //     />
-            
-        //   </Box>
-        // }
         onPage={(page) => setPage(Number(page))}
         onPageSize={(pageSize) => setPageSize(Number(pageSize))}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.user._id}
         titleBtnAdd="Tạo tài khoản mới"
         isLoading={loading}
         title="Danh sách thông tin học sinh"
@@ -235,7 +224,3 @@ const handleViewDetail = async (id: string | number) => {
     </>
   )
 }
-
-
-
-

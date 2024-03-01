@@ -24,10 +24,6 @@ const courseApi = {
     const url = COURSE_API + "/" + id;
     return axiosClient.get(url);
   },
-  getCourseRatingList: (id?: string) => {
-    const url = COURSE_API + "/" + id + "/rate";
-    return axiosClient.get(url);
-  },
   createNewCourse: (course_info: Object) => {
     const url = COURSE_API;
     return axiosClient.post(url, course_info);

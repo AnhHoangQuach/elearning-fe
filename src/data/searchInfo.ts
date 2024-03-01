@@ -44,8 +44,6 @@ export const categoryStatusTypes = [
 // search normal courses
 export const sortTypes = [
   { value: "default", name: "Mặc định" },
-  { value: "rating-asc", name: "Đánh giá tăng dần" },
-  { value: "rating-desc", name: "Đánh giá giảm dần" },
   { value: "sellNumber-asc", name: "Bán thấp nhất" },
   { value: "sellNumber-desc", name: "Bán chạy nhất" },
   { value: "currentPrice-asc", name: "Giá tăng dần" },

@@ -41,7 +41,6 @@ const Table: React.FC<TableProps> = ({
     field: 'actions',
     headerName: 'Thao tác',
     sortable: false,
-    type: 'actions',
     flex: 1,
     renderCell: ({ id }) => {
       return (

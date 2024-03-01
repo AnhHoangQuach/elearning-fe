@@ -1,7 +1,7 @@
 import { Box, Divider } from '@mui/material'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import courseApi from 'src/apis/courseApi'
 import ArticleReadMore from 'src/components/ArticleReadMore'
 import BoxContent from 'src/components/BoxContent'
@@ -10,12 +10,11 @@ import NavigationHeader from 'src/components/NavigationHeader'
 import Pagination from 'src/components/Pagination'
 import TextContent from 'src/components/TextContent'
 import { getPanelActive, getVideoView } from 'src/reducers'
-import { ICourse, IRating } from 'src/types'
+import { ICourse } from 'src/types'
 import formatCharacter from 'src/utils/formatCharacter'
 import translateVi from 'src/utils/translateVi'
 import BtnAddCart from '../BtnAddCart'
 import CourseContainer from '../CourseContainer'
-import CourseRating from '../CourseRating'
 import CourseSummary from '../CourseSummary'
 import CourseTarget from '../CourseTarget'
 import './CourseDetail.scss'
@@ -27,7 +26,6 @@ const CourseDetail = () => {
 
   const [courseDetail, setCourseDetail] = useState<ICourse>({})
   const [courseRelates, setCourseRelates] = useState<ICourse[]>([])
-  const [ratingComments, setRatingComments] = useState<IRating[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false)
 
@@ -50,7 +48,6 @@ const CourseDetail = () => {
 
   useEffect(() => {
     getCourseDetail()
-    getRatingComment()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
@@ -91,18 +88,6 @@ const CourseDetail = () => {
     }
   }
 
-  const getRatingComment = async () => {
-    try {
-      const response = await courseApi.getCourseRatingList(id)
-      // console.log("response", response);
-      const { rates }: any = response
-      // console.log("rating", rates);
-      setRatingComments(rates)
-    } catch (error) {
-      console.log('lỗi rồi', { error })
-    }
-  }
-
   return (
     <>
       <NavigationHeader />
@@ -110,39 +95,15 @@ const CourseDetail = () => {
         <TextContent.NormalText type="title-header-large" content="Thông tin chi tiết khoá học" />
         <div className="course-preview">
           <div className="info">
-            {/* {!!courseDetail.saleOff && (
-              <span className="sale-off">
-                -{formatCharacter.numberRound(courseDetail.saleOff)}%
-              </span>
-            )} */}
             <MediaContent.Image src={courseDetail.thumbnail} />
             <TextContent.NormalText content={courseDetail.name as string} />
             <span className="description">
               <ArticleReadMore title="Mô tả khoá học" content={courseDetail.description} />
             </span>
-            {/* <div className="rating">
-              <CourseRating ratingComments={ratingComments} />
-            </div> */}
           </div>
           <div className="content-detail">
             <div className="detail-info">
               <TextContent.NormalText content="Thông tin khoá học" />
-
-              {/* <span className="flex-row">
-                <BoxContent.ContentInfo
-                  responsive={false}
-                  type="fit-content"
-                  title="Tác giả: "
-                  content={courseDetail.author?.fullName}
-                  style={{ width: "max-content" }}
-                />
-                <Button
-                  onClick={() => navigate(`/user/${courseDetail.author?._id}`)}
-                  variant="outlined"
-                >
-                  Xem tác giả
-                </Button>
-              </span> */}
 
               {courseDetail.currentPrice! > 0 ? (
                 <span className="flex-row">
@@ -188,39 +149,6 @@ const CourseDetail = () => {
                 title="Dành cho: "
                 content={translateVi(courseDetail.level)}
               />
-              {/* hot tags */}
-              <span className="sell-number">
-                {/* <BoxContent.ContentInfo
-                  responsive={false}
-                  type="fit-content"
-                  title="Số lượng bán được: "
-                  content={courseDetail.sellNumber}
-                  style={{ width: "45%" }}
-                /> */}
-                {/* {courseDetail.type && (
-                  <TextContent.NormalText
-                    type="title-content"
-                    content={`Đang ${courseDetail.type}`}
-                    style={{
-                      background: "rgb(38, 0, 255)",
-                      color: "white",
-                      padding: "2px 10px",
-                    }}
-                  />
-                )} */}
-              </span>
-
-              <span style={{ display: 'flex', flexDirection: 'row' }}>
-                {/* <b>Đánh giá: </b> */}
-                {/* <TextContent.NormalText
-                  content="Đánh giá: "
-                  type="title-content"
-                /> */}
-                {/* <Rating
-                  average_rating={courseDetail.rating?.rate}
-                  total_rating={courseDetail.rating?.numOfRate}
-                /> */}
-              </span>
 
               {/* btn add cart */}
               <BtnAddCart courseId={courseDetail._id} isBought={courseDetail.isBought} />

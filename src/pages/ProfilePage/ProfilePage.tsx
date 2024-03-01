@@ -1,24 +1,19 @@
 import { Avatar, Box } from '@mui/material'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import userApi from 'src/apis/userApi'
 import BoxContent from 'src/components/BoxContent'
 import LoadingContent from 'src/components/LoadingContent'
 import TextContent from 'src/components/TextContent'
-import { selectAuthorization } from 'src/reducers'
 import { IUser } from 'src/types'
 import formatDate from 'src/utils/formatDate'
 import isVerifyCharacter from 'src/utils/isVerifyCharacter'
 import translateVi from 'src/utils/translateVi'
-import GoToTeacherPortfolio from './GoToTeacherPortfolio'
 import UpdatePassword from './UpdatePassword'
 import UpdateProfile from './UpdateProfile'
 
 const ProfilePage = () => {
   document.title = 'Thông tin chi tiết cá nhân'
-
-  const { isRole } = useSelector(selectAuthorization)
 
   const [info, setInfo] = useState<IUser>({})
   const [isUpdate, setIsUpdate] = useState<boolean>(true)
@@ -78,8 +73,6 @@ const ProfilePage = () => {
           <UpdateProfile data={info} onUpdate={(status) => setIsUpdate(status)} />
           <UpdatePassword />
         </Box>
-
-        {isRole === 'teacher' && <GoToTeacherPortfolio user_id={info._id} />}
       </Box>
     </React.Fragment>
   )

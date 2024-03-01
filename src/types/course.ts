@@ -13,11 +13,6 @@ export interface IGetCourse {
   author?: string;
 }
 
-export interface RatingProps {
-  numOfRate?: number;
-  rate?: number;
-}
-
 export interface SearchKeyProps {
   original?: string;
   suggestion?: string;
@@ -75,7 +70,6 @@ export interface ICourse {
   hashtags?: string[];
   intendedLearners?: string[];
   requirements?: string[];
-  rating?: RatingProps;
   language?: string;
   level?: string;
   saleOff?: number;

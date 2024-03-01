@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
@@ -182,7 +182,7 @@ export default function AccountList() {
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
-              gap: 1,
+              gap: 8,
             }}
           >
             <FormControl.Input
@@ -194,21 +194,16 @@ export default function AccountList() {
               defaultValue={role}
               list={accountTypes}
               onChange={(role) => setRole(role)}
+              style={{ border: '1px solid #e2e8f0' }}
             />
             <FormControl.InputSelect
               defaultValue={isActive}
               list={statusTypes}
               onChange={(status) => setIsActive(status)}
+              style={{ border: '1px solid #e2e8f0' }}
             />
           </Box>
         }
-        // btnHandle={
-        //   <>
-        //     <Button variant="contained" color="success" onClick={() => setShowUpload(true)}>
-        //       Upload file excel
-        //     </Button>
-        //   </>
-        // }
         onPage={(page) => setPage(Number(page))}
         onPageSize={(pageSize) => setPageSize(Number(pageSize))}
         getRowId={(row) => row._id}
