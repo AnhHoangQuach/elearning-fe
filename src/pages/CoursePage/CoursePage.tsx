@@ -233,7 +233,7 @@ const CoursePage = () => {
         )}
       </div>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 40 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 40}}>
         <Box
           sx={{
             display: "flex",
@@ -258,28 +258,7 @@ const CoursePage = () => {
           )}
         </Box>
 
-        <Divider />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 90,
-          }}
-        >
-          <CourseContainer
-            title="Khoá Học Đang Hot"
-            courses={coursesHot}
-            isLoading={isLoadingHot}
-          />
-          {totalHot > 0 && (
-            <Pagination
-              pageActive={pageHot}
-              total={totalHot}
-              onChangeValue={(value: any) => setPageHot(value)}
-            />
-          )}
-        </Box>
+        
 
         {/* suggestion course */}
         {isRole === "student" && (
