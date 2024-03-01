@@ -29,7 +29,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
     try {
       await adminApi.deleteUser(id)
       // const response = await adminApi.deleteUser(id);
-      // console.log(response);
+      // console.log("check delete3: ",response);
       dispatch(isSuccess())
       setShow?.(false)
       isUpdate(true)
@@ -40,6 +40,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
       setShow?.(false)
       toast.warning('Xoá tài khoản thất bại', { position: 'bottom-right' })
     }
+    window.location.reload()
   }
 
   return (

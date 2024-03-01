@@ -89,7 +89,11 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({ data, onUpdate }) => {
             // multiple
             // value={formik.values.avatar}
             valueDefault={data.avatar}
-            onChange={(value) => formik.setFieldValue('avatar', value)}
+            onChange={(value) => {
+              formik.setFieldValue('avatar', value);
+              // console.log("check image: ",value)
+              }
+            }
           />
           <FormControl.Input label="Họ và tên" {...formik.getFieldProps('fullName')} />
           <FormControl.Input type="date" label="Ngày sinh" {...formik.getFieldProps('birthday')} />

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import { useEffect, useState } from 'react'
 import categoryApi from 'src/apis/categoryApi'
 import courseApi from 'src/apis/courseApi'
@@ -171,7 +171,7 @@ const CoursePage = () => {
           <span>Không có kết quả hiển thị</span>
         )}
       </div>
-
+      <Divider />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
         <Box
           sx={{
@@ -180,6 +180,7 @@ const CoursePage = () => {
             alignItems: 'center',
             gap: 45,
           }}
+          
         >
           <CourseContainer title="Khoá Học Thông Thường" courses={courses} isLoading={isLoading} />
           {total > 0 && (

@@ -171,6 +171,7 @@ export default function AccountList() {
   const handleMultiDeleted = (ids: string[] | number[]) => {
     setUserIds(ids)
     setShowMultiDelete(true)
+    
   }
 
   return (

@@ -41,11 +41,6 @@ const ADMIN_ROUTE = [
 
 // Teacher route
 const TEACHER_ROUTE = [
-  // {
-  //   role: "teacher",
-  //   path: "/teacher/info",
-  //   element: <TeacherInfo />,
-  // },
   {
     role: 'teacher',
     path: '/teacher/course',
@@ -88,13 +83,6 @@ const DASHBOARD_ROUTE = [
         title: 'Thông tin cá nhân',
         icon: 'info-circle',
       },
-      // {
-      //   path: "over-view",
-      //   href: "/admin/over-view",
-      //   element: <OverviewSystem />,
-      //   title: "Tổng quan hệ thống",
-      //   icon: "gears",
-      // },
       {
         path: 'dashboard/user',
         href: '/admin/dashboard/user',
@@ -139,13 +127,7 @@ const DASHBOARD_ROUTE = [
           },
         ],
       },
-      // {
-      //   path: "message",
-      //   href: "/admin/message",
-      //   element: DASHBOARD_PAGE.Message,
-      //   title: "Trò chuyện trực tuyến",
-      //   icon: "wechat",
-      // },
+
     ],
   },
   // student routes
@@ -183,13 +165,6 @@ const DASHBOARD_ROUTE = [
         title: 'Quản lý khoá học',
         icon: 'book',
       },
-      // {
-      //   path: 'dashboard/user',
-      //   href: '/teacher/dashboard/user',
-      //   element: DASHBOARD_PAGE.ADMIN_DASHBOARD.UserList,
-      //   title: 'Quản lý người dùng',
-      //   icon: 'user',
-      // },
       {
         path: 'dashboard/student',
         href: '/teacher/dashboard/student',
