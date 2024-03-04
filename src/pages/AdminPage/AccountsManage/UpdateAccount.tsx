@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import adminApi from 'src/apis/adminApi'
 import FormControl from 'src/components/FormControl'
 import ModalContainer from 'src/components/ModalContainer'
-import { accountTypes, genderTypes, paidTypes, statusTypes } from 'src/data'
+import { accountTypes, genderTypes, statusTypes, studentTypes } from 'src/data'
 import { isPending, isSuccess } from 'src/reducers'
 import { ICourse, IUser } from 'src/types'
 import * as Yup from 'yup'
@@ -18,6 +18,7 @@ interface UpdateAccountProps {
   setShow?: React.Dispatch<React.SetStateAction<boolean>>
   onClose?: () => void
   courses?: ICourse[]
+  isStudent?: boolean
 }
 
 const UpdateAccount: React.FC<UpdateAccountProps> = ({
@@ -27,6 +28,7 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
   show = false,
   onClose,
   courses,
+  isStudent = false,
 }) => {
   const dispatch = useDispatch()
   const [userDetail, setUserDetail] = useState<IUser>({})
@@ -48,13 +50,12 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
   }
 
   const handleUpdateAccount = async (values: any) => {
-    const { role, birthday, fullName, gender, isActive, password, phone, isPaid, courseId } = values
+    const { role, birthday, fullName, gender, isActive, password, phone, courseId } = values
     isUpdate?.(false)
     dispatch(isPending())
     const params = {
       account: { password: password ? password : null, isActive, role },
       user: { fullName, birthday, gender, phone },
-      isPaid,
       courseId,
     }
     try {
@@ -136,7 +137,7 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
           />
           <FormControl.InputSelect
             label="Chức vụ"
-            list={accountTypes}
+            list={isStudent ? studentTypes : accountTypes}
             onChange={(e) => formik.setFieldValue('role', e.target.value)}
             defaultValue={formik.values.role}
             style={{ border: '1px solid #e2e8f0' }}
@@ -166,24 +167,17 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
             label="Ngày sinh nhật"
             {...formik.getFieldProps('birthday')}
           />
-          <FormControl.InputSelect
-            label="Trạng thái"
-            list={paidTypes}
-            onChange={(e) => {
-              formik.setFieldValue('isPaid', e)
-            }}
-            style={{ border: '1px solid #e2e8f0' }}
-            defaultValue={formik.values.isPaid}
-          />
-          <FormControl.InputSelect
-            label="Khóa học"
-            list={coursesType}
-            onChange={(e) => {
-              formik.setFieldValue('courseId', e)
-            }}
-            style={{ border: '1px solid #e2e8f0' }}
-            defaultValue={formik.values.courseId as string}
-          />
+          {isStudent && (
+            <FormControl.InputSelect
+              label="Khóa học"
+              list={coursesType}
+              onChange={(e) => {
+                formik.setFieldValue('courseId', e)
+              }}
+              style={{ border: '1px solid #e2e8f0' }}
+              defaultValue={formik.values.courseId as string}
+            />
+          )}
         </Box>
       </form>
       <Button form="update-account" type="submit" variant="contained" color="warning">

@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
@@ -20,7 +19,6 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
     defaultValue,
     style,
     icon,
-    hideErrorMessage = false,
     disabled = false,
     placeholder,
     ...rest
@@ -94,10 +92,8 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
           ))}
         </Select>
       </FormControl>
-      {!hideErrorMessage && (
-        <Typography variant="h2" component="span" marginTop={0.5} fontWeight={600} color="#f52727">
-          {errorMessage}
-        </Typography>
+      {errorMessage && (
+        <p style={{ marginTop: '4px', fontWeight: 600, color: '#f52727' }}>{errorMessage}</p>
       )}
     </Box>
   )

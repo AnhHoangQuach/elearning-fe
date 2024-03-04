@@ -11,7 +11,5 @@ export interface InputCheckBoxProps {
   checked?: boolean;
   disabled?: boolean;
   hint?: string;
-  hideErrorMessage?: boolean;
-
   onChange?: (value: InputCheckBoxValue) => void;
 }

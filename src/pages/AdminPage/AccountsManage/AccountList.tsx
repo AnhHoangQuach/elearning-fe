@@ -14,7 +14,6 @@ import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
 import UpdateAccount from './UpdateAccount'
-import UploadAccountByExcel from './UploadAccountByExcel'
 
 const columnsHeader: GridColDef[] = [
   {
@@ -82,7 +81,6 @@ export default function AccountList() {
   const [showMultiDelete, setShowMultiDelete] = useState(false)
   const [showCreate, setShowCreate] = useState(false)
   const [showUpdate, setShowUpdate] = useState(false)
-  const [showUpload, setShowUpload] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
 
   //check status
@@ -90,7 +88,6 @@ export default function AccountList() {
   const [isDeleteCompleted, setIsDeleteCompleted] = useState(false)
   const [isMultiDeleteCompleted, setIsMultiDeleteCompleted] = useState(false)
   const [isUpdateCompleted, setIsUpdateCompleted] = useState(false)
-  const [isUploadCompleted, setIsUploadCompleted] = useState(false)
 
   useEffect(() => {
     getUsers()
@@ -98,23 +95,11 @@ export default function AccountList() {
   }, [role, isActive, email, page, pageSize])
 
   useEffect(() => {
-    if (
-      isCreateCompleted ||
-      isDeleteCompleted ||
-      isMultiDeleteCompleted ||
-      isUpdateCompleted ||
-      isUploadCompleted
-    ) {
+    if (isCreateCompleted || isDeleteCompleted || isMultiDeleteCompleted || isUpdateCompleted) {
       getUsers()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isCreateCompleted,
-    isDeleteCompleted,
-    isMultiDeleteCompleted,
-    isUpdateCompleted,
-    isUploadCompleted,
-  ])
+  }, [isCreateCompleted, isDeleteCompleted, isMultiDeleteCompleted, isUpdateCompleted])
 
   //debounce to search
   useEffect(() => {
@@ -171,7 +156,6 @@ export default function AccountList() {
   const handleMultiDeleted = (ids: string[] | number[]) => {
     setUserIds(ids)
     setShowMultiDelete(true)
-    
   }
 
   return (
@@ -181,7 +165,6 @@ export default function AccountList() {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
               alignItems: 'center',
               gap: 8,
             }}
@@ -247,12 +230,6 @@ export default function AccountList() {
         isUpdate={(status) => setIsUpdateCompleted(status)}
         onClose={() => setShowUpdate(false)}
         setShow={setShowUpdate}
-      />
-      <UploadAccountByExcel
-        isUpdate={(status) => setIsUploadCompleted(status)}
-        show={showUpload}
-        onClose={() => setShowUpload(false)}
-        setShow={setShowUpload}
       />
       <AccountDetail id={userId} show={showDetail} onClose={() => setShowDetail(false)} />
     </>

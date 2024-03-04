@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import adminApi from 'src/apis/adminApi'
 import FormControl from 'src/components/FormControl'
 import ModalContainer from 'src/components/ModalContainer'
-import { accountTypes, genderTypes, paidTypes } from 'src/data'
+import { accountTypes, genderTypes, studentTypes } from 'src/data'
 import { isPending, isSuccess } from 'src/reducers'
 import { ICourse, ICreateNewUser } from 'src/types'
 import * as Yup from 'yup'
@@ -17,6 +17,7 @@ interface CreateAccountProps {
   setShow?: React.Dispatch<React.SetStateAction<boolean>>
   onClose?: () => void
   courses?: ICourse[]
+  isStudent?: boolean
 }
 
 const CreateAccount: React.FC<CreateAccountProps> = ({
@@ -25,6 +26,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
   isUpdate,
   setShow,
   courses,
+  isStudent = false,
 }) => {
   document.title = 'Quản lý người dùng'
   const dispatch = useDispatch()
@@ -48,13 +50,13 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
       birthday: '',
       gender: 'true',
       phone: '',
-      isPaid: false,
       courseId: '',
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Vui lòng nhập họ tên'),
       email: Yup.string().email('Phải là email').required('Vui lòng nhập gmail'),
       password: Yup.string().min(8, 'Mật khẩu ít nhất 8 kí tự').required('Vui lòng nhập mật khẩu'),
+      courseId: Yup.string().required('Vui lòng chọn khóa học'),
     }),
     onSubmit: async (values) => {
       // console.log("lấy được dữ liệu là", values);
@@ -73,7 +75,6 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
         gender: 'true',
         password: '',
         phone: '',
-        isPaid: false,
         courseId: '',
       },
     })
@@ -133,15 +134,13 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
           />
           <FormControl.InputSelect
             label="Chức vụ"
-            list={accountTypes}
+            list={isStudent ? studentTypes : accountTypes}
             onChange={(e) => {
               formik.setFieldValue('role', e)
             }}
             style={{ border: '1px solid #e2e8f0' }}
             defaultValue={formik.values.role}
           />
-        </Box>
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
           <FormControl.InputSelect
             label="Giới tính"
             list={genderTypes}
@@ -160,26 +159,18 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
             label="Ngày sinh nhật"
             {...formik.getFieldProps('birthday')}
           />
-          <FormControl.InputSelect
-            label="Trạng thái"
-            list={paidTypes}
-            onChange={(e) => {
-              formik.setFieldValue('isPaid', e)
-            }}
-            style={{ border: '1px solid #e2e8f0' }}
-            defaultValue={formik.values.isPaid}
-          />
-        </Box>
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <FormControl.InputSelect
-            label="Khóa học"
-            list={coursesType}
-            onChange={(e) => {
-              formik.setFieldValue('courseId', e)
-            }}
-            style={{ border: '1px solid #e2e8f0' }}
-            defaultValue={formik.values.courseId}
-          />
+          {isStudent && (
+            <FormControl.InputSelect
+              label="Khóa học"
+              list={coursesType}
+              onChange={(e) => {
+                formik.setFieldValue('courseId', e)
+              }}
+              errorMessage={formik.touched.courseId ? formik.errors.courseId : ''}
+              style={{ border: '1px solid #e2e8f0' }}
+              defaultValue={formik.values.courseId}
+            />
+          )}
         </Box>
       </form>
       <Box sx={{ marginTop: 4 }}>

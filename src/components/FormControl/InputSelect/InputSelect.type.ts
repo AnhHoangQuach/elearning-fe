@@ -19,7 +19,6 @@ export interface InputSelectProps {
   name?: string;
   border?: boolean;
   defaultValue?: ValueInputSelectType;
-  hideErrorMessage?: boolean;
   errorMessage?: string;
   style?: CSSProperties;
   onChange?: (value: any) => void;

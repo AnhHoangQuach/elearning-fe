@@ -17,7 +17,6 @@ export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
   checked?: boolean;
   disabled?: boolean;
   hint?: string;
-  hideErrorMessage?: boolean;
   ref?: React.LegacyRef<HTMLInputElement>;
   autoComplete?: string;
   accept?: string;

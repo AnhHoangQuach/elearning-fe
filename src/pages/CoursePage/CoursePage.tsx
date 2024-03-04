@@ -103,7 +103,6 @@ const CoursePage = () => {
         <FormControl.Input
           className="input-text"
           style={{ width: 300 }}
-          hideErrorMessage={true}
           placeholder="Hãy nhập tên khoá học muốn tìm"
           onChange={(e: any) => setValue(e.target.value)}
         />
@@ -112,7 +111,6 @@ const CoursePage = () => {
           {categoryList && (
             <Box sx={{ width: 150 }}>
               <FormControl.InputSelect
-                hideErrorMessage={true}
                 defaultValue={category}
                 list={categoryList}
                 onChange={(status) => {
@@ -126,7 +124,6 @@ const CoursePage = () => {
 
           <Box sx={{ width: 200 }}>
             <FormControl.InputSelect
-              hideErrorMessage={true}
               defaultValue={sort}
               list={sortTypes}
               onChange={(status) => {
@@ -139,7 +136,6 @@ const CoursePage = () => {
 
           <Box sx={{ width: 200 }}>
             <FormControl.InputSelect
-              hideErrorMessage={true}
               defaultValue={price}
               list={priceRangeTypes}
               onChange={(range_price) => {
@@ -180,7 +176,6 @@ const CoursePage = () => {
             alignItems: 'center',
             gap: 45,
           }}
-          
         >
           <CourseContainer title="Khoá Học Thông Thường" courses={courses} isLoading={isLoading} />
           {total > 0 && (

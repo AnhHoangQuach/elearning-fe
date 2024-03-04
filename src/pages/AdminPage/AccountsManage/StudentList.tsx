@@ -9,7 +9,6 @@ import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
 import UpdateAccount from './UpdateAccount'
-import UploadAccountByExcel from './UploadAccountByExcel'
 import { ICourse } from 'src/types'
 import courseApi from 'src/apis/courseApi'
 
@@ -50,14 +49,6 @@ const columnsHeader: GridColDef[] = [
       return <div>{value.name}</div>
     },
   },
-  {
-    field: 'myCourse',
-    headerName: 'Đã Nộp',
-    flex: 0.75,
-    renderCell: ({ value }) => {
-      return <div>{value?.isPaid ? 'Đã Nộp' : 'Chưa Nộp'}</div>
-    },
-  },
 ]
 
 export default function StudentList() {
@@ -77,7 +68,6 @@ export default function StudentList() {
   const [showMultiDelete, setShowMultiDelete] = useState(false)
   const [showCreate, setShowCreate] = useState(false)
   const [showUpdate, setShowUpdate] = useState(false)
-  const [showUpload, setShowUpload] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
 
   //check status
@@ -85,7 +75,6 @@ export default function StudentList() {
   const [isDeleteCompleted, setIsDeleteCompleted] = useState(false)
   const [isMultiDeleteCompleted, setIsMultiDeleteCompleted] = useState(false)
   const [isUpdateCompleted, setIsUpdateCompleted] = useState(false)
-  const [isUploadCompleted, setIsUploadCompleted] = useState(false)
 
   useEffect(() => {
     getStudents()
@@ -94,23 +83,11 @@ export default function StudentList() {
   }, [page, pageSize])
 
   useEffect(() => {
-    if (
-      isCreateCompleted ||
-      isDeleteCompleted ||
-      isMultiDeleteCompleted ||
-      isUploadCompleted ||
-      isUpdateCompleted
-    ) {
+    if (isCreateCompleted || isDeleteCompleted || isMultiDeleteCompleted || isUpdateCompleted) {
       getStudents()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isCreateCompleted,
-    isDeleteCompleted,
-    isMultiDeleteCompleted,
-    isUploadCompleted,
-    isUpdateCompleted,
-  ])
+  }, [isCreateCompleted, isDeleteCompleted, isMultiDeleteCompleted, isUpdateCompleted])
 
   const getStudents = async () => {
     setLoading(true)
@@ -213,6 +190,7 @@ export default function StudentList() {
         onClose={() => setShowCreate(false)}
         setShow={setShowCreate}
         courses={courses}
+        isStudent={true}
       />
       <UpdateAccount
         id={userId}
@@ -221,12 +199,7 @@ export default function StudentList() {
         onClose={() => setShowUpdate(false)}
         setShow={setShowUpdate}
         courses={courses}
-      />
-      <UploadAccountByExcel
-        isUpdate={(status) => setIsUploadCompleted(status)}
-        show={showUpload}
-        onClose={() => setShowUpload(false)}
-        setShow={setShowUpload}
+        isStudent={true}
       />
       <AccountDetail
         id={userId}

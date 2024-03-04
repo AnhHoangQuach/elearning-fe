@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
 import FormControl from 'src/components/FormControl'
 import ModalContainer from 'src/components/ModalContainer'
-import { accountTypes, genderTypes, paidTypes, statusTypes } from 'src/data'
+import { accountTypes, genderTypes, statusTypes } from 'src/data'
 import { ICourse, IUser } from 'src/types'
 import formatDate from 'src/utils/formatDate'
 
@@ -97,13 +97,6 @@ const AccountDetail: React.FC<AccountDetailProps> = ({ id, show = false, onClose
             label="Ngày sinh nhật"
             placeholder="ngày-tháng-năm"
             value={formatDate.getDate(userDetail.birthday, 'dd-MM-yyyy')}
-          />
-          <FormControl.InputSelect
-            label="Trạng thái"
-            disabled
-            list={paidTypes}
-            style={{ border: '1px solid #e2e8f0' }}
-            defaultValue={userDetail.myCourse?.isPaid}
           />
           <FormControl.InputSelect
             label="Khóa học"
