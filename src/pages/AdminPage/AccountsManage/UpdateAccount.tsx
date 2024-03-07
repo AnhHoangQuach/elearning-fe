@@ -1,4 +1,6 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, TextField } from '@mui/material'
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -38,6 +40,17 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
   useEffect(() => {
     id && getUserDetail(id)
   }, [id])
+  
+  const handleProgressPaid = (isAdd: boolean = false, index: number) => {
+    const currentProgressPaid = formik.getFieldProps('progressPaid').value
+    if (isAdd) {
+      currentProgressPaid.push({ datePaid: new Date(), amount: 0 })
+      formik.setFieldValue('progressPaid', currentProgressPaid)
+      return 
+    }
+    currentProgressPaid.splice(index, 1)
+    formik.setFieldValue('progressPaid', currentProgressPaid)
+  }
 
   const getUserDetail = async (id: any) => {
     try {
@@ -50,13 +63,15 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
   }
 
   const handleUpdateAccount = async (values: any) => {
-    const { role, birthday, fullName, gender, isActive, password, phone, courseId } = values
+    const { role, birthday, fullName, gender, isActive, password, phone, courseId, progressPaid } =
+      values
     isUpdate?.(false)
     dispatch(isPending())
     const params = {
       account: { password: password ? password : null, isActive, role },
       user: { fullName, birthday, gender, phone },
       courseId,
+      progressPaid,
     }
     try {
       await adminApi.updateUserInfo(id, params)
@@ -86,19 +101,14 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
       gender: userDetail.gender,
       phone: userDetail.phone,
       isActive: userDetail.account?.isActive,
-      isPaid: userDetail.myCourse?.isPaid,
       courseId: userDetail.myCourse?.course,
+      progressPaid: userDetail.myCourse?.progressPaid,
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Vui lòng nhập họ tên'),
       password: Yup.string().min(8, 'Mật khẩu ít nhất 8 kí tự'),
-      // phone: Yup.string()
-      //   .matches(phoneRegExp, "Định dạng số điện thoại sai")
-      //   .max(10, "Định dạng số điện thoại sai")
-      //   .min(10, "Định dạng số điện thoại sai"),
     }),
     onSubmit: async (values) => {
-      // console.log("lấy được dữ liệu là", values);
       handleUpdateAccount(values)
     },
   })
@@ -168,15 +178,46 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
             {...formik.getFieldProps('birthday')}
           />
           {isStudent && (
-            <FormControl.InputSelect
-              label="Khóa học"
-              list={coursesType}
-              onChange={(e) => {
-                formik.setFieldValue('courseId', e)
-              }}
-              style={{ border: '1px solid #e2e8f0' }}
-              defaultValue={formik.values.courseId as string}
-            />
+            <>
+              <FormControl.InputSelect
+                label="Khóa học"
+                list={coursesType}
+                onChange={(e) => {
+                  formik.setFieldValue('courseId', e)
+                }}
+                style={{ border: '1px solid #e2e8f0' }}
+                defaultValue={formik.values.courseId as string}
+              />
+              <div style={{ fontWeight: 'bold', margin: '4px 0' }}>Lịch sử đóng</div>
+              {formik.values.progressPaid?.map((item, index) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flex: 1, alignItems: 'center', gap: 8 }}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        value={item.datePaid}
+                        onChange={(value) => {
+                          formik.setFieldValue(`progressPaid.${index}.datePaid`, value)
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            sx={{ border: '1px solid #e2e8f0' }}
+                            {...params}
+                            helperText={null}
+                            size="small"
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+                    <FormControl.Input
+                      type="number"
+                      placeholder="Số tiền đã đóng"
+                      {...formik.getFieldProps(`progressPaid.${index}.amount`)}
+                    />
+                  </div>
+                  {index === formik.values.progressPaid?.length! - 1 && index > 0  ? <Button variant='contained' onClick={() => handleProgressPaid(false, index)}>-</Button> : <Button variant='contained' onClick={() => handleProgressPaid(true, index)}>+</Button>}
+                </div>
+              ))}
+            </>
           )}
         </Box>
       </form>

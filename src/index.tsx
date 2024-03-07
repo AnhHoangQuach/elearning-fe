@@ -14,7 +14,6 @@ import { persistor, store } from './reducers'
 import { theme } from './styles'
 
 ReactDOM.render(
-  <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -25,7 +24,6 @@ ReactDOM.render(
           </ThemeProvider>
         </PersistGate>
       </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+    </BrowserRouter>,
   document.getElementById('root')
 )

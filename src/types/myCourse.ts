@@ -4,6 +4,6 @@ export interface IMyCourse {
   _id?: string;
   course?: ICourse;
   percentProgress?: number;
-  isPaid?: boolean;
+  progressPaid?: {datePaid: string, amount: number}[];
 }
 

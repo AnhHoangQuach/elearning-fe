@@ -1,6 +1,8 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, TextField } from '@mui/material'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { useFormik } from 'formik'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import adminApi from 'src/apis/adminApi'
@@ -30,6 +32,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
 }) => {
   document.title = 'Quản lý người dùng'
   const dispatch = useDispatch()
+  const [countProgress, setCountProgress] = useState(1)
 
   useEffect(() => {
     if (!show) {
@@ -37,6 +40,16 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
+
+  const handleProgressPaid = (isAdd: boolean = false) => {
+    if (isAdd) {
+      setCountProgress(prev => prev + 1)
+      formik.setFieldValue('progressPaid', Array.from({ length: countProgress + 1 }, () => ({ datePaid: new Date(), amount: 0 })))
+      return;
+    } 
+    setCountProgress(prev => prev - 1)
+    formik.setFieldValue('progressPaid', Array.from({ length: countProgress - 1 }, () => ({ datePaid: new Date(), amount: 0 })))
+  }
 
   const coursesType =
     courses?.map((courses) => ({ name: courses.name!, value: courses._id! })) ?? []
@@ -51,6 +64,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
       gender: 'true',
       phone: '',
       courseId: '',
+      progressPaid: [{ datePaid: new Date(), amount: 0 }]
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Vui lòng nhập họ tên'),
@@ -76,6 +90,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
         password: '',
         phone: '',
         courseId: '',
+        progressPaid: [{ datePaid: new Date(), amount: 0 }],
       },
     })
   }
@@ -98,7 +113,11 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
   }
 
   return (
-    <ModalContainer title="Tạo tài khoản mới" open={show} onClose={onClose}>
+    <ModalContainer title="Tạo tài khoản mới" open={show} onClose={() => {
+      resetDataForm()
+      setCountProgress(0)
+      onClose?.()
+    }}>
       <form
         id="create-account"
         style={{
@@ -160,16 +179,47 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
             {...formik.getFieldProps('birthday')}
           />
           {isStudent && (
-            <FormControl.InputSelect
-              label="Khóa học"
-              list={coursesType}
-              onChange={(e) => {
-                formik.setFieldValue('courseId', e)
-              }}
-              errorMessage={formik.touched.courseId ? formik.errors.courseId : ''}
-              style={{ border: '1px solid #e2e8f0' }}
-              defaultValue={formik.values.courseId}
-            />
+            <>
+              <FormControl.InputSelect
+                label="Khóa học"
+                list={coursesType}
+                onChange={(e) => {
+                  formik.setFieldValue('courseId', e)
+                }}
+                errorMessage={formik.touched.courseId ? formik.errors.courseId : ''}
+                style={{ border: '1px solid #e2e8f0' }}
+                defaultValue={formik.values.courseId}
+              />
+              <div style={{ fontWeight: 'bold', margin: '4px 0' }}>Lịch sử đóng</div>
+              {formik.values.progressPaid?.map((item, index) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flex: 1, alignItems: 'center', gap: 8 }}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        value={item.datePaid}
+                        onChange={(value) => {
+                          formik.setFieldValue(`progressPaid.${index}.datePaid`, value)
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            sx={{ border: '1px solid #e2e8f0' }}
+                            {...params}
+                            helperText={null}
+                            size="small"
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+                    <FormControl.Input
+                      type="number"
+                      placeholder="Số tiền đã đóng"
+                      {...formik.getFieldProps(`progressPaid.${index}.amount`)}
+                    />
+                  </div>
+                  {index === formik.values.progressPaid.length - 1 && index > 0  ? <Button variant='contained' onClick={() => handleProgressPaid()}>-</Button> : <Button variant='contained' onClick={() => handleProgressPaid(true)}>+</Button>}
+                </div>
+              ))}
+            </>
           )}
         </Box>
       </form>
