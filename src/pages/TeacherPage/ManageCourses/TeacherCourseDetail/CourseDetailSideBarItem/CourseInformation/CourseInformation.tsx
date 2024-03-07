@@ -137,8 +137,6 @@ const CourseInformation: React.FC<CourseInformationProps> = ({
         >
           <TextContent.Label label="Trạng thái khóa học:" />
 
-          {/* I dont know exactly typeof here. So I have put "never" in here :((
-          I will fix it, when I have sufficient knowledge ^^ */}
           <TextContent.ErrorMessage
             message={CourseStatus[courseStatus as never]}
           />
@@ -155,7 +153,7 @@ const CourseInformation: React.FC<CourseInformationProps> = ({
         <FormControl.InputUploadFile
           className="thumbnail-course"
           style={{ width: 400, height: 200, objectFit: "cover" }}
-          label="Thumbnail khóa học"
+          label="Thumbnail khóa học (600px x 320px)"
           valueDefault={formik.values.thumbnail}
           onChange={(value) => postImage(value)}
         />
@@ -165,24 +163,6 @@ const CourseInformation: React.FC<CourseInformationProps> = ({
           placeholder="Nhập tên khóa học"
           errorMessage={formik.touched.name ? formik.errors.name : ""}
           {...formik.getFieldProps("name")}
-        />
-        <FormControl.Input
-          required
-          label="Giá gốc khóa học"
-          placeholder="1.200.000 đ"
-          errorMessage={
-            formik.touched.originalPrice ? formik.errors.originalPrice : ""
-          }
-          {...formik.getFieldProps("originalPrice")}
-        />
-        <FormControl.Input
-          required
-          label="Giá khuyến mãi khóa học"
-          placeholder="1.000.000 đ"
-          errorMessage={
-            formik.touched.currentPrice ? formik.errors.currentPrice : ""
-          }
-          {...formik.getFieldProps("currentPrice")}
         />
         <BoxContent.NormalContent style={{ gap: 0, padding: 0, height: 200 }}>
           <TextContent.Label label="Nội dung khóa học" required />

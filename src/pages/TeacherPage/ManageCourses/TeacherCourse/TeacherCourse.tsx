@@ -60,30 +60,15 @@ const TeacherCourse: React.FC = () => {
     validationSchema: Yup.object({
       name: Yup.string().required("Vui lòng nhập khóa học"),
       description: Yup.string().required("Vui lòng nhập nội dung khóa học"),
-      originalPrice: Yup.number().required("Vui lòng nhập giá gốc khóa học"),
-      currentPrice: Yup.number().required(
-        "Vui lòng nhập giá khuyến mãi khóa học"
-      ),
     }),
-    validate: (values) => {
-      let errors = {};
-      if (Number(values.currentPrice) > Number(values.originalPrice)) {
-        errors = {
-          ...errors,
-          currentPrice: "Giá khuyến mãi phải nhỏ hơn giá gốc",
-        };
-      }
-
-      return errors;
-    },
     onSubmit: async (values) => {
       dispatch(isPending());
       courseApi
         .createNewCourse({
           ...values,
           thumbnail: image,
-          originalPrice: Number(values.originalPrice),
-          currentPrice: Number(values.currentPrice),
+          originalPrice: "0",
+          currentPrice: "0",
         })
         .then(() => {
           formik.resetForm({
@@ -91,8 +76,8 @@ const TeacherCourse: React.FC = () => {
               name: "",
               description: "",
               category: categories[0].value,
-              originalPrice: "",
-              currentPrice: "",
+              originalPrice: "0",
+              currentPrice: "0",
             },
           });
           toast.success("Tạo khóa học thành công", {
@@ -232,16 +217,7 @@ const TeacherCourse: React.FC = () => {
                     Trạng thái khóa học:{" "}
                     <span>{CourseStatus[course.status as CourseType]}</span>
                   </div>
-                  {/* <div className="item">
-                  <span>Finish your course</span>
-                  <span>
-                    <LinearProgress
-                      variant="determinate"
-                      value={20}
-                      sx={{ borderRadius: 12, height: 8 }}
-                    />
-                  </span>
-                </div> */}
+                  
                 </div>
               </div>
             ))}
@@ -260,7 +236,7 @@ const TeacherCourse: React.FC = () => {
           >
             <FormControl.InputUploadFile
               className="create-thumbnail-course"
-              label="Thumbnail khóa học"
+              label="Thumbnail khóa học (600px x 320px) "
               onChange={(value) => postImage(value)}
             />
             <FormControl.Input
@@ -270,24 +246,7 @@ const TeacherCourse: React.FC = () => {
               errorMessage={formik.touched.name ? formik.errors.name : ""}
               {...formik.getFieldProps("name")}
             />
-            <FormControl.Input
-              required
-              label="Giá gốc khóa học"
-              placeholder="1.200.000 đ"
-              errorMessage={
-                formik.touched.originalPrice ? formik.errors.originalPrice : ""
-              }
-              {...formik.getFieldProps("originalPrice")}
-            />
-            <FormControl.Input
-              required
-              label="Giá khuyến mãi khóa học"
-              placeholder="1.000.000 đ"
-              errorMessage={
-                formik.touched.currentPrice ? formik.errors.currentPrice : ""
-              }
-              {...formik.getFieldProps("currentPrice")}
-            />
+           
             <div className="editor">
               <h2>
                 Nội dung khóa học <span>*</span>
@@ -298,6 +257,7 @@ const TeacherCourse: React.FC = () => {
                 placeholder="Thêm một mô tả. Bao gồm những gì học sinh sẽ có thể làm sau khi hoàn thành bài giảng."
               />
             </div>
+
             {formik.touched.description && (
               <div className="editor-error">{formik.errors.description}</div>
             )}

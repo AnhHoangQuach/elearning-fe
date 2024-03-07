@@ -11,15 +11,12 @@ const HeaderNavigationStyle: React.CSSProperties = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
-
   borderRadius: 0,
   padding: '0 24px',
   background: 'white',
-
   position: 'sticky',
   top: 0,
   left: 0,
-
   zIndex: 3,
 }
 

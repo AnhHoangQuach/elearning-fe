@@ -111,23 +111,6 @@ const DASHBOARD_ROUTE = [
         element: DASHBOARD_PAGE.ADMIN_DASHBOARD.CourseList,
         icon: 'book',
       },
-      {
-        path: 'dashboard/statistic/',
-        href: '/admin/dashboard/statistic',
-        element: DASHBOARD_PAGE.ADMIN_DASHBOARD.StatisticManage,
-        title: 'Biểu đồ thống kê',
-        icon: 'bar-chart',
-        children: [
-          {
-            path: 'revenues',
-            href: '/admin/dashboard/statistic/revenues',
-            title: 'Thống kê doanh thu',
-            element: DASHBOARD_PAGE.ADMIN_DASHBOARD.RevenueStatistic,
-            icon: 'money',
-          },
-        ],
-      },
-
     ],
   },
   // student routes
@@ -178,22 +161,6 @@ const DASHBOARD_ROUTE = [
         element: DASHBOARD_PAGE.ADMIN_DASHBOARD.CategoryList,
         title: 'Quản lý danh mục',
         icon: 'newspaper-o',
-      },
-      {
-        path: 'dashboard/statistic',
-        href: '/teacher/dashboard/statistic',
-        element: DASHBOARD_PAGE.ADMIN_DASHBOARD.StatisticManage,
-        title: 'Biểu đồ thống kê',
-        icon: 'bar-chart',
-        children: [
-          {
-            path: 'revenues',
-            href: '/teacher/dashboard/statistic/revenues',
-            title: 'Thống kê doanh thu',
-            element: DASHBOARD_PAGE.ADMIN_DASHBOARD.RevenueStatistic,
-            icon: 'money',
-          },
-        ],
       },
     ],
   },

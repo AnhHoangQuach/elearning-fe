@@ -30,19 +30,6 @@ const CourseItem: React.FC<CourseItemProps> = ({ courseInfo }) => {
         <Tooltip title={courseInfo.name || ''}>
           <span className="name">{courseInfo.name}</span>
         </Tooltip>
-        {(courseInfo.currentPrice || 0) > 0 ? (
-          <span className="current_price" style={{ color: 'orange', fontWeight: 'bold' }}>
-            <b style={{ color: 'black', fontWeight: 'bold' }}>Giá: </b>
-            {formatCharacter.numberLocale(courseInfo.currentPrice, ' đồng')}
-            <span className="original_price">
-              {formatCharacter.numberLocale(courseInfo.originalPrice, ' đồng')}
-            </span>
-          </span>
-        ) : (
-          <span className="current_price">
-            <b>Giá:</b> <span className="free">Miễn phí</span>
-          </span>
-        )}
       </div>
     </div>
   )

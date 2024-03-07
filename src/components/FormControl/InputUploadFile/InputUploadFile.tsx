@@ -23,19 +23,71 @@ const InputUploadFile: React.FC<InputUploadFileProps> = ({
     setImagePreview(valueDefault);
   }, [valueDefault]);
 
-  const handleChangeImage = (e: React.FormEvent<HTMLInputElement>) => {
+  // const handleChangeImage = (e: React.FormEvent<HTMLInputElement>) => {
+  //   const _target = e.target as HTMLInputElement;
+
+  //   if (_target.files && _target.files.length > 0) {
+  //     const file = _target.files[0];
+  //     const convertBtoMB = formatCharacter.convertIntoMB(file.size);
+
+  //     if (convertBtoMB >= 2) {
+  //       return notificationMessage("error", "Hình ảnh không được quá 2MB");
+  //     }
+  //     onChange(_target.files[0]);
+
+      
+  //     // Kiểm tra kích thước của hình ảnh
+  //     const img = new Image();
+  //     img.onload = () => {
+  //       if (img.width > 600 && img.height > 320) {
+  //         onChange(file);
+  //       } else {
+  //         notificationMessage("error", "Kích thước hình ảnh không hợp lệ.");
+  //       }
+  //     };
+  //     img.onerror = () => {
+  //       notificationMessage("error", "Không thể đọc kích thước hình ảnh.");
+  //     };
+      
+  //     const url_img = URL.createObjectURL(file);
+  //     return setImagePreview(url_img);
+
+
+
+  //   } else {
+  //     notificationMessage(
+  //       "error",
+  //       "Định dạng file không được hỗ trợ. Vui lòng chỉ chọn file hình ảnh (*.png, *.jpg, *.jpeg)"
+  //     );
+  //   }
+  // };
+ const handleChangeImage = (e: React.FormEvent<HTMLInputElement>) => {
     const _target = e.target as HTMLInputElement;
 
     if (_target.files && _target.files.length > 0) {
-      const convertBtoMB = formatCharacter.convertIntoMB(_target.files[0].size);
+      const file = _target.files[0];
+
+      const convertBtoMB = formatCharacter.convertIntoMB(file.size);
 
       if (convertBtoMB >= 2) {
         return notificationMessage("error", "Hình ảnh không được quá 2MB");
       }
-      onChange(_target.files[0]);
 
-      const url_img = URL.createObjectURL(_target.files[0]);
-      return setImagePreview(url_img);
+      // Kiểm tra kích thước của hình ảnh
+      const img = new Image();
+      img.onload = () => {
+        if (img.width <= 600 && img.height <= 320) {
+          onChange(file);
+          const url_img = URL.createObjectURL(file);
+          setImagePreview(url_img);
+        } else {
+          notificationMessage("error", "Kích thước hình ảnh không hợp lệ.");
+        }
+      };
+      img.onerror = () => {
+        notificationMessage("error", "Không thể đọc kích thước hình ảnh.");
+      };
+      img.src = URL.createObjectURL(file);
     } else {
       notificationMessage(
         "error",
@@ -43,7 +95,6 @@ const InputUploadFile: React.FC<InputUploadFileProps> = ({
       );
     }
   };
-
   return (
     <Box className="input-file" display="flex" flexDirection="column" gap={10}>
       {label && (

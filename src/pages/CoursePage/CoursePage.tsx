@@ -102,14 +102,14 @@ const CoursePage = () => {
         {/* input search text */}
         <FormControl.Input
           className="input-text"
-          style={{ width: 300 }}
+          style={{ width: 350 }}
           placeholder="Hãy nhập tên khoá học muốn tìm"
           onChange={(e: any) => setValue(e.target.value)}
         />
         {/* input select item */}
         <div className="input-select">
           {categoryList && (
-            <Box sx={{ width: 150 }}>
+            <Box sx={{ width: 270 }}>
               <FormControl.InputSelect
                 defaultValue={category}
                 list={categoryList}
@@ -121,30 +121,6 @@ const CoursePage = () => {
               />
             </Box>
           )}
-
-          <Box sx={{ width: 200 }}>
-            <FormControl.InputSelect
-              defaultValue={sort}
-              list={sortTypes}
-              onChange={(status) => {
-                setPage(1)
-                setSort(status)
-              }}
-              style={{ border: '1px solid #e2e8f0' }}
-            />
-          </Box>
-
-          <Box sx={{ width: 200 }}>
-            <FormControl.InputSelect
-              defaultValue={price}
-              list={priceRangeTypes}
-              onChange={(range_price) => {
-                setPage(1)
-                setPrice(range_price)
-              }}
-              style={{ border: '1px solid #e2e8f0' }}
-            />
-          </Box>
         </div>
       </div>
 
@@ -177,7 +153,7 @@ const CoursePage = () => {
             gap: 45,
           }}
         >
-          <CourseContainer title="Khoá Học Thông Thường" courses={courses} isLoading={isLoading} />
+          <CourseContainer title="Khoá Học Đang Hoạt Động" courses={courses} isLoading={isLoading} />
           {total > 0 && (
             <Pagination
               pageActive={page}

@@ -214,20 +214,7 @@ const Lesson: React.FC<LessonUploadProps> = ({
               </span>
             ) : (
               <React.Fragment>
-                {lesson.type === "undefined" && (
-                  <div className="content" onClick={() => setIsContent(true)}>
-                    <MediaContent.Icon icon="plus" size={15} />
-                    Select Content
-                  </div>
-                )}
-                <MediaContent.Icon
-                  icon="chevron-down"
-                  size={15}
-                  className={classNames("icon", {
-                    active: show,
-                  })}
-                  onClick={() => setShow(!show)}
-                />
+                <></>
               </React.Fragment>
             )}
           </div>
@@ -272,109 +259,6 @@ const Lesson: React.FC<LessonUploadProps> = ({
         </div>
       )}
 
-      {isContent && contentType === "none" && (
-        <div className="bottom">
-          <TextContent.NormalText content="Select the main type of content" />
-
-          <div className="types">
-            <div className="type" onClick={() => setContentType("video")}>
-              <div className="icon">
-                <MediaContent.Icon icon="play-circle-o" size={20} />
-              </div>
-              <span>Video</span>
-            </div>
-            <div className="type" onClick={() => handleUploadQuiz()}>
-              <div className="icon">
-                <MediaContent.Icon icon="file-movie-o" size={20} />
-              </div>
-              <span>Bài kiểm tra</span>
-            </div>
-            <div className="type" onClick={() => setContentType("slide")}>
-              <div className="icon">
-                <MediaContent.Icon icon="file-text-o" size={20} />
-              </div>
-              <span>Tài liệu</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {contentType === "video" ? (
-        <div className="bottom">
-          {video ? (
-            <div className="file">
-              <div className="title">
-                <span>Filename</span>
-                <span>Type</span>
-                <span>Size</span>
-                <span>Status</span>
-                <span>Date</span>
-                <span>Thao tác</span>
-              </div>
-              <div className="description">
-                <span>{video.name}</span>
-                <span>{video.type}</span>
-                <span>{video.size}</span>
-                <span>{video.status}</span>
-                <span>
-                  {format(new Date(video.createdAt), "dd/MM/yyyy - HH:mm")}
-                </span>
-                <span>
-                  <MediaContent.Icon
-                    icon="trash"
-                    size={15}
-                    className="icon"
-                    onClick={() => setVideo(undefined)}
-                  />
-                </span>
-              </div>
-            </div>
-          ) : (
-            <BoxContent.NormalContent style={{ padding: 0, gap: 4 }}>
-              <TextContent.Label label="Chọn video cần upload" required />
-              <FormControl.Input
-                type="file"
-                onChange={handleUploadFile}
-                accept="video/mp4,video/x-m4v,video/*"
-              />
-            </BoxContent.NormalContent>
-          )}
-        </div>
-      ) : contentType === "quiz" ? (
-        <div className="bottom">
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ width: "max-content" }}
-          >
-            <a
-              href={`/teacher/course/${id}/${lesson._id}/quiz`}
-              style={{ color: "white" }}
-            >
-              Đi đến trang kiểm tra
-            </a>
-          </Button>
-        </div>
-      ) : contentType === "slide" ? (
-        slide ? (
-          <div className="bottom">
-            <a href={slide}>Link tài liệu</a>
-          </div>
-        ) : (
-          <div className="bottom">
-            <BoxContent.NormalContent style={{ padding: 0, gap: 4 }}>
-              <TextContent.Label label="Chọn tài liệu cần upload" required />
-              <FormControl.Input
-                type="file"
-                onChange={handleUploadDocument}
-                accept=".pdf,.doc,.docx"
-              />
-            </BoxContent.NormalContent>
-          </div>
-        )
-      ) : (
-        <></>
-      )}
 
       {show && (
         <div className="bottom">

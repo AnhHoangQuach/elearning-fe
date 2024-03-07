@@ -48,10 +48,10 @@ const CategoryList = () => {
   const [isUpdateCompleted, setIsUpdateCompleted] = useState<boolean>(false);
 
   const columsHeader: GridColDef[] = [
-    { field: "id", headerName: "STT", width: 100 },
-    { field: "name", headerName: "Tên danh mục", width: 300 },
-    { field: "publish", headerName: "Xuất bản", width: 200 },
-    { field: "used", headerName: "Trạng thái", width: 150 },
+    { field: "id", headerName: "STT", width: 120 },
+    { field: "name", headerName: "Tên danh mục", width: 420 },
+    { field: "publish", headerName: "Xuất bản", width: 270 },
+    { field: "used", headerName: "Trạng thái", width: 200 },
   ];
 
   useEffect(() => {

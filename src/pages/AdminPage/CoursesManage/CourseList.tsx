@@ -28,29 +28,19 @@ const columnsHeader: GridColDef[] = [
   {
     field: "status",
     headerName: "Trạng thái",
-    width: 120,
+    width: 150,
     align: "center",
     headerAlign: "center",
   },
   {
     field: "name",
     headerName: "Tên khoá học",
-    width: 400,
+    width: 550,
   },
   {
     field: "author",
     headerName: "Tác giả",
-    width: 150,
-  },
-  {
-    field: "originalPrice",
-    headerName: "Giá gốc",
-    width: 150,
-  },
-  {
-    field: "currentPrice",
-    headerName: "Giá hiện tại",
-    width: 150,
+    width: 250,
   },
 ];
 
@@ -164,10 +154,6 @@ const CourseList = () => {
       isModify={false}
       btnMultiDeleted={false}
       isCheckBoxSelection={false}
-      // handleAddItem={handleCreate}
-      // onDeleteItem={handleDelete}
-      // onModifyItem={handleModifyItem}
-      // onDeleteSelectMultiItem={handleMultiDeleted}
     />
   );
 };
