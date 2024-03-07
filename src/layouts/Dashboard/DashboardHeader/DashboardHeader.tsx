@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AccountPopover from "src/components/AccountPopover";
-import MediaContent from "src/components/MediaContent";
 import { linkUserProfile } from "src/data";
 import { useClickOutSide } from "src/hooks";
 import { setToggleStatus } from "src/reducers";
@@ -26,7 +25,6 @@ const DashboardHeader = () => {
           ref={nodeRef}
           onClick={() => setShow(!show)}
         >
-          <MediaContent.Icon icon={!show ? "bars" : "close"} size={20} />
         </div>
       </div>
       <div className="content">

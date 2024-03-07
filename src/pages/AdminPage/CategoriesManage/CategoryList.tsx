@@ -49,9 +49,9 @@ const CategoryList = () => {
 
   const columsHeader: GridColDef[] = [
     { field: "id", headerName: "STT", width: 100 },
-    { field: "name", headerName: "Tên danh mục", width: 300 },
-    { field: "publish", headerName: "Xuất bản", width: 200 },
-    { field: "used", headerName: "Trạng thái", width: 150 },
+    { field: "name", headerName: "Tên danh mục", width: 430 },
+    { field: "publish", headerName: "Xuất bản", width: 220 },
+    { field: "used", headerName: "Trạng thái", width: 170 },
   ];
 
   useEffect(() => {

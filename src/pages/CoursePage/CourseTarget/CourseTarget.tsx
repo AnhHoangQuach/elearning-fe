@@ -1,5 +1,4 @@
 import React from "react";
-import MediaContent from "src/components/MediaContent";
 import "./CourseTarget.scss";
 
 interface CourseTargetProps {
@@ -35,7 +34,7 @@ const CourseTarget: React.FC<CourseTargetProps> = ({
         {!isLoading ? (
           renderContent(content)
         ) : (
-          <MediaContent.Image height={100} />
+            <></>
         )}
       </div>
     </div>

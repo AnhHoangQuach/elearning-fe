@@ -2,7 +2,6 @@ import { Divider } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import AccountPopover from 'src/components/AccountPopover'
-import MediaContent from 'src/components/MediaContent'
 import { linkHeader, linkUserProfile } from 'src/data'
 import { useClickOutSide } from 'src/hooks'
 import Logout from 'src/pages/AuthPage/Logout'
@@ -34,7 +33,6 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
       {/* for mobile */}
       <div className="header-mobile">
         <div className="icon-toggle" ref={nodeRef} onClick={() => setShow(!show)}>
-          <MediaContent.Icon icon={!show ? 'align-justify' : 'close'} size={30} />
         </div>
 
         {show && (

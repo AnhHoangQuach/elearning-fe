@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import courseApi from 'src/apis/courseApi'
 import myCourseApi from 'src/apis/myCourseApi'
 import teacherApi from 'src/apis/teacherApi'
-import MediaContent from 'src/components/MediaContent'
 import NavigationHeader from 'src/components/NavigationHeader'
 import TextContent from 'src/components/TextContent'
 import CourseSummary from 'src/pages/CoursePage/CourseSummary'
@@ -131,14 +130,7 @@ const CourseLearningDetail = () => {
         <div className="my-course-video">
           <div className="stream">
             {studyLesson?.type === 'video' && (
-              <MediaContent.Video
-                courseId={id}
-                lessonId={videoView?._id}
-                poster={course.thumbnail}
-                currentTime={videoView.timeline}
-                source={(videoView?.video?.length && videoView?.video[0]) || ''}
-                duration={videoView.duration}
-              />
+              <></>
             )}
             {studyLesson?.type === 'quiz' && (
               <Box className="content-quiz-student">

@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import chapterApi from "src/apis/chapterApi";
 import BoxContent from "src/components/BoxContent";
-import MediaContent from "src/components/MediaContent";
 import TextContent from "src/components/TextContent";
 import { isPending, isSuccess } from "src/reducers";
 import Chapter, { IChapterUpload } from "../../Chapter";
@@ -87,13 +86,6 @@ const LearningContent: React.FC<LearningContentProps> = ({
         {chapters.map((chapter, index) => (
           <React.Fragment key={index}>
             <Box className="new">
-              <MediaContent.Icon
-                className="icon"
-                icon="plus"
-                color="black"
-                size={20}
-                onClick={() => handleAddChapter(index + 1)}
-              />
             </Box>
             <Chapter
               chapter={chapter}
@@ -104,13 +96,6 @@ const LearningContent: React.FC<LearningContentProps> = ({
           </React.Fragment>
         ))}
         <Box className="new">
-          <MediaContent.Icon
-            className="icon"
-            icon="plus"
-            color="black"
-            size={20}
-            onClick={() => handleAddChapter(chapters.length + 1)}
-          />
         </Box>
       </BoxContent.NormalContent>
     </BoxContent.NormalContent>

@@ -2,7 +2,6 @@ import { Box, Button, Divider } from "@mui/material";
 import classNames from "classnames";
 import React from "react";
 import { linearIMG, quotes } from "src/assets";
-import MediaContent from "../MediaContent";
 import TextContent from "../TextContent";
 import "./ArticleReadMore.scss";
 
@@ -23,7 +22,6 @@ const ArticleReadMore: React.FC<ArticleReadMoreProps> = ({
   return (
     <Box>
       <Box>
-        <MediaContent.Image src={quotes} width={18} />
         <TextContent.NormalText
           content={title}
           type="title-content"
@@ -49,7 +47,6 @@ const ArticleReadMore: React.FC<ArticleReadMoreProps> = ({
             marginTop: -64,
           }}
         >
-          <MediaContent.Image src={linearIMG} height={64} />
         </Box>
       )}
 

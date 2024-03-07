@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import lessonApi from "src/apis/lessonApi";
 import FormControl from "src/components/FormControl";
-import MediaContent from "src/components/MediaContent";
 import { isPending, isSuccess } from "src/reducers";
 import { DocumentType, VideoInfo } from "src/types";
 import { notificationMessage } from "src/utils";
@@ -92,27 +91,9 @@ const Chapter: React.FC<ChapterUploadProps> = ({
             />
           ) : (
             <>
-              <MediaContent.Icon icon="file-text-o" size={15} />
               <span>{chapter.name}</span>
 
               <div className="icons">
-                <MediaContent.Icon
-                  icon="edit"
-                  size={15}
-                  color="black"
-                  className="icon"
-                  onClick={() => {
-                    setValue(chapter.name);
-                    setEditTitle(true);
-                  }}
-                />
-                {/* <MediaContent.Icon
-                  icon="trash"
-                  size={15}
-                  color="black"
-                  className="icon"
-                  onClick={() => handleDeleteChapter(chapter._id)}
-                /> */}
               </div>
             </>
           )}
@@ -167,7 +148,6 @@ const Chapter: React.FC<ChapterUploadProps> = ({
           <React.Fragment key={i}>
             <div className="new">
               <div className="icon" onClick={() => handleAddLesson(i + 1)}>
-                <MediaContent.Icon icon="plus" color="black" size={20} />
               </div>
             </div>
             <Lesson
@@ -184,7 +164,6 @@ const Chapter: React.FC<ChapterUploadProps> = ({
           className="icon"
           onClick={() => handleAddLesson(lessons.length + 1)}
         >
-          <MediaContent.Icon icon="plus" color="black" size={20} />
         </div>
       </div>
     </div>

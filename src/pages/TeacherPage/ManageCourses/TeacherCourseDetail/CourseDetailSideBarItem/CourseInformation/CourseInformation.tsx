@@ -166,24 +166,7 @@ const CourseInformation: React.FC<CourseInformationProps> = ({
           errorMessage={formik.touched.name ? formik.errors.name : ""}
           {...formik.getFieldProps("name")}
         />
-        <FormControl.Input
-          required
-          label="Giá gốc khóa học"
-          placeholder="1.200.000 đ"
-          errorMessage={
-            formik.touched.originalPrice ? formik.errors.originalPrice : ""
-          }
-          {...formik.getFieldProps("originalPrice")}
-        />
-        <FormControl.Input
-          required
-          label="Giá khuyến mãi khóa học"
-          placeholder="1.000.000 đ"
-          errorMessage={
-            formik.touched.currentPrice ? formik.errors.currentPrice : ""
-          }
-          {...formik.getFieldProps("currentPrice")}
-        />
+        
         <BoxContent.NormalContent style={{ gap: 0, padding: 0, height: 200 }}>
           <TextContent.Label label="Nội dung khóa học" required />
           <FormControl.FormEditor

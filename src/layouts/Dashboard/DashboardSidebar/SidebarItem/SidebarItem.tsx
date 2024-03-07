@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import MediaContent from "src/components/MediaContent";
 import { useHover } from "src/hooks";
 import { Router } from "src/types";
 import "./SidebarItem.scss";
@@ -35,13 +34,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             to={href as string}
           >
             {icon && (
-              <MediaContent.Icon
-                className={classNames("sidebar-icon", {
-                  active: href === pathname || showHover,
-                })}
-                size={14}
-                icon={icon}
-              />
+              <></>
             )}
             <span className="sidebar-children-title">{title}</span>
           </Link>
@@ -60,13 +53,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         to={href as string}
       >
         {icon && (
-          <MediaContent.Icon
-            className={classNames("sidebar-icon", {
-              active: href === pathname || showHover,
-            })}
-            size={20}
-            icon={icon}
-          />
+          <></>
         )}
         <span className="sidebar-title">{title}</span>
       </Link>
@@ -84,22 +71,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       >
         <div className="nav-list-item">
           {icon && (
-            <MediaContent.Icon
-              className={classNames("sidebar-icon", {
-                active: href === pathname || showHover,
-              })}
-              size={20}
-              icon={icon}
-            />
+           <></>
           )}
           <span>{title}</span>
-          <MediaContent.Icon
-            icon={show ? "chevron-down" : "chevron-right"}
-            className={classNames("sidebar-icon", {
-              active: href === pathname || showHover,
-            })}
-            size={12}
-          />
+          
         </div>
       </div>
       {show && (

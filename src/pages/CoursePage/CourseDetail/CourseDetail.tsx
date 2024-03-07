@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'
 import courseApi from 'src/apis/courseApi'
 import ArticleReadMore from 'src/components/ArticleReadMore'
 import BoxContent from 'src/components/BoxContent'
-import MediaContent from 'src/components/MediaContent'
 import NavigationHeader from 'src/components/NavigationHeader'
 import TextContent from 'src/components/TextContent'
 import { getPanelActive, getVideoView } from 'src/reducers'
@@ -57,7 +56,6 @@ const CourseDetail = () => {
         <TextContent.NormalText type="title-header-large" content="Thông tin chi tiết khoá học" />
         <div className="course-preview">
           <div className="info">
-            <MediaContent.Image src={courseDetail.thumbnail} />
             <TextContent.NormalText content={courseDetail.name as string} />
             <span className="description">
               <ArticleReadMore title="Mô tả khoá học" content={courseDetail.description} />
@@ -66,44 +64,6 @@ const CourseDetail = () => {
           <div className="content-detail">
             <div className="detail-info">
               <TextContent.NormalText content="Thông tin khoá học" />
-
-              {courseDetail.currentPrice! > 0 ? (
-                <span className="flex-row">
-                  <BoxContent.ContentInfo
-                    type="fit-content"
-                    title="Giá hiện tại: "
-                    content={
-                      courseDetail.currentPrice &&
-                      formatCharacter.numberLocale(courseDetail.currentPrice, ' đồng')
-                    }
-                  />
-                  <BoxContent.ContentInfo
-                    type="fit-content"
-                    title=""
-                    content={
-                      courseDetail.originalPrice &&
-                      formatCharacter.numberLocale(courseDetail.originalPrice, ' đồng')
-                    }
-                    contentStyle={{
-                      textDecoration: 'line-through',
-                      color: 'rgb(119, 119, 119)',
-                    }}
-                  />
-                </span>
-              ) : (
-                <BoxContent.ContentInfo
-                  type="fit-content"
-                  title="Giá hiện tại: "
-                  content="Miễn phí"
-                  contentStyle={{
-                    padding: '1px 10px',
-                    background: 'rgb(115, 116, 17)',
-                    borderRadius: 4,
-                    color: 'white',
-                    userSelect: 'none',
-                  }}
-                />
-              )}
 
               <BoxContent.ContentInfo
                 responsive={false}

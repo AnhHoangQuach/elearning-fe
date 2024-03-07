@@ -1,6 +1,5 @@
 import { Box, Dialog, Divider, Typography } from "@mui/material";
 import * as React from "react";
-import MediaContent from "../MediaContent";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -42,14 +41,7 @@ const ModalContainer: React.FC<ModalProps> = ({
           <Typography variant="h6" component="span" fontWeight={600}>
             {title}
           </Typography>
-          <MediaContent.Icon
-            className="icon"
-            icon="close"
-            size={20}
-            color=""
-            onClick={onClose}
-            style={{ cursor: "pointer" }}
-          />
+          
         </Box>
         <Divider sx={{ marginTop: 12, marginBottom: 12 }} />
         <Box>{children}</Box>

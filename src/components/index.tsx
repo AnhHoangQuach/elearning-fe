@@ -1,7 +1,6 @@
 export * from "./AccountPopover";
 export * from "./FormControl";
 export * from "./LoadingContent";
-export * from "./MediaContent";
 export * from "./ModalContainer";
 export * from "./NavLinks";
 export * from "./Notification";

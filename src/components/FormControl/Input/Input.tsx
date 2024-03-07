@@ -1,7 +1,6 @@
 import { Box } from '@mui/material'
 import classnames from 'classnames'
 import React, { useState } from 'react'
-import MediaContent from 'src/components/MediaContent'
 import TextContent from 'src/components/TextContent'
 import './Input.scss'
 import { InputProps } from './Input.type'
@@ -53,17 +52,11 @@ const Input = React.forwardRef((props: InputProps, ref?: React.LegacyRef<HTMLInp
         </Box>
 
         {icon && (
-          <MediaContent.Icon className="input-icon" size={sizeIcon} icon={icon} color={'#94A3B8'} />
+          <></>
         )}
 
         {type === 'password' && (
-          <MediaContent.Icon
-            style={{ marginRight: 16, cursor: 'pointer' }}
-            onClick={() => setShow(!show)}
-            size={18}
-            icon={show ? 'eye' : 'eye-slash'}
-            color={'#94A3B8'}
-          />
+          <></>
         )}
       </Box>
 

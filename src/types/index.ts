@@ -17,3 +17,4 @@ export * from "./video";
 export * from "./slider";
 export * from "./lesson";
 export * from "./localStorage";
+export * from "./blog";

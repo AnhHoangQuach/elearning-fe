@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import React from "react";
-import MediaContent from "src/components/MediaContent";
 import { SliderBanner } from "src/types";
 
 import "./SlideItem.scss";
@@ -14,10 +13,6 @@ const SlideItem: React.FC<SlideItemProps> = ({ imageContent }) => {
 
   return (
     <div className="slide-item">
-      <MediaContent.Image
-        className="slide-item-banner"
-        src={imageContent.image}
-      />
       {showContent && (
         <div className="slide-item-content">
           <span className="title">{imageContent.name}</span>

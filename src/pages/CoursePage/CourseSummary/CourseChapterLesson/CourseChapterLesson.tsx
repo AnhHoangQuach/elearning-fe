@@ -2,7 +2,6 @@ import { Divider, Typography } from "@mui/material";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MediaContent from "src/components/MediaContent";
 import TextContent from "src/components/TextContent";
 import {
   getQuestionState,
@@ -65,7 +64,6 @@ const CourseChapterLesson: React.FC<CourseChapterLessonProps> = ({
                 type="description"
                 content={lesson.title + ""}
               />
-              {lesson.complete && <MediaContent.Icon icon="check" size={18} />}
             </Typography>
             {index < lessons.length - 1 && <Divider />}
           </div>

@@ -4,7 +4,6 @@ import categoryApi from 'src/apis/categoryApi'
 import courseApi from 'src/apis/courseApi'
 import FormControl from 'src/components/FormControl'
 import Pagination from 'src/components/Pagination'
-import { priceRangeTypes, sortTypes } from 'src/data'
 import { useTypingDebounce } from 'src/hooks'
 import { ICourse, SearchKeyProps } from 'src/types'
 import formatCharacter from 'src/utils/formatCharacter'
@@ -42,7 +41,6 @@ const CoursePage = () => {
 
   useEffect(() => {
     getCourses()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit, page, sort, category, name, price])
 
   // call page
@@ -67,9 +65,6 @@ const CoursePage = () => {
     try {
       const response = await courseApi.getCourses(params)
       const { courses, searchKey, total }: any = response
-      // console.log("data", response);
-      // console.log("courses", courses);
-      // console.log("searchkey", searchKey);
       setCourses(courses)
       setSearchKey(searchKey)
       setIsLoading(false)
@@ -96,7 +91,7 @@ const CoursePage = () => {
 
   return (
     <div className="course-page">
-      <span className="title">Danh sách các khoá học</span>
+      <span className="title">Danh sách các khoá học </span>
       {/* search input */}
       <div className="search-courses">
         {/* input search text */}
@@ -109,7 +104,7 @@ const CoursePage = () => {
         {/* input select item */}
         <div className="input-select">
           {categoryList && (
-            <Box sx={{ width: 150 }}>
+            <Box sx={{ width: 250 }}>
               <FormControl.InputSelect
                 defaultValue={category}
                 list={categoryList}
@@ -122,29 +117,6 @@ const CoursePage = () => {
             </Box>
           )}
 
-          <Box sx={{ width: 200 }}>
-            <FormControl.InputSelect
-              defaultValue={sort}
-              list={sortTypes}
-              onChange={(status) => {
-                setPage(1)
-                setSort(status)
-              }}
-              style={{ border: '1px solid #e2e8f0' }}
-            />
-          </Box>
-
-          <Box sx={{ width: 200 }}>
-            <FormControl.InputSelect
-              defaultValue={price}
-              list={priceRangeTypes}
-              onChange={(range_price) => {
-                setPage(1)
-                setPrice(range_price)
-              }}
-              style={{ border: '1px solid #e2e8f0' }}
-            />
-          </Box>
         </div>
       </div>
 
@@ -177,7 +149,7 @@ const CoursePage = () => {
             gap: 45,
           }}
         >
-          <CourseContainer title="Khoá Học Thông Thường" courses={courses} isLoading={isLoading} />
+          <CourseContainer title="Khoá Học Hiện Tại" courses={courses} isLoading={isLoading} />
           {total > 0 && (
             <Pagination
               pageActive={page}

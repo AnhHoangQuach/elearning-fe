@@ -3,7 +3,6 @@ import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import * as React from 'react'
-import MediaContent from 'src/components/MediaContent'
 import TextContent from 'src/components/TextContent'
 import { InputSelectProps, ValueInputSelectType } from './InputSelect.type'
 
@@ -86,7 +85,6 @@ const InputSelect: React.FC<InputSelectProps> = (props) => {
         >
           {list.map((item: any, index) => (
             <MenuItem value={item.value} key={index}>
-              {icon && <MediaContent.Icon icon={icon} size={18} />}
               {item.name}
             </MenuItem>
           ))}

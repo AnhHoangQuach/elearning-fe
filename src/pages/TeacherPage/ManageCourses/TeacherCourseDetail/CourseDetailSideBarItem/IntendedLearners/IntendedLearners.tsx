@@ -6,7 +6,6 @@ import courseApi from "src/apis/courseApi";
 import teacherApi from "src/apis/teacherApi";
 import BoxContent from "src/components/BoxContent";
 import FormControl from "src/components/FormControl";
-import MediaContent from "src/components/MediaContent";
 import TextContent from "src/components/TextContent";
 import { isPending, isSuccess } from "src/reducers";
 import { notificationMessage } from "src/utils";
@@ -100,7 +99,6 @@ const IntendedLearners = () => {
             }}
             onClick={handleAddText}
           >
-            <MediaContent.Icon icon="plus" color="#ffffff" size={15} />
             <TextContent.NormalText
               type="title-content"
               content="Thêm 1 dòng"
@@ -116,7 +114,6 @@ const IntendedLearners = () => {
             }}
             onClick={handleDeleteText}
           >
-            <MediaContent.Icon icon="minus" color="#d32f2f" size={15} />
             <TextContent.NormalText
               type="title-content"
               content="Xóa 1 dòng"
