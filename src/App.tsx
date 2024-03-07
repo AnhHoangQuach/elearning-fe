@@ -27,6 +27,7 @@ function App() {
           {privateRoute(TEACHER_ROUTE)}
           {/* Dashboard routes */}
           {privateRoute(DASHBOARD_ROUTE)}
+          
         </Routes>
       </Suspense>
 

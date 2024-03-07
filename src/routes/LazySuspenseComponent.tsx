@@ -77,6 +77,7 @@ const QuizDetail = React.lazy(() => import('src/pages/QuizDetail'))
 const MAIN_PAGE = {
   MainPage: <MainPage />,
   CourseDetail: <CourseDetail />,
+  Blog: <NotFound />,
   UnauthorizedPage: <UnauthorizedPage />,
   NotFound: <NotFound />,
 }

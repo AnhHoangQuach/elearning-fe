@@ -1,6 +1,6 @@
 import { Divider } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AccountPopover from 'src/components/AccountPopover'
 import MediaContent from 'src/components/MediaContent'
 import { linkHeader, linkUserProfile } from 'src/data'
@@ -28,7 +28,8 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
 
         <div className="header-links">{titleShow && <HeaderNavigation links={linkHeader} />}</div>
 
-        
+        <Link to='/blog'>Blog</Link>
+
         <div className="header-profile">
           <AccountPopover routes={linkUserProfile} />
         </div>
