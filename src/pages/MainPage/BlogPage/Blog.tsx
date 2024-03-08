@@ -1,15 +1,48 @@
 import React from "react";
 import { Divider } from "@mui/material";
 import "./Blog.scss";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import DatePicker from "@mui/lab/DatePicker";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const Blog: React.FC = () => {
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
+  };
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+  const handleOpenAdd = () => {
+    setOpenAdd(true);
+  };
+  const handleCloseAdd = () => {
+    setOpenAdd(false);
+  };
+
   return (
-    <div>
+    <React.Fragment>
       <form className="max-w-md mx-auto">
         <div className="relative">
           <input
             type="search"
-            id="default-search"
+            id="standard-basic"
             className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg 
               bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
               dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -28,36 +61,30 @@ const Blog: React.FC = () => {
       </form>
 
       <div>
-        <div className="text-center pt-16 md:pt-32 mb-32">
+        <button type="submit" onClick={handleOpenAdd}>
+          <i className="fa-solid fa-plus"></i>
+          Thêm bài viết
+        </button>
+      </div>
+      <div>
+        <div className="text-center pt-16 md:pt-32  mb-8">
           <i
             className="fa-solid fa-trash icon-bin-blog"
-            data-modal-target="popup-modal"
-            data-modal-toggle="popup-modal"
+            onClick={handleOpenDelete}
           ></i>
-          <p className="text-sm md:text-base text-green-500 font-bold">
+          <p className="text-sm md:text-base text-green-500 font-bold mt-8">
             04 AUGUST 2023 <span className="text-gray-900">/</span> BLOG DAILY
           </p>
           <h1 className="font-bold break-normal text-3xl md:text-5xl ">
             Welcome to Ghostwind CSS
           </h1>
         </div>
-        {/* <div
-          className="container w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded"
-          style={{
-            backgroundImage:
-              "url('https://source.unsplash.com/collection/1118905/')",
-            height: "75vh",
-          }}
-        ></div> */}
-        <div className="container max-w-5xl mx-auto -mt-32 mt-10">
+        <div className="container max-w-5xl mx-auto -mt-32">
           <div className="mx-0 sm:mx-6">
             <div
               className="bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal"
               style={{ fontFamily: "Georgia, serif" }}
             >
-              <p className="text-2xl md:text-3xl mb-5 text-center">
-                Binh is so beautiful. - title
-              </p>
               <p className="py-6">
                 The basic blog page layout is available and all using the
                 default Tailwind CSS classNamees (although there are a few
@@ -72,74 +99,60 @@ const Blog: React.FC = () => {
 
       <Divider />
 
-      {/* modal delete */}
-      <div
-        id="popup-modal"
-        tabIndex={-1}
-        className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      {/* Modal Add */}
+      <Modal
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="p-8"
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button
-              type="button"
-              className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-hide="popup-modal"
-            >
-              <svg
-                className="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
-            <div className="p-4 md:p-5 text-center">
-              <svg
-                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Are you sure you want to delete this product?
-              </h3>
-              <button
-                data-modal-hide="popup-modal"
-                type="button"
-                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-              >
-                Yes, I'm sure
-              </button>
-              <button
-                data-modal-hide="popup-modal"
-                type="button"
-                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                No, cancel
-              </button>
-            </div>
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Bạn có chắc muốn xoá bài viết này không?
+          </Typography>
+          <Button variant="contained" color="warning">
+            Xoá tài khoản
+          </Button>
+          <Button variant="contained" color="success">
+            Huỷ bỏ
+          </Button>
+        </Box>
+      </Modal>
+
+      {/* modal delete */}
+      <Modal
+        open={openAdd}
+        onClose={handleCloseAdd}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="p-8"
+      >
+        <Box>
+          <div>
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Tên tiêu đề
+            </label>
+            <input
+              type="text"
+              id="first_name"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="John"
+              required
+            />
           </div>
-        </div>
-      </div>
-    </div>
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Nội dung
+          </label>
+          <textarea
+            id="message"
+            rows={4}
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Write your thoughts here..."
+          ></textarea>
+        </Box>
+      </Modal>
+    </React.Fragment>
   );
 };
 
