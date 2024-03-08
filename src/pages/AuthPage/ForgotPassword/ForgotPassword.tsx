@@ -136,9 +136,8 @@ const ForgotPassword = () => {
         </Button>
       </Box>
       <div className="extra-links">
-        <Link to="/login">Quay lại đăng nhập</Link>
-        <Link className="register" to="/register">
-          Đăng ký tài khoản
+        <Link to="/login">
+          <i className="fa-solid fa-arrow-left"></i> Quay lại
         </Link>
       </div>
     </AuthLayout>

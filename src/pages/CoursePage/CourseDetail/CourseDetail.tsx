@@ -1,110 +1,77 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import courseApi from 'src/apis/courseApi'
-import ArticleReadMore from 'src/components/ArticleReadMore'
-import BoxContent from 'src/components/BoxContent'
-import MediaContent from 'src/components/MediaContent'
-import NavigationHeader from 'src/components/NavigationHeader'
-import TextContent from 'src/components/TextContent'
-import { getPanelActive, getVideoView } from 'src/reducers'
-import { ICourse } from 'src/types'
-import formatCharacter from 'src/utils/formatCharacter'
-import translateVi from 'src/utils/translateVi'
-import BtnAddCart from '../BtnAddCart'
-import CourseSummary from '../CourseSummary'
-import CourseTarget from '../CourseTarget'
-import './CourseDetail.scss'
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import courseApi from "src/apis/courseApi";
+import ArticleReadMore from "src/components/ArticleReadMore";
+import BoxContent from "src/components/BoxContent";
+import MediaContent from "src/components/MediaContent";
+import NavigationHeader from "src/components/NavigationHeader";
+import TextContent from "src/components/TextContent";
+import { getPanelActive, getVideoView } from "src/reducers";
+import { ICourse } from "src/types";
+import formatCharacter from "src/utils/formatCharacter";
+import translateVi from "src/utils/translateVi";
+import BtnAddCart from "../BtnAddCart";
+import CourseSummary from "../CourseSummary";
+import CourseTarget from "../CourseTarget";
+import "./CourseDetail.scss";
 
 const CourseDetail = () => {
-  document.title = 'Thông tin chi tiết khoá học'
-  const { id } = useParams()
-  const dispatch = useDispatch()
+  document.title = "Thông tin chi tiết khoá học";
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const [courseDetail, setCourseDetail] = useState<ICourse>({})
-  const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false)
+  const [courseDetail, setCourseDetail] = useState<ICourse>({});
+  const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false);
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0)
-    dispatch(getPanelActive(''))
-    dispatch(getVideoView(''))
+    window.scrollTo(0, 0);
+    dispatch(getPanelActive(""));
+    dispatch(getVideoView(""));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [id]);
 
   useEffect(() => {
-    getCourseDetail()
+    getCourseDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [id]);
 
   const getCourseDetail = async () => {
-    setIsLoadingDetail(true)
+    setIsLoadingDetail(true);
     try {
-      const response = await courseApi.getCourseDetail(id)
-      const { course }: any = response
-      setCourseDetail(course)
-      setIsLoadingDetail(false)
+      const response = await courseApi.getCourseDetail(id);
+      const { course }: any = response;
+      setCourseDetail(course);
+      setIsLoadingDetail(false);
       // console.log("course", course);
     } catch (error) {
-      setIsLoadingDetail(false)
-      console.log('lỗi', { error })
+      setIsLoadingDetail(false);
+      console.log("lỗi", { error });
     }
-  }
+  };
 
   return (
     <>
       <NavigationHeader />
       <div className="courses-detail">
-        <TextContent.NormalText type="title-header-large" content="Thông tin chi tiết khoá học" />
+        <TextContent.NormalText
+          type="title-header-large"
+          content="Thông tin chi tiết khoá học"
+        />
         <div className="course-preview">
           <div className="info">
             <MediaContent.Image src={courseDetail.thumbnail} />
             <TextContent.NormalText content={courseDetail.name as string} />
             <span className="description">
-              <ArticleReadMore title="Mô tả khoá học" content={courseDetail.description} />
+              <ArticleReadMore
+                title="Mô tả khoá học"
+                content={courseDetail.description}
+              />
             </span>
           </div>
           <div className="content-detail">
             <div className="detail-info">
               <TextContent.NormalText content="Thông tin khoá học" />
-
-              {courseDetail.currentPrice! > 0 ? (
-                <span className="flex-row">
-                  <BoxContent.ContentInfo
-                    type="fit-content"
-                    title="Giá hiện tại: "
-                    content={
-                      courseDetail.currentPrice &&
-                      formatCharacter.numberLocale(courseDetail.currentPrice, ' đồng')
-                    }
-                  />
-                  <BoxContent.ContentInfo
-                    type="fit-content"
-                    title=""
-                    content={
-                      courseDetail.originalPrice &&
-                      formatCharacter.numberLocale(courseDetail.originalPrice, ' đồng')
-                    }
-                    contentStyle={{
-                      textDecoration: 'line-through',
-                      color: 'rgb(119, 119, 119)',
-                    }}
-                  />
-                </span>
-              ) : (
-                <BoxContent.ContentInfo
-                  type="fit-content"
-                  title="Giá hiện tại: "
-                  content="Miễn phí"
-                  contentStyle={{
-                    padding: '1px 10px',
-                    background: 'rgb(115, 116, 17)',
-                    borderRadius: 4,
-                    color: 'white',
-                    userSelect: 'none',
-                  }}
-                />
-              )}
-
               <BoxContent.ContentInfo
                 responsive={false}
                 type="fit-content"
@@ -113,10 +80,16 @@ const CourseDetail = () => {
               />
 
               {/* btn add cart */}
-              <BtnAddCart courseId={courseDetail._id} isBought={courseDetail.isBought} />
+              <BtnAddCart
+                courseId={courseDetail._id}
+                isBought={courseDetail.isBought}
+              />
               {/* <button type="button" className="btnRegister" >Đăng kí ngay</button> */}
             </div>
-            <CourseSummary title="Thông tin chi tiết khoá học" chapters={courseDetail.chapters} />
+            <CourseSummary
+              title="Thông tin chi tiết khoá học"
+              chapters={courseDetail.chapters}
+            />
             <CourseTarget
               title="Đối tượng nào nên học?"
               content={courseDetail.intendedLearners}
@@ -136,6 +109,6 @@ const CourseDetail = () => {
         </div>
       </div>
     </>
-  )
-}
-export default CourseDetail
+  );
+};
+export default CourseDetail;

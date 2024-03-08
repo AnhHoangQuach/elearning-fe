@@ -9,7 +9,7 @@
   justify-content: space-between;
   align-items: center;
 
-  padding: 0 40px;
+  padding: 0 15px;
 
   position: fixed;
   left: 0;
@@ -22,13 +22,14 @@
     height: 75px;
     margin-top: -3px;
     margin-left: 50px;
-    background: url("../../../assets/images/logo.png")
-      no-repeat center / cover;
-      p{
-        width: 317px;
-        padding: 26px;
-        padding-left: 77px;
-      }
+    background: url("../../../assets/images/logo.png") no-repeat center / cover;
+    p {
+      width: 317px;
+      padding: 26px;
+      padding-left: 77px;
+      color: rgb(46, 46, 248);
+      font-weight: bold;
+    }
   }
   &-links {
     display: flex;
@@ -38,7 +39,7 @@
   &-blogs {
     display: flex;
     gap: 30px;
-    margin-left: -468px;
+    margin-left: -497px;
     color: black;
   }
   &-profile {
@@ -52,7 +53,7 @@
   .header {
     &-img {
       display: none;
-      p{
+      p {
         display: none;
       }
     }

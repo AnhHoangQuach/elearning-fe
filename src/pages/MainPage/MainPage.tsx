@@ -1,11 +1,11 @@
-import { Element } from 'react-scroll'
-import { homePageElements } from 'src/data'
-import LayoutContainer from 'src/layouts/LayoutContainer'
-import { IComponent } from 'src/types'
-import './MainPage.scss'
+import { Element } from "react-scroll";
+import { homePageElements } from "src/data";
+import LayoutContainer from "src/layouts/LayoutContainer";
+import { IComponent } from "src/types";
+import "./MainPage.scss";
 
 const MainPage = () => {
-  document.title = 'Trung tâm Anh ngữ Sparkle'
+  document.title = "ENGLISH SPARKLE CENTER";
   const renderPageElements = (pageElements: IComponent[]) => {
     return (
       pageElements.length > 0 &&
@@ -14,11 +14,13 @@ const MainPage = () => {
           {page.component}
         </Element>
       ))
-    )
-  }
+    );
+  };
   return (
-    <LayoutContainer footerShow={false}>{renderPageElements(homePageElements)}</LayoutContainer>
-  )
-}
+    <LayoutContainer footerShow={false}>
+      {renderPageElements(homePageElements)}
+    </LayoutContainer>
+  );
+};
 
-export default MainPage
+export default MainPage;

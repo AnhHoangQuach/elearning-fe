@@ -144,18 +144,6 @@ const Register = () => {
             errorMessage={formik.touched.password ? formik.errors.password : ""}
             {...formik.getFieldProps("password")}
           />
-          {/* <Input
-            required
-            type="password"
-            label="Nhập lại mật khẩu"
-            placeholder="Xác nhận lại mật khẩu"
-            errorMessage={
-              formik.touched.passwordConfirm
-                ? formik.errors.passwordConfirm
-                : ""
-            }
-            {...formik.getFieldProps("passwordConfirm")}
-          /> */}
         </Box>
 
         <Box flex={1} display="flex" flexDirection="column" gap={20}>
@@ -172,12 +160,6 @@ const Register = () => {
             errorMessage={formik.touched.phone ? formik.errors.phone : ""}
             {...formik.getFieldProps("phone")}
           />
-          {/* <Input
-            type="date"
-            label="Ngày sinh nhật"
-            {...formik.getFieldProps("birthday")}
-          />
-          <Dropdown label="Giới tính" list={genderTypes} /> */}
         </Box>
       </Box>
       <Button
@@ -191,11 +173,7 @@ const Register = () => {
       </Button>
       <div className="extra-links">
         <Link className="login" to="/login">
-          Đăng nhập tài khoản
-        </Link>
-
-        <Link className="forgot_password" to="/forgot_password">
-          Quên mật khẩu
+          <i className="fa-solid fa-arrow-left"></i> Quay lại
         </Link>
       </div>
     </AuthLayout>

@@ -39,7 +39,6 @@ const AccountPopover: React.FC<AccountPopoverProps> = ({ routes }) => {
                 >
                   {route.name}
                 </MenuItem>
-                
               )
           )}
           <Divider className="divider" />

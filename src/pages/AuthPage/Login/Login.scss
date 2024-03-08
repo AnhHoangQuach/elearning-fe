@@ -2,9 +2,53 @@
   .extra-links {
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
+    font-size: 15px;
+  }
+  .btn-login {
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+    font-size: 15px;
+  }
+  .register {
+    border-radius: 20px;
+    white-space: nowrap;
+    font-size: 15px;
   }
 }
-
+.btn-login {
+  margin: 0 100px 0 100px;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+}
 .register {
-  margin-right: 12px;
+  padding-left: 145px;
+  padding-right: 135px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 100px;
+  margin-right: 100px;
+  border-radius: 20px;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.register:hover {
+  text-decoration: none;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+}
+
+.forgot_password {
+  margin-left: 240px;
+  text-decoration: underline;
 }

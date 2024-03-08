@@ -2,7 +2,7 @@ import { Router } from "src/types";
 
 export const linkHeader: Router[] = [
   { name: "Trang chủ", path: "/", href: "" },
-  { name: "Danh sách khoá học", path: "/course", href: "course" },
+  { name: "Khoá học", path: "/course", href: "course" },
 ];
 
 export const linkUserProfile: Router[] = [
