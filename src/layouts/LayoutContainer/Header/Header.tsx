@@ -28,7 +28,8 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
 
         <div className="header-links">{titleShow && <HeaderNavigation links={linkHeader} />}</div>
 
-        <Link to='/blog'>Blog</Link>
+        <Link to='/blog' className="header-blogs">Blog</Link>
+
 
         <div className="header-profile">
           <AccountPopover routes={linkUserProfile} />

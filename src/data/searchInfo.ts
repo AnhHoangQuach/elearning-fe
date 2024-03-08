@@ -9,7 +9,6 @@ export const genderTypes = [
 export const accountTypes = [
   { value: "student", name: "Học sinh" },
   { value: "teacher", name: "Giảng viên" },
-  // { value: "admin", name: "Quản trị viên" },
 ];
 export const studentTypes = [
   { value: "student", name: "Học sinh" },
@@ -33,8 +32,6 @@ export const myCourseTypes = [
 export const discountApplyTypes = [
   { value: "all", name: "Tất cả" },
   { value: "author", name: "Tác giả" },
-  // { value: "category", name: "Mã danh mục" },
-  // { value: "new user", name: "Người dùng mới" },
 ];
 export const categoryTypes = [
   { value: "false", name: "Đã duyệt" },

@@ -20,7 +20,7 @@ const MAIN_ROUTE = [
   },
   { role: 'page', path: '/unauthorized', element: MAIN_PAGE.UnauthorizedPage },
   { role: 'page', path: '/*', element: MAIN_PAGE.NotFound },
-  { role: 'page', path: '/blog', element: MAIN_PAGE.NotFound },
+  { role: 'page', path: '/blog', element: MAIN_PAGE.Blog },
 ]
 
 //auth route

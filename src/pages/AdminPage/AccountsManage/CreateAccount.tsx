@@ -63,17 +63,16 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
       birthday: '',
       gender: 'true',
       phone: '',
-      courseId: '',
+      courseId: 'defaultCourseId',
       progressPaid: [{ datePaid: new Date(), amount: 0 }]
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Vui lòng nhập họ tên'),
-      email: Yup.string().email('Phải là email').required('Vui lòng nhập gmail'),
+      email: Yup.string().email('Email không hợp lệ').required('Vui lòng nhập gmail').matches(/@gmail.com$/, 'Email phải có định dạng @gmail.com'),
       password: Yup.string().min(8, 'Mật khẩu ít nhất 8 kí tự').required('Vui lòng nhập mật khẩu'),
-      courseId: Yup.string().required('Vui lòng chọn khóa học'),
     }),
     onSubmit: async (values) => {
-      // console.log("lấy được dữ liệu là", values);
+      console.log("lấy được dữ liệu là: ", values);
       await handleCreateAccount(values)
       resetDataForm()
     },
@@ -190,7 +189,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
                 style={{ border: '1px solid #e2e8f0' }}
                 defaultValue={formik.values.courseId}
               />
-              <div style={{ fontWeight: 'bold', margin: '4px 0' }}>Lịch sử đóng</div>
+              <div style={{ fontWeight: 'bold', margin: '4px 0' }}>Lịch sử học phí</div>
               {formik.values.progressPaid?.map((item, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
                   <div style={{ display: 'flex', flex: 1, alignItems: 'center', gap: 8 }}>
@@ -216,7 +215,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
                       {...formik.getFieldProps(`progressPaid.${index}.amount`)}
                     />
                   </div>
-                  {index === formik.values.progressPaid.length - 1 && index > 0  ? <Button variant='contained' onClick={() => handleProgressPaid()}>-</Button> : <Button variant='contained' onClick={() => handleProgressPaid(true)}>+</Button>}
+                  {index === formik.values.progressPaid.length - 1 && index > 0 ? <Button variant='contained' onClick={() => handleProgressPaid()}>-</Button> : <Button variant='contained' onClick={() => handleProgressPaid(true)}>+</Button>}
                 </div>
               ))}
             </>

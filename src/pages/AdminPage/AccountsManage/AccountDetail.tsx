@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import adminApi from 'src/apis/adminApi'
 import FormControl from 'src/components/FormControl'
 import ModalContainer from 'src/components/ModalContainer'
-import { accountTypes, genderTypes, statusTypes } from 'src/data'
+import { accountTypes, genderTypes, statusTypes,studentTypes } from 'src/data'
 import { ICourse, IUser } from 'src/types'
 import formatDate from 'src/utils/formatDate'
 
@@ -12,9 +12,10 @@ interface AccountDetailProps {
   show?: boolean
   onClose?: () => void
   courses?: ICourse[]
+  isStudent?:boolean
 }
 
-const AccountDetail: React.FC<AccountDetailProps> = ({ id, show = false, onClose, courses }) => {
+const AccountDetail: React.FC<AccountDetailProps> = ({ id, show = false, onClose, courses, isStudent=false, }) => {
   const [userDetail, setUserDetail] = useState<IUser>({})
   const coursesType =
     courses?.map((courses) => ({ name: courses.name!, value: courses._id! })) ?? []
@@ -59,7 +60,7 @@ const AccountDetail: React.FC<AccountDetailProps> = ({ id, show = false, onClose
           />
           <FormControl.InputSelect
             label="Chức vụ"
-            list={accountTypes}
+            list={isStudent ? studentTypes : accountTypes}
             defaultValue={userDetail.account?.role}
             disabled={true}
             style={{ border: '1px solid #e2e8f0' }}
@@ -92,19 +93,20 @@ const AccountDetail: React.FC<AccountDetailProps> = ({ id, show = false, onClose
             value={userDetail.phone}
           />
           <FormControl.Input
-            // type="date"
             disabled
             label="Ngày sinh nhật"
             placeholder="ngày-tháng-năm"
             value={formatDate.getDate(userDetail.birthday, 'dd-MM-yyyy')}
           />
-          <FormControl.InputSelect
-            label="Khóa học"
-            list={coursesType}
-            disabled
-            style={{ border: '1px solid #e2e8f0' }}
-            defaultValue={userDetail.myCourse?.course as string}
-          />
+          {isStudent && (
+            <FormControl.InputSelect
+              label="Khóa học"
+              list={coursesType}
+              disabled
+              style={{ border: '1px solid #e2e8f0' }}
+              defaultValue={userDetail.myCourse?.course as string}
+            />
+          )}
         </Box>
       </form>
     </ModalContainer>
