@@ -8,7 +8,6 @@ import { categoryStatusTypes, categoryTypes, statusTypes } from "src/data";
 import { useTypingDebounce } from "src/hooks";
 import { ICategory } from "src/types";
 import { getHeaderColumns, getNewHeaderColumn } from "src/utils";
-import CategoryDetail from "./CategoryDetail";
 import CreateCategory from "./CreateCategory";
 import MultiDeleteCategory from "./MultiDeleteCategory";
 import UpdateCategory from "./UpdateCategory";
@@ -39,7 +38,6 @@ const CategoryList = () => {
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const [showMultiDelete, setShowMultiDelete] = useState<boolean>(false);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
 
   //check isUpdate
   const [isCreateCompleted, setIsCreateCompleted] = useState<boolean>(false);
@@ -109,10 +107,6 @@ const CategoryList = () => {
     setCategoryId(id);
     setShowUpdate(true);
   };
-  const handleViewDetail = async (id: string | number) => {
-    setCategoryId(id);
-    setShowDetail(true);
-  };
 
   return (
     <>
@@ -158,7 +152,6 @@ const CategoryList = () => {
         columnsData={columsHeader}
         rowsData={categories}
         isLoading={loading}
-        onViewItemDetail={handleViewDetail}
         onModifyItem={handleModifyItem}
         handleAddItem={() => setShowCreate(true)}
         onDeleteSelectMultiItem={handleMultiDeleted}
@@ -182,11 +175,6 @@ const CategoryList = () => {
         show={showUpdate}
         onClose={() => setShowUpdate(false)}
         setShow={setShowUpdate}
-      />
-      <CategoryDetail
-        id={categoryId}
-        show={showDetail}
-        onClose={() => setShowDetail(false)}
       />
     </>
   );

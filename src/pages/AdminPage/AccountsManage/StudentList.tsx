@@ -4,7 +4,6 @@ import adminApi from 'src/apis/adminApi'
 import Table from 'src/components/Table'
 import { IUser } from 'src/types/user'
 import { getHeaderColumns, getNewHeaderColumn } from 'src/utils'
-import AccountDetail from './AccountDetail'
 import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
@@ -68,7 +67,6 @@ export default function StudentList() {
   const [showMultiDelete, setShowMultiDelete] = useState(false)
   const [showCreate, setShowCreate] = useState(false)
   const [showUpdate, setShowUpdate] = useState(false)
-  const [showDetail, setShowDetail] = useState(false)
 
   //check status
   const [isCreateCompleted, setIsCreateCompleted] = useState(false)
@@ -138,10 +136,6 @@ export default function StudentList() {
     setUserId(id)
     setShowUpdate(true)
   }
-  const handleViewDetail = async (id: string | number) => {
-    setUserId(id)
-    setShowDetail(true)
-  }
   const handleDelete = (id: string | number) => {
     setUserId(id)
     setShowDelete(true)
@@ -165,7 +159,6 @@ export default function StudentList() {
         total={total}
         handleAddItem={() => setShowCreate(true)}
         onDeleteItem={handleDelete}
-        onViewItemDetail={handleViewDetail}
         onModifyItem={handleModifyItem}
         onDeleteSelectMultiItem={handleMultiDeleted}
         // isViewActions={false}
@@ -200,12 +193,6 @@ export default function StudentList() {
         setShow={setShowUpdate}
         courses={courses}
         isStudent={true}
-      />
-      <AccountDetail
-        id={userId}
-        show={showDetail}
-        courses={courses}
-        onClose={() => setShowDetail(false)}
       />
     </>
   )

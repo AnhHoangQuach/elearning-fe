@@ -102,7 +102,7 @@ const UpdateAccount: React.FC<UpdateAccountProps> = ({
       phone: userDetail.phone,
       isActive: userDetail.account?.isActive,
       courseId: userDetail.myCourse?.course,
-      progressPaid: userDetail.myCourse?.progressPaid,
+      progressPaid: userDetail.myCourse?.progressPaid?.length! > 0 ? userDetail.myCourse?.progressPaid : [{ datePaid: new Date(), amount: 0 }],
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Vui lòng nhập họ tên'),

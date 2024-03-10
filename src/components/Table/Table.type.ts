@@ -11,7 +11,6 @@ export interface TableProps {
   isLoading?: boolean
   isCheckBoxSelection?: boolean
   isModify?: boolean
-  isViewDetail?: boolean
   isViewActions?: boolean
   btnAdd?: boolean
   btnMultiDeleted?: boolean
@@ -23,7 +22,6 @@ export interface TableProps {
   total?: number
   handleAddItem?: () => void
   onModifyItem?: (id: string | number) => void
-  onViewItemDetail?: (id: string | number) => void
   onDeleteSelectMultiItem?: (multiSelect: string[] | number[]) => void
   onDeleteItem?: (id: string | number) => void
 }

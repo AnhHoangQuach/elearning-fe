@@ -1,4 +1,3 @@
-import InfoIcon from '@mui/icons-material/Info'
 import EditIcon from '@mui/icons-material/Edit'
 import { Box, Button, Tooltip } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
@@ -22,7 +21,6 @@ const Table: React.FC<TableProps> = ({
   isLoading = false,
   isCheckBoxSelection = true,
   isModify = true,
-  isViewDetail = true,
   isViewActions = true,
   onPageSize,
   onPage,
@@ -32,7 +30,6 @@ const Table: React.FC<TableProps> = ({
   onDeleteSelectMultiItem,
   // onDeleteItem
   onModifyItem,
-  onViewItemDetail,
 }) => {
   const [pageSize, setPageSize] = useState(5)
   const [multiSelect, setMultiSelect] = useState<string[] | number[]>([])
@@ -48,11 +45,6 @@ const Table: React.FC<TableProps> = ({
           {isModify && (
             <Tooltip title="Cập nhật thông tin" onClick={() => onModifyItem?.(id)}>
               <EditIcon sx={{ cursor: 'pointer' }} />
-            </Tooltip>
-          )}
-          {isViewDetail && (
-            <Tooltip title="Thông tin chi tiết" onClick={() => onViewItemDetail?.(id)}>
-              <InfoIcon sx={{ cursor: 'pointer' }} />
             </Tooltip>
           )}
         </div>

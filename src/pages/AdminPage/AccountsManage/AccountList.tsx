@@ -9,7 +9,6 @@ import { useTypingDebounce } from 'src/hooks'
 import { IUser } from 'src/types/user'
 import { getHeaderColumns, getNewHeaderColumn } from 'src/utils'
 import translateVi from 'src/utils/translateVi'
-import AccountDetail from './AccountDetail'
 import CreateAccount from './CreateAccount'
 import DeleteAccount from './DeleteUser'
 import MultiDeleteAccount from './MultiDeleteAccount'
@@ -81,7 +80,6 @@ export default function AccountList() {
   const [showMultiDelete, setShowMultiDelete] = useState(false)
   const [showCreate, setShowCreate] = useState(false)
   const [showUpdate, setShowUpdate] = useState(false)
-  const [showDetail, setShowDetail] = useState(false)
 
   //check status
   const [isCreateCompleted, setIsCreateCompleted] = useState(false)
@@ -144,10 +142,6 @@ export default function AccountList() {
     setUserId(id)
     setShowUpdate(true)
   }
-  const handleViewDetail = async (id: string | number) => {
-    setUserId(id)
-    setShowDetail(true)
-  }
   const handleDelete = (id: string | number) => {
     setUserId(id)
     setShowDelete(true)
@@ -199,7 +193,6 @@ export default function AccountList() {
         total={total}
         handleAddItem={() => setShowCreate(true)}
         onDeleteItem={handleDelete}
-        onViewItemDetail={handleViewDetail}
         onModifyItem={handleModifyItem}
         onDeleteSelectMultiItem={handleMultiDeleted}
       />
@@ -231,7 +224,6 @@ export default function AccountList() {
         onClose={() => setShowUpdate(false)}
         setShow={setShowUpdate}
       />
-      <AccountDetail id={userId} show={showDetail} onClose={() => setShowDetail(false)} />
     </>
   )
 }

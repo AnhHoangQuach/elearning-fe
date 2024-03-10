@@ -8,7 +8,6 @@ import { statusTypes } from "src/data";
 import { useTypingDebounce } from "src/hooks";
 import { ICoupon } from "src/types";
 import { getHeaderColumns, getNewHeaderColumn } from "src/utils";
-import CouponDetail from "./CouponDetail";
 import CreateCoupon from "./CreateCoupon";
 import MultiDeleteCoupon from "./MultiDeleteCoupon";
 import UpdateCoupon from "./UpdateCoupon";
@@ -94,7 +93,6 @@ const CouponList = () => {
   const [showMultiDelete, setShowMultiDelete] = useState<boolean>(false);
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
 
   //status
   const [isCreateCouponComplete, setIsCreateCouponComplete] =
@@ -164,10 +162,6 @@ const CouponList = () => {
     setCouponIds(ids);
     setShowMultiDelete(true);
   };
-  const handleViewDetail = (id: string | number) => {
-    setCouponId(id);
-    setShowDetail(true);
-  };
   const handleModifyItem = (id: string | number) => {
     setCouponId(id);
     setShowUpdate(true);
@@ -209,7 +203,6 @@ const CouponList = () => {
         columnsData={columsHeader}
         rowsData={coupons}
         handleAddItem={() => setShowCreate(true)}
-        onViewItemDetail={handleViewDetail}
         onModifyItem={handleModifyItem}
         onDeleteSelectMultiItem={handleMultiDeleted}
       />
@@ -225,11 +218,6 @@ const CouponList = () => {
         isUpdate={(status) => setIsMultiDeleteCouponComplete(status)}
         onClose={() => setShowMultiDelete(false)}
         setShow={setShowMultiDelete}
-      />
-      <CouponDetail
-        id={couponId}
-        show={showDetail}
-        onClose={() => setShowDetail(false)}
       />
       <UpdateCoupon
         id={couponId}
