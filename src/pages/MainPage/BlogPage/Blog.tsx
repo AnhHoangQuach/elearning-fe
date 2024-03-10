@@ -131,7 +131,7 @@ const Blog: React.FC = () => {
         </IconButton>
         <DialogContent dividers>
           <Typography gutterBottom>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} style={{ padding: "50px" }}>
               <TextField
                 fullWidth
                 label="Tiêu đề bài viết"
@@ -183,7 +183,7 @@ const Blog: React.FC = () => {
             </form>
           </Typography>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ padding: "30px" }}>
           <Button onClick={handleCloseAdd}>Hủy bỏ</Button>
           <Button onClick={handleCloseAdd} autoFocus>
             Đăng bài
@@ -213,7 +213,7 @@ const Blog: React.FC = () => {
       </div>
 
       {/* Bài đăng blog /////////////////////////*/}
-      <div>
+      <div className="container">
         <div className="text-center pt-16 md:pt-32  mb-8">
           <i
             className="fa-solid fa-trash icon-bin-blog"
@@ -224,7 +224,7 @@ const Blog: React.FC = () => {
             08 MARCH 2024 <span className="text-gray-900"> | </span> BLOG DAILY
           </p>
           <h1 className="font-bold break-normal text-3xl md:text-5xl ">
-            Welcome to Binh Tom
+            Welcome to Binh Tom 1
           </h1>
         </div>
         <div className="container max-w-5xl mx-auto -mt-32">
@@ -243,7 +243,36 @@ const Blog: React.FC = () => {
             </div>
           </div>
         </div>
-        <Divider />
+        <Divider style={{ paddingTop: "130px", paddingBottom: "-180px" }} />
+        <div className="text-center pt-16 md:pt-32  mb-8">
+          <i
+            className="fa-solid fa-trash icon-bin-blog"
+            onClick={handleClickOpenDelete}
+          ></i>
+
+          <p className="text-sm md:text-base text-green-500 font-bold mt-8">
+            08 MARCH 2024 <span className="text-gray-900"> | </span> BLOG DAILY
+          </p>
+          <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+            Welcome to Binh Tom 2
+          </h1>
+        </div>
+        <div className="container max-w-5xl mx-auto -mt-32">
+          <div className="mx-0 sm:mx-6">
+            <div
+              className="bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              <p className="py-6">
+                The basic blog page layout is available and all using the
+                default Tailwind CSS classNamees (although there are a few
+                hardcoded style tags). If you are going to use this in your
+                project, you will want to convert the classNamees into
+                components.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

@@ -34,7 +34,11 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
           {titleShow && <HeaderNavigation links={linkHeader} />}
         </div>
 
-        <Link to="/blog" className="header-blogs">
+        <Link
+          to="/blog"
+          className="header-blogs"
+          style={{ textDecoration: "none" }}
+        >
           Bài viết
         </Link>
 

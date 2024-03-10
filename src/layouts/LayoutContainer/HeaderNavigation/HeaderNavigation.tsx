@@ -20,6 +20,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({ links }) => {
           spy={true}
           smooth={true}
           duration={400}
+          style={{ textDecoration: "none" }}
         >
           {link.name}
         </LinkScroll>
