@@ -74,3 +74,25 @@
   color: black;
   cursor: pointer;
 }
+
+.btn-addBlog {
+  margin-left: 125px;
+  margin-bottom: -145px;
+}
+.btn-return {
+  margin: 30px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.search-bar {
+  margin-left: 500px;
+  margin-right: 500px;
+  position: relative;
+  .btn-search {
+    position: absolute;
+    right: 0;
+    background-color: rgb(60, 60, 190);
+    color: white;
+    font-weight: bold;
+  }
+}

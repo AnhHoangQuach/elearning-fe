@@ -1,82 +1,230 @@
 import React from "react";
 import { Divider } from "@mui/material";
 import "./Blog.scss";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import DatePicker from "@mui/lab/DatePicker";
+import { TextField } from "@mui/material";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
 
 const Blog: React.FC = () => {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
 
-  const handleOpenDelete = () => {
+  const handleClickOpenDelete = () => {
     setOpenDelete(true);
   };
+
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-  const handleOpenAdd = () => {
+
+  const handleClickOpenAdd = () => {
     setOpenAdd(true);
   };
   const handleCloseAdd = () => {
     setOpenAdd(false);
   };
 
+  const [formData, setFormData] = React.useState({
+    title: "",
+    purpose: "",
+    date: "",
+    content: "",
+  });
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    // Handle form submission, you can use formData to submit data
+    console.log(formData);
+  };
   return (
     <React.Fragment>
-      <form className="max-w-md mx-auto">
-        <div className="relative">
-          <input
-            type="search"
-            id="standard-basic"
-            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg 
-              bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
-              dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search ... "
-            required
-          />
-          <button
-            type="submit"
-            className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 
-              focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 
-              dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Search
-          </button>
-        </div>
-      </form>
-
-      <div>
-        <button type="submit" onClick={handleOpenAdd}>
-          <i className="fa-solid fa-plus"></i>
-          Thêm bài viết
-        </button>
+      <div
+        className="btn-return"
+        onClick={() => {
+          window.location.href = "http://localhost:3000/";
+        }}
+      >
+        <i className="fa-solid fa-arrow-left"></i> Quay lại
       </div>
+      <div
+        className="search-bar"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <FormControl
+          fullWidth
+          sx={{ m: 1 }}
+          variant="standard"
+          style={{ flex: "1" }}
+        >
+          <Input
+            id="standard-adornment-amount"
+            type="text"
+            placeholder="Search ...."
+          />
+          <Button type="submit" className="btn-search">
+            Search
+          </Button>
+        </FormControl>
+      </div>
+      <div>
+        <Button
+          type="button"
+          className="inline-block rounded bg-primary px-6 pb-2 
+          pt-2.5 text-xs font-medium uppercase leading-normal 
+          text-white shadow-primary-3 transition duration-150 
+          ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 
+          focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none 
+          focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 
+          dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong btn-addBlog"
+          variant="outlined"
+          onClick={handleClickOpenAdd}
+        >
+          <i className="fa-solid fa-plus"></i> Thêm bài viết
+        </Button>
+      </div>
+
+      {/* Modal add Blog //////////////////////////////*/}
+      <BootstrapDialog
+        onClose={handleCloseAdd}
+        aria-labelledby="customized-dialog-title"
+        open={openAdd}
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+          Thông tin chi tiết bài viết
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleCloseAdd}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          <Typography gutterBottom>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                label="Tiêu đề bài viết"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                placeholder=""
+                required
+              />
+              <TextField
+                fullWidth
+                label="Mục tiêu chính"
+                name="purpose"
+                value={formData.purpose}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                placeholder="BLOG DAILY"
+                required
+              />
+              <TextField
+                fullWidth
+                label="Ngày đăng bài viết"
+                name="date"
+                type="date"
+                value={formData.date}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                required
+              />
+              <TextField
+                fullWidth
+                label="Nội dung của bài viết"
+                name="content"
+                value={formData.content}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                multiline
+                rows={4}
+                required
+              />
+            </form>
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAdd}>Hủy bỏ</Button>
+          <Button onClick={handleCloseAdd} autoFocus>
+            Đăng bài
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
+
+      {/* modal delete ////////////////////////////////*/}
+      <div>
+        <Dialog
+          open={openDelete}
+          onClose={handleCloseDelete}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Bạn có muốn xóa bài viết không?"}
+          </DialogTitle>
+
+          <DialogActions>
+            <Button onClick={handleCloseDelete}>Hủy bỏ</Button>
+            <Button onClick={handleCloseDelete} autoFocus>
+              Xóa bài viết
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      {/* Bài đăng blog /////////////////////////*/}
       <div>
         <div className="text-center pt-16 md:pt-32  mb-8">
           <i
             className="fa-solid fa-trash icon-bin-blog"
-            onClick={handleOpenDelete}
+            onClick={handleClickOpenDelete}
           ></i>
+
           <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-            04 AUGUST 2023 <span className="text-gray-900">/</span> BLOG DAILY
+            08 MARCH 2024 <span className="text-gray-900"> | </span> BLOG DAILY
           </p>
           <h1 className="font-bold break-normal text-3xl md:text-5xl ">
-            Welcome to Ghostwind CSS
+            Welcome to Binh Tom
           </h1>
         </div>
         <div className="container max-w-5xl mx-auto -mt-32">
@@ -95,63 +243,8 @@ const Blog: React.FC = () => {
             </div>
           </div>
         </div>
+        <Divider />
       </div>
-
-      <Divider />
-
-      {/* Modal Add */}
-      <Modal
-        open={openDelete}
-        onClose={handleCloseDelete}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className="p-8"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc muốn xoá bài viết này không?
-          </Typography>
-          <Button variant="contained" color="warning">
-            Xoá tài khoản
-          </Button>
-          <Button variant="contained" color="success">
-            Huỷ bỏ
-          </Button>
-        </Box>
-      </Modal>
-
-      {/* modal delete */}
-      <Modal
-        open={openAdd}
-        onClose={handleCloseAdd}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className="p-8"
-      >
-        <Box>
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Tên tiêu đề
-            </label>
-            <input
-              type="text"
-              id="first_name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="John"
-              required
-            />
-          </div>
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Nội dung
-          </label>
-          <textarea
-            id="message"
-            rows={4}
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write your thoughts here..."
-          ></textarea>
-        </Box>
-      </Modal>
     </React.Fragment>
   );
 };
