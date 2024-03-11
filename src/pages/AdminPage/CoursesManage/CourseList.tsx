@@ -6,7 +6,7 @@ import FormControl from "src/components/FormControl";
 import Table from "src/components/Table";
 import { statusCourseTypes } from "src/data";
 import { useTypingDebounce } from "src/hooks";
-
+import { useNavigate } from "react-router-dom";
 import { ICourse } from "src/types";
 import { getHeaderColumns, getNewHeaderColumn } from "src/utils";
 
@@ -58,6 +58,7 @@ const CourseList = () => {
   const debouncedValue = useTypingDebounce(value);
   const [name, setName] = useState<string>();
 
+  const navigate = useNavigate();
   useEffect(() => {
     getCourses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +99,12 @@ const CourseList = () => {
       console.log("lỗi rồi", { error });
     }
   };
-
+  const goToCourseDetail = (id: any) => {
+    let data: any;
+    data = courses.filter((course) => course._id === id);
+    // console.log("data nef", data[0].slug);
+    navigate(`${data[0].slug}`);
+  };
   return (
     <Table
       btnSearch={
@@ -115,13 +121,6 @@ const CourseList = () => {
             placeholder="Nhập tên khoá học"
             onChange={(e: any) => setValue(e.target.value)}
           />
-
-          {/* <InputSelect
-            defaultValue={publish}
-            list={statusTypes}
-            onChange={(e) => setPublish(e.target.value)}
-          /> */}
-
           <FormControl.InputSelect
             defaultValue={status}
             placeholder="Chọn trạng thái khóa học"

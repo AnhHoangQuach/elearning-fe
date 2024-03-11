@@ -66,7 +66,7 @@ const Blog: React.FC = () => {
       <div
         className="btn-return"
         onClick={() => {
-          window.location.href = "http://localhost:3000/";
+          window.location.href = "https://anhngusparkle.edu.vn/";
         }}
       >
         <i className="fa-solid fa-arrow-left"></i> Quay lại

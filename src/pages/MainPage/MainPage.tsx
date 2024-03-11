@@ -5,7 +5,7 @@ import { IComponent } from "src/types";
 import "./MainPage.scss";
 
 const MainPage = () => {
-  document.title = "ENGLISH SPARKLE CENTER";
+  document.title = "SPARKLE ENGLISH CENTER";
   const renderPageElements = (pageElements: IComponent[]) => {
     return (
       pageElements.length > 0 &&
