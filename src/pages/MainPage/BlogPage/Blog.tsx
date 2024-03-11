@@ -104,7 +104,7 @@ const Blog: React.FC = () => {
           variant="outlined"
           onClick={handleClickOpenAdd}
         >
-          <i className="fa-solid fa-plus"></i> Thêm bài viết
+          <i className="fa-solid fa-plus pr-1"></i> Thêm bài viết
         </Button>
       </div>
 
@@ -114,7 +114,11 @@ const Blog: React.FC = () => {
         aria-labelledby="customized-dialog-title"
         open={openAdd}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        <DialogTitle
+          sx={{ m: 0, p: 2 }}
+          id="customized-dialog-title"
+          style={{ padding: "10px", fontWeight: "bold" }}
+        >
           Thông tin chi tiết bài viết
         </DialogTitle>
         <IconButton
@@ -131,7 +135,7 @@ const Blog: React.FC = () => {
         </IconButton>
         <DialogContent dividers>
           <Typography gutterBottom>
-            <form onSubmit={handleSubmit} style={{ padding: "50px" }}>
+            <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
               <TextField
                 fullWidth
                 label="Tiêu đề bài viết"
@@ -184,8 +188,17 @@ const Blog: React.FC = () => {
           </Typography>
         </DialogContent>
         <DialogActions style={{ padding: "30px" }}>
-          <Button onClick={handleCloseAdd}>Hủy bỏ</Button>
-          <Button onClick={handleCloseAdd} autoFocus>
+          <Button
+            onClick={handleCloseAdd}
+            style={{ backgroundColor: "red", color: "white" }}
+          >
+            Hủy bỏ
+          </Button>
+          <Button
+            onClick={handleCloseAdd}
+            autoFocus
+            style={{ backgroundColor: "blue", color: "white" }}
+          >
             Đăng bài
           </Button>
         </DialogActions>
@@ -204,8 +217,17 @@ const Blog: React.FC = () => {
           </DialogTitle>
 
           <DialogActions>
-            <Button onClick={handleCloseDelete}>Hủy bỏ</Button>
-            <Button onClick={handleCloseDelete} autoFocus>
+            <Button
+              onClick={handleCloseDelete}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Hủy bỏ
+            </Button>
+            <Button
+              onClick={handleCloseDelete}
+              autoFocus
+              style={{ backgroundColor: "blue", color: "white" }}
+            >
               Xóa bài viết
             </Button>
           </DialogActions>
@@ -214,7 +236,7 @@ const Blog: React.FC = () => {
 
       {/* Bài đăng blog /////////////////////////*/}
       <div className="container">
-        <div className="text-center pt-16 md:pt-32  mb-8">
+        <div className="text-center pt-16 md:pt-32">
           <i
             className="fa-solid fa-trash icon-bin-blog"
             onClick={handleClickOpenDelete}
@@ -227,11 +249,16 @@ const Blog: React.FC = () => {
             Welcome to Binh Tom 1
           </h1>
         </div>
-        <div className="container max-w-5xl mx-auto -mt-32">
+        {/* className="container max-w-5xl mx-auto -mt-24" */}
+        <div className="container max-w-5xl mx-auto -mt-24">
+          {/* className="mx-0 sm:mx-6" */}
           <div className="mx-0 sm:mx-6">
             <div
-              className="bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal"
-              style={{ fontFamily: "Georgia, serif" }}
+              className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+              style={{
+                fontFamily: "Georgia, serif",
+                marginTop: "100px",
+              }}
             >
               <p className="py-6">
                 The basic blog page layout is available and all using the
@@ -243,36 +270,7 @@ const Blog: React.FC = () => {
             </div>
           </div>
         </div>
-        <Divider style={{ paddingTop: "130px", paddingBottom: "-180px" }} />
-        <div className="text-center pt-16 md:pt-32  mb-8">
-          <i
-            className="fa-solid fa-trash icon-bin-blog"
-            onClick={handleClickOpenDelete}
-          ></i>
-
-          <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-            08 MARCH 2024 <span className="text-gray-900"> | </span> BLOG DAILY
-          </p>
-          <h1 className="font-bold break-normal text-3xl md:text-5xl ">
-            Welcome to Binh Tom 2
-          </h1>
-        </div>
-        <div className="container max-w-5xl mx-auto -mt-32">
-          <div className="mx-0 sm:mx-6">
-            <div
-              className="bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal"
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              <p className="py-6">
-                The basic blog page layout is available and all using the
-                default Tailwind CSS classNamees (although there are a few
-                hardcoded style tags). If you are going to use this in your
-                project, you will want to convert the classNamees into
-                components.
-              </p>
-            </div>
-          </div>
-        </div>
+        <Divider style={{ paddingTop: "60px", paddingBottom: "-60px" }} />
       </div>
     </React.Fragment>
   );
