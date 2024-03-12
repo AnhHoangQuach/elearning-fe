@@ -76,13 +76,9 @@ const InputUploadFile: React.FC<InputUploadFileProps> = ({
       // Kiểm tra kích thước của hình ảnh
       const img = new Image();
       img.onload = () => {
-        if (img.width <= 600 && img.height <= 320) {
-          onChange(file);
-          const url_img = URL.createObjectURL(file);
-          setImagePreview(url_img);
-        } else {
-          notificationMessage("error", "Kích thước hình ảnh không hợp lệ.");
-        }
+        onChange(file);
+        const url_img = URL.createObjectURL(file);
+        setImagePreview(url_img);
       };
       img.onerror = () => {
         notificationMessage("error", "Không thể đọc kích thước hình ảnh.");
