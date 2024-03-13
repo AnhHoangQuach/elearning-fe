@@ -1,39 +1,23 @@
-import React, { useEffect } from "react";
-import { Divider } from "@mui/material";
-import { useFormik } from "formik";
+import { Box, Divider } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-import { TextField } from "@mui/material";
-import Input from "@mui/material/Input";
-import FormControl from "@mui/material/FormControl";
+import { useFormik } from "formik";
+import React from "react";
+import { toast } from "react-toastify";
 import blogApi from "src/apis/blogApi";
+import ModalContainer from "src/components/ModalContainer";
 import { IBlog } from "src/types";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import "./Blog.scss";
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
+import FormControl from 'src/components/FormControl'
 
 const Blog: React.FC = () => {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
   const [blog, setBlog] = React.useState<IBlog[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [newItem, setNewItem] = React.useState("");
   const [blogToDeleteId, setBlogToDeleteId] = React.useState<number | null>(
     null
   );
@@ -54,18 +38,6 @@ const Blog: React.FC = () => {
     setOpenAdd(false);
   };
 
-  const [formData, setFormData] = React.useState({
-    title: "",
-    purpose: "",
-    date: "",
-    content: "",
-  });
-
-  const handleChange = (e: any) => {
-    e.preventDefault();
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   // const getBlog = async () => {
   //   try {
   //     const response = await blogApi.getBlog({ publish: true });
@@ -82,7 +54,7 @@ const Blog: React.FC = () => {
       .getBlog(params)
       .then((res: any) => {
         setLoading(false);
-        setBlog(res.courses);
+        setBlog(res);
       })
       .catch(() => setLoading(false));
   };
@@ -104,13 +76,6 @@ const Blog: React.FC = () => {
           ...values,
         })
         .then(() => {
-          formik.resetForm({
-            values: {
-              title: "",
-              purpose: "",
-              content: "",
-            },
-          });
           toast.success("Tạo bài viết thành công", {
             position: "bottom-right",
           });
@@ -141,6 +106,17 @@ const Blog: React.FC = () => {
       setBlogToDeleteId(null);
     }
   };
+
+  const resetDataForm = () => {
+    formik.resetForm({
+      values: {
+        title: "",
+        purpose: "",
+        content: "",
+      },
+    })
+  }
+
   return (
     <React.Fragment>
       {/* return */}
@@ -151,27 +127,6 @@ const Blog: React.FC = () => {
         }}
       >
         <i className="fa-solid fa-arrow-left"></i> Quay lại
-      </div>
-      {/* search */}
-      <div
-        className="search-bar"
-        style={{ display: "flex", alignItems: "center" }}
-      >
-        <FormControl
-          fullWidth
-          sx={{ m: 1 }}
-          variant="standard"
-          style={{ flex: "1" }}
-        >
-          <Input
-            id="standard-adornment-amount"
-            type="text"
-            placeholder="Search ...."
-          />
-          <Button type="submit" className="btn-search">
-            Search
-          </Button>
-        </FormControl>
       </div>
       <div>
         <Button
@@ -191,91 +146,58 @@ const Blog: React.FC = () => {
       </div>
 
       {/* Modal add Blog //////////////////////////////*/}
-      <BootstrapDialog
-        onClose={handleClickCloseAdd}
-        aria-labelledby="customized-dialog-title"
+      <ModalContainer
+        title="Thông tin chi tiết bài viết"
         open={openAdd}
+        onClose={() => {
+          resetDataForm();
+          handleClickCloseAdd();
+        }}
       >
-        <DialogTitle
-          sx={{ m: 0, p: 2 }}
-          id="customized-dialog-title"
-          style={{ padding: "10px", fontWeight: "bold" }}
-        >
-          Thông tin chi tiết bài viết
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClickCloseAdd}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
+        <form
+          id="create-blog"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: 20,
           }}
+          onSubmit={formik.handleSubmit}
         >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent dividers>
-          <form
-            id="create-blog"
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="column"
+            rowGap={12}
             onSubmit={formik.handleSubmit}
-            style={{ padding: "20px" }}
           >
-            <Typography gutterBottom>
-              <TextField
-                fullWidth
-                label="Tiêu đề bài viết"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                margin="normal"
-                variant="outlined"
-                placeholder=""
-                required
-              />
-              <TextField
-                fullWidth
-                label="Mục tiêu chính"
-                name="purpose"
-                value={formData.purpose}
-                onChange={handleChange}
-                margin="normal"
-                variant="outlined"
-                placeholder="BLOG DAILY"
-                required
-              />
-              <TextField
-                fullWidth
-                label="Nội dung của bài viết"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                margin="normal"
-                variant="outlined"
-                multiline
-                rows={4}
-                required
-              />
-            </Typography>
-          </form>
-          <DialogActions style={{ padding: "30px" }}>
-            <Button
-              onClick={handleClickCloseAdd}
-              style={{ backgroundColor: "red", color: "white" }}
-            >
-              Hủy bỏ
-            </Button>
-            <Button
-              form="create-blog"
-              type="submit"
-              autoFocus
-              style={{ backgroundColor: "blue", color: "white" }}
-            >
-              Đăng bài
-            </Button>
-          </DialogActions>
-        </DialogContent>
-      </BootstrapDialog>
+            <FormControl.Input
+              required
+              label="Tiêu đề bài viết"
+              placeholder="Tiêu đề bài viết"
+              {...formik.getFieldProps('title')}
+            />
+            <FormControl.Input
+              label="Mục tiêu chính"
+              type="purpose"
+              {...formik.getFieldProps("purpose")}
+            />
+            <FormControl.Input
+              label="Nội dung của bài viết"
+              type="content"
+              {...formik.getFieldProps("content")}
+            />   
+          </Box>
+        </form>
+        <Box sx={{ marginTop: 4 }}>
+          <Button form="create-blog" variant="contained" color="primary" type="submit">
+            Tạo bài viết
+          </Button>
+          <Button variant="contained" color="success" onClick={handleClickCloseAdd} sx={{ marginLeft: 1 }}>
+            Huỷ bỏ
+          </Button>
+        </Box>
+      </ModalContainer>
 
       {/* modal delete ////////////////////////////////*/}
       <div>
