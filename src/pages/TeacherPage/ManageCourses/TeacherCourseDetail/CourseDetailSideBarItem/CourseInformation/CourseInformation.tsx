@@ -152,8 +152,7 @@ const CourseInformation: React.FC<CourseInformationProps> = ({
       >
         <FormControl.InputUploadFile
           className="thumbnail-course"
-          style={{ width: 400, height: 200, objectFit: "cover" }}
-          label="Thumbnail khóa học (600px x 320px)"
+          label="Thumbnail khóa học"
           valueDefault={formik.values.thumbnail}
           onChange={(value) => postImage(value)}
         />

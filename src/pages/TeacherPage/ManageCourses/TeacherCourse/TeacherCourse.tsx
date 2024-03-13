@@ -235,8 +235,7 @@ const TeacherCourse: React.FC = () => {
             sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}
           >
             <FormControl.InputUploadFile
-              className="create-thumbnail-course"
-              label="Thumbnail khóa học (600px x 320px) "
+              label="Thumbnail khóa học"
               onChange={(value) => postImage(value)}
             />
             <FormControl.Input

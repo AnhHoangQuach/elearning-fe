@@ -142,6 +142,8 @@ const CourseList = () => {
       isModify={false}
       btnMultiDeleted={false}
       isCheckBoxSelection={false}
+      isViewDetail={true}
+      onViewItemDetail={goToCourseDetail}
     />
   );
 };

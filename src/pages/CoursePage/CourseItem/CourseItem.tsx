@@ -3,7 +3,6 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useHover } from 'src/hooks'
 import { ICourse } from 'src/types'
-import formatCharacter from 'src/utils/formatCharacter'
 import CourseModal from '../CourseModal'
 import './CourseItem.scss'
 
@@ -17,9 +16,8 @@ const CourseItem: React.FC<CourseItemProps> = ({ courseInfo }) => {
 
   return (
     <div className="course-item">
-      <div className="img" ref={nodeRef} style={{ borderRadius: '20px' }}>
+      <div className="img" ref={nodeRef}>
         <img
-          style={{ borderRadius: '20px' }}
           src={courseInfo.thumbnail}
           alt="img"
           onClick={() => navigate(`/courses/${courseInfo.slug}`)}
