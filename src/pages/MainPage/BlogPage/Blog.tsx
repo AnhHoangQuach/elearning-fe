@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Divider } from "@mui/material";
-import "./Blog.scss";
+import { useFormik } from "formik";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,9 +12,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
 import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
+import blogApi from "src/apis/blogApi";
+import { IBlog } from "src/types";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import "./Blog.scss";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -28,19 +31,26 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const Blog: React.FC = () => {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
+  const [blog, setBlog] = React.useState<IBlog[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const [newItem, setNewItem] = React.useState("");
+  const [blogToDeleteId, setBlogToDeleteId] = React.useState<number | null>(
+    null
+  );
 
-  const handleClickOpenDelete = () => {
+  const handleClickOpenDelete = (id: number) => {
     setOpenDelete(true);
+    setBlogToDeleteId(id);
   };
 
-  const handleCloseDelete = () => {
+  const handleClickCloseDelete = () => {
     setOpenDelete(false);
   };
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
   };
-  const handleCloseAdd = () => {
+  const handleClickCloseAdd = () => {
     setOpenAdd(false);
   };
 
@@ -56,13 +66,84 @@ const Blog: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // Handle form submission, you can use formData to submit data
-    console.log(formData);
+  // const getBlog = async () => {
+  //   try {
+  //     const response = await blogApi.getBlog({ publish: true });
+  //     const { courses }: any = response;
+  //     setBlog(courses);
+  //   } catch (error) {
+  // console.log("lỗi nè", { error });
+  //   }
+  // };
+
+  const getListBlog = (params?: Object) => {
+    !loading && setLoading(true);
+    blogApi
+      .getBlog(params)
+      .then((res: any) => {
+        setLoading(false);
+        setBlog(res.courses);
+      })
+      .catch(() => setLoading(false));
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      purpose: "",
+      content: "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Vui lòng nhập tiêu đề"),
+      purpose: Yup.string().required("Vui lòng nhập thể loại"),
+      content: Yup.string().required("Vui lòng nhập nội dung"),
+    }),
+    onSubmit: async (values) => {
+      blogApi
+        .CreateNewBlog({
+          ...values,
+        })
+        .then(() => {
+          formik.resetForm({
+            values: {
+              title: "",
+              purpose: "",
+              content: "",
+            },
+          });
+          toast.success("Tạo bài viết thành công", {
+            position: "bottom-right",
+          });
+          handleClickCloseAdd();
+          getListBlog();
+        });
+    },
+  });
+
+  const handleDeleteBlog = async () => {
+    // console.log("check delete id: ", id);
+    if (blogToDeleteId !== null) {
+      !loading && setLoading(true);
+      try {
+        await blogApi.DeleteBlog(blogToDeleteId);
+        getListBlog();
+        toast.success("Xóa bài viết thành công", {
+          position: "bottom-right",
+        });
+      } catch (error) {
+        // console.error("Lỗi khi xóa bài viết:", error);
+        toast.error("Xóa bài viết thất bại", {
+          position: "bottom-right",
+        });
+      }
+      setLoading(false);
+      setOpenDelete(false);
+      setBlogToDeleteId(null);
+    }
   };
   return (
     <React.Fragment>
+      {/* return */}
       <div
         className="btn-return"
         onClick={() => {
@@ -71,6 +152,7 @@ const Blog: React.FC = () => {
       >
         <i className="fa-solid fa-arrow-left"></i> Quay lại
       </div>
+      {/* search */}
       <div
         className="search-bar"
         style={{ display: "flex", alignItems: "center" }}
@@ -110,7 +192,7 @@ const Blog: React.FC = () => {
 
       {/* Modal add Blog //////////////////////////////*/}
       <BootstrapDialog
-        onClose={handleCloseAdd}
+        onClose={handleClickCloseAdd}
         aria-labelledby="customized-dialog-title"
         open={openAdd}
       >
@@ -123,7 +205,7 @@ const Blog: React.FC = () => {
         </DialogTitle>
         <IconButton
           aria-label="close"
-          onClick={handleCloseAdd}
+          onClick={handleClickCloseAdd}
           sx={{
             position: "absolute",
             right: 8,
@@ -134,8 +216,12 @@ const Blog: React.FC = () => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
+          <form
+            id="create-blog"
+            onSubmit={formik.handleSubmit}
+            style={{ padding: "20px" }}
+          >
+            <Typography gutterBottom>
               <TextField
                 fullWidth
                 label="Tiêu đề bài viết"
@@ -160,20 +246,6 @@ const Blog: React.FC = () => {
               />
               <TextField
                 fullWidth
-                label="Ngày đăng bài viết"
-                name="date"
-                type="date"
-                value={formData.date}
-                onChange={handleChange}
-                margin="normal"
-                variant="outlined"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                required
-              />
-              <TextField
-                fullWidth
                 label="Nội dung của bài viết"
                 name="content"
                 value={formData.content}
@@ -184,31 +256,32 @@ const Blog: React.FC = () => {
                 rows={4}
                 required
               />
-            </form>
-          </Typography>
+            </Typography>
+          </form>
+          <DialogActions style={{ padding: "30px" }}>
+            <Button
+              onClick={handleClickCloseAdd}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Hủy bỏ
+            </Button>
+            <Button
+              form="create-blog"
+              type="submit"
+              autoFocus
+              style={{ backgroundColor: "blue", color: "white" }}
+            >
+              Đăng bài
+            </Button>
+          </DialogActions>
         </DialogContent>
-        <DialogActions style={{ padding: "30px" }}>
-          <Button
-            onClick={handleCloseAdd}
-            style={{ backgroundColor: "red", color: "white" }}
-          >
-            Hủy bỏ
-          </Button>
-          <Button
-            onClick={handleCloseAdd}
-            autoFocus
-            style={{ backgroundColor: "blue", color: "white" }}
-          >
-            Đăng bài
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
 
       {/* modal delete ////////////////////////////////*/}
       <div>
         <Dialog
           open={openDelete}
-          onClose={handleCloseDelete}
+          onClose={handleClickCloseDelete}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -218,13 +291,13 @@ const Blog: React.FC = () => {
 
           <DialogActions>
             <Button
-              onClick={handleCloseDelete}
+              onClick={handleClickCloseDelete}
               style={{ backgroundColor: "red", color: "white" }}
             >
               Hủy bỏ
             </Button>
             <Button
-              onClick={handleCloseDelete}
+              onClick={() => handleDeleteBlog()}
               autoFocus
               style={{ backgroundColor: "blue", color: "white" }}
             >
@@ -236,41 +309,38 @@ const Blog: React.FC = () => {
 
       {/* Bài đăng blog /////////////////////////*/}
       <div className="container">
-        <div className="text-center pt-16 md:pt-32">
-          <i
-            className="fa-solid fa-trash icon-bin-blog"
-            onClick={handleClickOpenDelete}
-          ></i>
+        {blog.map((item: IBlog, index: number) => (
+          <div key={index}>
+            <div className="text-center pt-16 md:pt-32">
+              <i
+                className="fa-solid fa-trash icon-bin-blog"
+                onClick={() => handleClickOpenDelete(index)}
+              ></i>
 
-          <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-            08 MARCH 2024 <span className="text-gray-900"> | </span> BLOG DAILY
-          </p>
-          <h1 className="font-bold break-normal text-3xl md:text-5xl ">
-            Welcome to Binh Tom 1
-          </h1>
-        </div>
-        {/* className="container max-w-5xl mx-auto -mt-24" */}
-        <div className="container max-w-5xl mx-auto -mt-24">
-          {/* className="mx-0 sm:mx-6" */}
-          <div className="mx-0 sm:mx-6">
-            <div
-              className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
-              style={{
-                fontFamily: "Georgia, serif",
-                marginTop: "100px",
-              }}
-            >
-              <p className="py-6">
-                The basic blog page layout is available and all using the
-                default Tailwind CSS classNamees (although there are a few
-                hardcoded style tags). If you are going to use this in your
-                project, you will want to convert the classNamees into
-                components.
+              <p className="text-sm md:text-base text-green-500 font-bold mt-8">
+                08 MARCH 2024 <span className="text-gray-900"> | </span>{" "}
+                {item.purpose}
               </p>
+              <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+                {item.title}
+              </h1>
             </div>
+            <div className="container max-w-5xl mx-auto -mt-24">
+              <div className="mx-0 sm:mx-6">
+                <div
+                  className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    marginTop: "100px",
+                  }}
+                >
+                  <p className="py-6">{item.content}</p>
+                </div>
+              </div>
+            </div>
+            <Divider style={{ paddingTop: "60px", paddingBottom: "-60px" }} />
           </div>
-        </div>
-        <Divider style={{ paddingTop: "60px", paddingBottom: "-60px" }} />
+        ))}
       </div>
     </React.Fragment>
   );
