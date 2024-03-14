@@ -1,6 +1,6 @@
 export interface IBlog {
-  id: string;
-  title?: string;
-  purpose?: string;
-  content?: string;
+  id: number;
+  title: string;
+  purpose: string;
+  content: string;
 }

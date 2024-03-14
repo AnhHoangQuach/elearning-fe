@@ -1,26 +1,30 @@
 import { Box, Divider } from "@mui/material";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import blogApi from "src/apis/blogApi";
 import ModalContainer from "src/components/ModalContainer";
 import { IBlog } from "src/types";
 import * as Yup from "yup";
+import FormControl from "src/components/FormControl";
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import "./Blog.scss";
-import FormControl from 'src/components/FormControl'
 
 const Blog: React.FC = () => {
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [openAdd, setOpenAdd] = React.useState(false);
-  const [blog, setBlog] = React.useState<IBlog[]>([]);
-  const [loading, setLoading] = React.useState(false);
   const [blogToDeleteId, setBlogToDeleteId] = React.useState<number | null>(
     null
   );
+  const [blogs, setBlogs] = React.useState<IBlog[]>([]);
+  const [open, setOpen] = React.useState(false);
+  const [selectedBlog, setSelectedBlog] = React.useState<IBlog | null>(null);
 
   const handleClickOpenDelete = (id: number) => {
     setOpenDelete(true);
@@ -31,175 +35,84 @@ const Blog: React.FC = () => {
     setOpenDelete(false);
   };
 
-  const handleClickOpenAdd = () => {
-    setOpenAdd(true);
-  };
-  const handleClickCloseAdd = () => {
-    setOpenAdd(false);
-  };
+  const initialValues: IBlog = { id: 0, title: "", purpose: "", content: "" };
 
-  // const getBlog = async () => {
-  //   try {
-  //     const response = await blogApi.getBlog({ publish: true });
-  //     const { courses }: any = response;
-  //     setBlog(courses);
-  //   } catch (error) {
-  // console.log("lỗi nè", { error });
-  //   }
-  // };
-
-  const getListBlog = (params?: Object) => {
-    !loading && setLoading(true);
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+  const fetchBlogs = () => {
     blogApi
-      .getBlog(params)
-      .then((res: any) => {
-        setLoading(false);
-        setBlog(res);
+      .getBlog()
+      .then((response) => {
+        setBlogs(response.data);
       })
-      .catch(() => setLoading(false));
+      .catch((error) => {
+        console.error("Failed to fetch blogs:", error);
+      });
   };
+  const validationSchema = Yup.object({
+    title: Yup.string().required("Title is required"),
+    purpose: Yup.string().required("Purpose is required"),
+    content: Yup.string().required("Content is required"),
+  });
 
   const formik = useFormik({
-    initialValues: {
-      title: "",
-      purpose: "",
-      content: "",
-    },
-    validationSchema: Yup.object({
-      title: Yup.string().required("Vui lòng nhập tiêu đề"),
-      purpose: Yup.string().required("Vui lòng nhập thể loại"),
-      content: Yup.string().required("Vui lòng nhập nội dung"),
-    }),
+    initialValues,
+    validationSchema,
     onSubmit: async (values) => {
       blogApi
-        .CreateNewBlog({
-          ...values,
-        })
+        .CreateNewBlog(values)
         .then(() => {
-          toast.success("Tạo bài viết thành công", {
+          toast.success("Bài viết đã được tạo thành công!", {
             position: "bottom-right",
           });
-          handleClickCloseAdd();
-          getListBlog();
+          fetchBlogs();
+        })
+        .catch((error) => {
+          console.error("Failed to create blog:", error);
+          toast.error("Tạo bài viết không thành công.", {
+            position: "bottom-right",
+          });
         });
+      handleClose();
     },
   });
 
-  const handleDeleteBlog = async () => {
-    // console.log("check delete id: ", id);
-    if (blogToDeleteId !== null) {
-      !loading && setLoading(true);
-      try {
-        await blogApi.DeleteBlog(blogToDeleteId);
-        getListBlog();
-        toast.success("Xóa bài viết thành công", {
+  const handleClickOpen = (blog: IBlog | null = null) => {
+    setSelectedBlog(blog);
+    formik.setValues(blog || initialValues);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedBlog(null);
+    formik.resetForm();
+  };
+
+  const handleDelete = async (id: number | null) => {
+    try {
+      if (id !== null) {
+        await blogApi.DeleteBlog(id);
+        const updatedBlogs = blogs.filter((blog: IBlog) => blog.id !== id);
+        setBlogs(updatedBlogs);
+        toast.success("Bài viết đã được xóa thành công!", {
           position: "bottom-right",
         });
-      } catch (error) {
-        // console.error("Lỗi khi xóa bài viết:", error);
-        toast.error("Xóa bài viết thất bại", {
+      } else {
+        toast.error("Không thể xóa bài viết. Vui lòng thử lại sau!", {
           position: "bottom-right",
         });
       }
-      setLoading(false);
-      setOpenDelete(false);
-      setBlogToDeleteId(null);
+    } catch (error) {
+      toast.error("Không thể xóa bài viết. Vui lòng thử lại sau!", {
+        position: "bottom-right",
+      });
     }
   };
 
-  const resetDataForm = () => {
-    formik.resetForm({
-      values: {
-        title: "",
-        purpose: "",
-        content: "",
-      },
-    })
-  }
-
   return (
     <React.Fragment>
-      {/* return */}
-      <div
-        className="btn-return"
-        onClick={() => {
-          window.location.href = "https://anhngusparkle.edu.vn/";
-        }}
-      >
-        <i className="fa-solid fa-arrow-left"></i> Quay lại
-      </div>
-      <div>
-        <Button
-          type="button"
-          className="inline-block rounded bg-primary px-6 pb-2 
-          pt-2.5 text-xs font-medium uppercase leading-normal 
-          text-white shadow-primary-3 transition duration-150 
-          ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 
-          focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none 
-          focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 
-          dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong btn-addBlog"
-          variant="outlined"
-          onClick={handleClickOpenAdd}
-        >
-          <i className="fa-solid fa-plus pr-1"></i> Thêm bài viết
-        </Button>
-      </div>
-
-      {/* Modal add Blog //////////////////////////////*/}
-      <ModalContainer
-        title="Thông tin chi tiết bài viết"
-        open={openAdd}
-        onClose={() => {
-          resetDataForm();
-          handleClickCloseAdd();
-        }}
-      >
-        <form
-          id="create-blog"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: 20,
-          }}
-          onSubmit={formik.handleSubmit}
-        >
-          <Box
-            component="form"
-            display="flex"
-            flexDirection="column"
-            rowGap={12}
-            onSubmit={formik.handleSubmit}
-          >
-            <FormControl.Input
-              required
-              label="Tiêu đề bài viết"
-              placeholder="Tiêu đề bài viết"
-              {...formik.getFieldProps('title')}
-            />
-            <FormControl.Input
-              label="Mục tiêu chính"
-              type="purpose"
-              {...formik.getFieldProps("purpose")}
-            />
-            <FormControl.Input
-              label="Nội dung của bài viết"
-              type="content"
-              {...formik.getFieldProps("content")}
-            />   
-          </Box>
-        </form>
-        <Box sx={{ marginTop: 4 }}>
-          <Button form="create-blog" variant="contained" color="primary" type="submit">
-            Tạo bài viết
-          </Button>
-          <Button variant="contained" color="success" onClick={handleClickCloseAdd} sx={{ marginLeft: 1 }}>
-            Huỷ bỏ
-          </Button>
-        </Box>
-      </ModalContainer>
-
-      {/* modal delete ////////////////////////////////*/}
       <div>
         <Dialog
           open={openDelete}
@@ -219,7 +132,7 @@ const Blog: React.FC = () => {
               Hủy bỏ
             </Button>
             <Button
-              onClick={() => handleDeleteBlog()}
+              onClick={() => handleDelete(blogToDeleteId)}
               autoFocus
               style={{ backgroundColor: "blue", color: "white" }}
             >
@@ -228,42 +141,128 @@ const Blog: React.FC = () => {
           </DialogActions>
         </Dialog>
       </div>
-
-      {/* Bài đăng blog /////////////////////////*/}
+      <div
+        className="btn-return"
+        onClick={() => {
+          window.location.href = "https://anhngusparkle.edu.vn/";
+        }}
+      >
+        <i className="fa-solid fa-arrow-left"></i> Quay lại
+      </div>
+      <div>
+        <Button
+          type="button"
+          className="inline-block rounded bg-primary px-6 pb-2
+          pt-2.5 text-xs font-medium uppercase leading-normal
+          text-white shadow-primary-3 transition duration-150
+          ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2
+          focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none
+          focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30
+          dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong btn-addBlog"
+          variant="contained"
+          onClick={() => handleClickOpen()}
+        >
+          <i className="fa-solid fa-plus pr-1"></i> Thêm bài viết
+        </Button>
+      </div>
       <div className="container">
-        {blog.map((item: IBlog, index: number) => (
-          <div key={index}>
-            <div className="text-center pt-16 md:pt-32">
-              <i
-                className="fa-solid fa-trash icon-bin-blog"
-                onClick={() => handleClickOpenDelete(index)}
-              ></i>
+        {blogs &&
+          blogs.map((blog: IBlog) => (
+            <div key={blog.id}>
+              <div className="text-center pt-16 md:pt-32">
+                <i
+                  className="fa-solid fa-trash icon-bin-blog"
+                  onClick={() => handleClickOpenDelete(blog.id)}
+                ></i>
 
-              <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                08 MARCH 2024 <span className="text-gray-900"> | </span>{" "}
-                {item.purpose}
-              </p>
-              <h1 className="font-bold break-normal text-3xl md:text-5xl ">
-                {item.title}
-              </h1>
-            </div>
-            <div className="container max-w-5xl mx-auto -mt-24">
-              <div className="mx-0 sm:mx-6">
-                <div
-                  className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
-                  style={{
-                    fontFamily: "Georgia, serif",
-                    marginTop: "100px",
-                  }}
-                >
-                  <p className="py-6">{item.content}</p>
+                <p className="text-sm md:text-base text-green-500 font-bold mt-8">
+                  08 MARCH 2024 <span className="text-gray-900"> | </span>{" "}
+                  {blog.purpose}
+                </p>
+                <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+                  {blog.title}
+                </h1>
+              </div>
+              <div className="container max-w-5xl mx-auto -mt-24">
+                <div className="mx-0 sm:mx-6">
+                  <div
+                    className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+                    style={{
+                      fontFamily: "Georgia, serif",
+                      marginTop: "100px",
+                    }}
+                  >
+                    <p className="py-6">{blog.content}</p>
+                  </div>
                 </div>
               </div>
+              <Divider style={{ paddingTop: "60px", paddingBottom: "-60px" }} />
             </div>
-            <Divider style={{ paddingTop: "60px", paddingBottom: "-60px" }} />
-          </div>
-        ))}
+          ))}
       </div>
+      {/* Modal add Blog //////////////////////////////*/}
+      <ModalContainer
+        title="Thông tin chi tiết bài viết"
+        open={open}
+        onClose={handleClose}
+      >
+        <form
+          id="create-blog"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            gap: 20,
+          }}
+          onSubmit={formik.handleSubmit}
+        >
+          <TextField
+            required
+            name="title"
+            label="Tiêu đề bài viết"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            error={formik.touched.title && Boolean(formik.errors.title)}
+            helperText={formik.touched.title && formik.errors.title}
+          />
+          <TextField
+            required
+            name="purpose"
+            label="Mục tiêu chính"
+            value={formik.values.purpose}
+            onChange={formik.handleChange}
+            error={formik.touched.purpose && Boolean(formik.errors.purpose)}
+            helperText={formik.touched.purpose && formik.errors.purpose}
+          />
+          <TextField
+            required
+            name="content"
+            label="Nội dung của bài viết"
+            value={formik.values.content}
+            onChange={formik.handleChange}
+            error={formik.touched.content && Boolean(formik.errors.content)}
+            helperText={formik.touched.content && formik.errors.content}
+          />
+        </form>
+        <Box sx={{ marginTop: 4 }}>
+          <Button
+            form="create-blog"
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Tạo bài viết
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleClose}
+            sx={{ marginLeft: 1 }}
+          >
+            Huỷ bỏ
+          </Button>
+        </Box>
+      </ModalContainer>
     </React.Fragment>
   );
 };
