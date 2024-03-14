@@ -3,4 +3,5 @@ export interface IBlog {
   title: string;
   purpose: string;
   content: string;
+  createdAt: String;
 }

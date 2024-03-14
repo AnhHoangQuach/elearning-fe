@@ -29,8 +29,7 @@ const Blog: React.FC = () => {
   const [blogs, setBlogs] = React.useState<IBlog[]>([]);
   const [open, setOpen] = React.useState(false);
   const [searchKeyword, setSearchKeyword] = React.useState("");
-  const initialValues: IBlog = {
-    _id: "0",
+  const initialValues = {
     title: "",
     purpose: "",
     content: "",
@@ -124,11 +123,7 @@ const Blog: React.FC = () => {
       blog.title.toLowerCase().includes(searchKeyword.toLowerCase())
     );
   }
-  const currentDate = new Date().toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+
   return (
     <React.Fragment>
       <div>
@@ -223,8 +218,8 @@ const Blog: React.FC = () => {
                     <></>
                   )}
                   <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                    {currentDate}
-                    <span className="text-gray-900"> | </span> {blog.purpose}
+                    {blog.createdAt} <span className="text-gray-900"> | </span>{" "}
+                    {blog.purpose}
                   </p>
                   <h1 className="font-bold break-normal text-3xl md:text-5xl ">
                     {blog.title}
@@ -260,7 +255,7 @@ const Blog: React.FC = () => {
                     <></>
                   )}
                   <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                    {currentDate} <span className="text-gray-900"> | </span>{" "}
+                    {blog.createdAt} <span className="text-gray-900"> | </span>{" "}
                     {blog.purpose}
                   </p>
                   <h1 className="font-bold break-normal text-3xl md:text-5xl ">

@@ -44,7 +44,7 @@ const MultiDeleteAccount: React.FC<MultiDeleteAccountProps> = ({
 
   return (
     <ModalContainer
-      title="Bạn có chắc muốn xoá những tài khoản này khôngádasds?"
+      title="Bạn có chắc muốn xoá những tài khoản này không?"
       open={show}
       onClose={onClose}
     >

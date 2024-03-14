@@ -35,8 +35,6 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
 
         <div className="header-links">
           {titleShow && <HeaderNavigation links={linkHeader} />}
-        </div>
-
         <Link
           to="/blog"
           className="header-blogs"
@@ -44,6 +42,8 @@ const Header: React.FC<HeaderProps> = ({ titleShow = true }) => {
         >
           Bài viết
         </Link>
+        </div>
+
 
         <div className="header-profile">
           {isAuth ? (
