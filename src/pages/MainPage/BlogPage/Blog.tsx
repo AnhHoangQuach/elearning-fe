@@ -6,7 +6,8 @@ import blogApi from "src/apis/blogApi";
 import ModalContainer from "src/components/ModalContainer";
 import { IBlog } from "src/types";
 import * as Yup from "yup";
-import FormControl from "src/components/FormControl";
+import FormControl from "@mui/material/FormControl";
+import Input from "@mui/material/Input";
 import {
   Button,
   TextField,
@@ -15,41 +16,50 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { selectAuthorization } from "src/reducers/authSlice";
+import { useSelector } from "react-redux";
 import "./Blog.scss";
 
 const Blog: React.FC = () => {
+  const { isRole } = useSelector(selectAuthorization);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [blogToDeleteId, setBlogToDeleteId] = React.useState<number | null>(
+  const [blogToDeleteId, setBlogToDeleteId] = React.useState<string | null>(
     null
   );
   const [blogs, setBlogs] = React.useState<IBlog[]>([]);
   const [open, setOpen] = React.useState(false);
-  const [selectedBlog, setSelectedBlog] = React.useState<IBlog | null>(null);
+  const [searchKeyword, setSearchKeyword] = React.useState("");
+  const initialValues: IBlog = {
+    _id: "0",
+    title: "",
+    purpose: "",
+    content: "",
+  };
 
-  const handleClickOpenDelete = (id: number) => {
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const handleClickOpenDelete = (_id: string) => {
     setOpenDelete(true);
-    setBlogToDeleteId(id);
+    setBlogToDeleteId(_id);
   };
 
   const handleClickCloseDelete = () => {
     setOpenDelete(false);
   };
 
-  const initialValues: IBlog = { id: 0, title: "", purpose: "", content: "" };
-
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
   const fetchBlogs = () => {
     blogApi
       .getBlog()
-      .then((response) => {
-        setBlogs(response.data);
+      .then((response: any) => {
+        setBlogs(response.result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error("Failed to fetch blogs:", error);
       });
   };
+
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
     purpose: Yup.string().required("Purpose is required"),
@@ -67,6 +77,7 @@ const Blog: React.FC = () => {
             position: "bottom-right",
           });
           fetchBlogs();
+          window.location.reload();
         })
         .catch((error) => {
           console.error("Failed to create blog:", error);
@@ -79,38 +90,45 @@ const Blog: React.FC = () => {
   });
 
   const handleClickOpen = (blog: IBlog | null = null) => {
-    setSelectedBlog(blog);
     formik.setValues(blog || initialValues);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedBlog(null);
     formik.resetForm();
   };
 
-  const handleDelete = async (id: number | null) => {
+  const handleDelete = async (id: string | null) => {
     try {
       if (id !== null) {
         await blogApi.DeleteBlog(id);
-        const updatedBlogs = blogs.filter((blog: IBlog) => blog.id !== id);
-        setBlogs(updatedBlogs);
         toast.success("Bài viết đã được xóa thành công!", {
           position: "bottom-right",
         });
       } else {
-        toast.error("Không thể xóa bài viết. Vui lòng thử lại sau!", {
-          position: "bottom-right",
-        });
+        console.log("Không tìm thấy bài viết hoặc id không hợp lệ.");
       }
     } catch (error) {
-      toast.error("Không thể xóa bài viết. Vui lòng thử lại sau!", {
+      toast.error("Không thể xóa bài viết", {
         position: "bottom-right",
       });
+      console.error("Failed to delete blog:", error);
     }
   };
 
+  let filteredBlogs = [...blogs];
+
+  if (searchKeyword) {
+    filteredBlogs = blogs.filter((blog) =>
+      blog.title.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+  }
+  const currentDate = new Date().toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
   return (
     <React.Fragment>
       <div>
@@ -149,56 +167,124 @@ const Blog: React.FC = () => {
       >
         <i className="fa-solid fa-arrow-left"></i> Quay lại
       </div>
+      <div
+        className="search-bar"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <FormControl
+          fullWidth
+          sx={{ m: 1 }}
+          variant="standard"
+          style={{ flex: "1" }}
+        >
+          <Input
+            id="standard-adornment-amount"
+            type="text"
+            placeholder="Search ...."
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+          <Button type="submit" className="btn-search">
+            Search
+          </Button>
+        </FormControl>
+      </div>
       <div>
-        <Button
-          type="button"
-          className="inline-block rounded bg-primary px-6 pb-2
+        {isRole === "teacher" || isRole === "admin" ? (
+          <Button
+            type="button"
+            className="inline-block rounded bg-primary px-6 pb-2
           pt-2.5 text-xs font-medium uppercase leading-normal
           text-white shadow-primary-3 transition duration-150
           ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2
           focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none
           focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30
           dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong btn-addBlog"
-          variant="contained"
-          onClick={() => handleClickOpen()}
-        >
-          <i className="fa-solid fa-plus pr-1"></i> Thêm bài viết
-        </Button>
+            variant="contained"
+            onClick={() => handleClickOpen()}
+          >
+            <i className="fa-solid fa-plus pr-1"></i> Thêm bài viết
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="container">
-        {blogs &&
-          blogs.map((blog: IBlog) => (
-            <div key={blog.id}>
-              <div className="text-center pt-16 md:pt-32">
-                <i
-                  className="fa-solid fa-trash icon-bin-blog"
-                  onClick={() => handleClickOpenDelete(blog.id)}
-                ></i>
-
-                <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                  08 MARCH 2024 <span className="text-gray-900"> | </span>{" "}
-                  {blog.purpose}
-                </p>
-                <h1 className="font-bold break-normal text-3xl md:text-5xl ">
-                  {blog.title}
-                </h1>
-              </div>
-              <div className="container max-w-5xl mx-auto -mt-24">
-                <div className="mx-0 sm:mx-6">
-                  <div
-                    className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
-                    style={{
-                      fontFamily: "Georgia, serif",
-                      marginTop: "100px",
-                    }}
-                  >
-                    <p className="py-6">{blog.content}</p>
+        {searchKeyword
+          ? filteredBlogs.map((blog: IBlog) => (
+              <div key={blog._id}>
+                <div className="text-center pt-16 md:pt-32">
+                  {isRole === "teacher" || isRole === "admin" ? (
+                    <i
+                      className="fa-solid fa-trash icon-bin-blog"
+                      onClick={() => handleDelete(blog._id)}
+                    ></i>
+                  ) : (
+                    <></>
+                  )}
+                  <p className="text-sm md:text-base text-green-500 font-bold mt-8">
+                    {currentDate}
+                    <span className="text-gray-900"> | </span> {blog.purpose}
+                  </p>
+                  <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+                    {blog.title}
+                  </h1>
+                </div>
+                <div className="container max-w-5xl mx-auto -mt-24">
+                  <div className="mx-0 sm:mx-6">
+                    <div
+                      className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+                      style={{
+                        fontFamily: "Georgia, serif",
+                        marginTop: "100px",
+                      }}
+                    >
+                      <p className="py-6">{blog.content}</p>
+                    </div>
                   </div>
                 </div>
+                <Divider
+                  style={{ paddingTop: "60px", paddingBottom: "-60px" }}
+                />
               </div>
-              <Divider style={{ paddingTop: "60px", paddingBottom: "-60px" }} />
-            </div>
-          ))}
+            ))
+          : blogs.reverse().map((blog: IBlog) => (
+              <div key={blog._id}>
+                <div className="text-center pt-16 md:pt-32">
+                  {isRole === "teacher" || isRole === "admin" ? (
+                    <i
+                      className="fa-solid fa-trash icon-bin-blog"
+                      onClick={() => handleDelete(blog._id)}
+                    ></i>
+                  ) : (
+                    <></>
+                  )}
+                  <p className="text-sm md:text-base text-green-500 font-bold mt-8">
+                    {currentDate} <span className="text-gray-900"> | </span>{" "}
+                    {blog.purpose}
+                  </p>
+                  <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+                    {blog.title}
+                  </h1>
+                </div>
+                <div className="container max-w-5xl mx-auto -mt-24">
+                  <div className="mx-0 sm:mx-6">
+                    <div
+                      className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+                      style={{
+                        fontFamily: "Georgia, serif",
+                        marginTop: "100px",
+                      }}
+                    >
+                      <p className="py-6">{blog.content}</p>
+                    </div>
+                  </div>
+                </div>
+                <Divider
+                  style={{ paddingTop: "60px", paddingBottom: "-60px" }}
+                />
+              </div>
+            ))}
       </div>
       {/* Modal add Blog //////////////////////////////*/}
       <ModalContainer

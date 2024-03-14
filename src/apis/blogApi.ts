@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 const Blog_API = "/blog";
 
 const blogApi = {
-  getBlog: (params?: any) => {
+  getBlog: (params?: any): any => {
     const url = Blog_API;
     return axiosClient.get(url, { params });
   },
@@ -11,7 +11,7 @@ const blogApi = {
     const url = Blog_API;
     return axiosClient.post(url, blog_info);
   },
-  DeleteBlog: (id?: number) => {
+  DeleteBlog: (id?: string) => {
     const url = Blog_API + "/" + id;
     return axiosClient.delete(url);
   },
