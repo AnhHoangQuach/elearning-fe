@@ -76,7 +76,6 @@ const Blog: React.FC = () => {
             position: "bottom-right",
           });
           fetchBlogs();
-          window.location.reload();
         })
         .catch((error) => {
           console.error("Failed to create blog:", error);
@@ -105,6 +104,7 @@ const Blog: React.FC = () => {
         toast.success("Bài viết đã được xóa thành công!", {
           position: "bottom-right",
         });
+        window.location.reload();
       } else {
         console.log("Không tìm thấy bài viết hoặc id không hợp lệ.");
       }
@@ -211,15 +211,15 @@ const Blog: React.FC = () => {
                 <div className="text-center pt-16 md:pt-32">
                   {isRole === "teacher" || isRole === "admin" ? (
                     <i
-                      className="fa-solid fa-trash icon-bin-blog"
+                      className="fa-solid fa-xmark icon-bin-blog"
                       onClick={() => handleDelete(blog._id)}
                     ></i>
                   ) : (
                     <></>
                   )}
                   <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                    {blog.createdAt} <span className="text-gray-900"> | </span>{" "}
-                    {blog.purpose}
+                    {blog.createdAt}
+                    <span className="text-gray-900"> | </span> {blog.purpose}
                   </p>
                   <h1 className="font-bold break-normal text-3xl md:text-5xl ">
                     {blog.title}
@@ -248,7 +248,7 @@ const Blog: React.FC = () => {
                 <div className="text-center pt-16 md:pt-32">
                   {isRole === "teacher" || isRole === "admin" ? (
                     <i
-                      className="fa-solid fa-trash icon-bin-blog"
+                      className="fa-solid fa-xmark icon-bin-blog"
                       onClick={() => handleDelete(blog._id)}
                     ></i>
                   ) : (
