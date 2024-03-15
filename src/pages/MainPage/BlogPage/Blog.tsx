@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import { selectAuthorization } from "src/reducers/authSlice";
 import { useSelector } from "react-redux";
+import ReactQuill from "react-quill";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 import "./Blog.scss";
 
 const Blog: React.FC = () => {
@@ -76,7 +78,6 @@ const Blog: React.FC = () => {
             position: "bottom-right",
           });
           fetchBlogs();
-          window.location.reload();
         })
         .catch((error) => {
           console.error("Failed to create blog:", error);
@@ -105,6 +106,7 @@ const Blog: React.FC = () => {
         toast.success("Bài viết đã được xóa thành công!", {
           position: "bottom-right",
         });
+        window.location.reload();
       } else {
         console.log("Không tìm thấy bài viết hoặc id không hợp lệ.");
       }
@@ -123,7 +125,19 @@ const Blog: React.FC = () => {
       blog.title.toLowerCase().includes(searchKeyword.toLowerCase())
     );
   }
+  const formatCreatedAt = (createdAt: any) => {
+    const date = new Date(createdAt);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
 
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+
+    return formattedDate;
+  };
   return (
     <React.Fragment>
       <div>
@@ -211,30 +225,33 @@ const Blog: React.FC = () => {
                 <div className="text-center pt-16 md:pt-32">
                   {isRole === "teacher" || isRole === "admin" ? (
                     <i
-                      className="fa-solid fa-trash icon-bin-blog"
+                      className="fa-solid fa-xmark icon-bin-blog"
                       onClick={() => handleDelete(blog._id)}
                     ></i>
                   ) : (
                     <></>
                   )}
-                  <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                    {blog.createdAt} <span className="text-gray-900"> | </span>{" "}
-                    {blog.purpose}
+                  <p className="text-sm md:text-base text-green-500 font-bold mt-8 mb-2">
+                    {formatCreatedAt(blog.createdAt)}
+                    <span className="text-gray-500"> | </span> {blog.purpose}
                   </p>
-                  <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+                  <h1 className="font-bold break-normal text-xl md:text-2xl ">
                     {blog.title}
                   </h1>
                 </div>
                 <div className="container max-w-5xl mx-auto -mt-24">
                   <div className="mx-0 sm:mx-6">
                     <div
-                      className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+                      className="bg-white w-full mb:p-16 md:text-xl text-gray-800 leading-normal"
                       style={{
                         fontFamily: "Georgia, serif",
                         marginTop: "100px",
                       }}
                     >
-                      <p className="py-6">{blog.content}</p>
+                      <p
+                        className="py-6"
+                        dangerouslySetInnerHTML={{ __html: blog.content }}
+                      ></p>
                     </div>
                   </div>
                 </div>
@@ -248,15 +265,15 @@ const Blog: React.FC = () => {
                 <div className="text-center pt-16 md:pt-32">
                   {isRole === "teacher" || isRole === "admin" ? (
                     <i
-                      className="fa-solid fa-trash icon-bin-blog"
+                      className="fa-solid fa-xmark icon-bin-blog"
                       onClick={() => handleDelete(blog._id)}
                     ></i>
                   ) : (
                     <></>
                   )}
                   <p className="text-sm md:text-base text-green-500 font-bold mt-8">
-                    {blog.createdAt} <span className="text-gray-900"> | </span>{" "}
-                    {blog.purpose}
+                    {formatCreatedAt(blog.createdAt)}
+                    <span className="text-gray-900"> | </span> {blog.purpose}
                   </p>
                   <h1 className="font-bold break-normal text-3xl md:text-5xl ">
                     {blog.title}
@@ -271,7 +288,10 @@ const Blog: React.FC = () => {
                         marginTop: "100px",
                       }}
                     >
-                      <p className="py-6">{blog.content}</p>
+                      <p
+                        className="py-6"
+                        dangerouslySetInnerHTML={{ __html: blog.content }}
+                      ></p>
                     </div>
                   </div>
                 </div>
@@ -315,15 +335,15 @@ const Blog: React.FC = () => {
             error={formik.touched.purpose && Boolean(formik.errors.purpose)}
             helperText={formik.touched.purpose && formik.errors.purpose}
           />
-          <TextField
-            required
-            name="content"
-            label="Nội dung của bài viết"
+          <ReactQuill
             value={formik.values.content}
-            onChange={formik.handleChange}
-            error={formik.touched.content && Boolean(formik.errors.content)}
-            helperText={formik.touched.content && formik.errors.content}
+            onChange={(value) => formik.setFieldValue("content", value)}
+            theme="snow"
+            placeholder="Nội dung của bài viết"
           />
+          <div
+            dangerouslySetInnerHTML={{ __html: formik.values.content }}
+          ></div>
         </form>
         <Box sx={{ marginTop: 4 }}>
           <Button
