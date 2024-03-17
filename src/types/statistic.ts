@@ -1,7 +1,6 @@
 import { IAccount } from "./auth";
 import { ICourse } from "./course";
 import { IDetailInvoice } from "./invoice";
-import { IPayment } from "./payment";
 import { IUser } from "./user";
 
 export interface IYearStatistic {
@@ -18,10 +17,6 @@ export interface IUserStatistic {
   raise?: number;
 }
 
-export interface ITeacherInfo {
-  payments?: IPayment;
-}
-
 export interface ITeacher {
   _id?: string;
   account?: IAccount;
@@ -29,7 +24,6 @@ export interface ITeacher {
   fullName?: string;
   birthday?: string;
   phone?: string;
-  teacherInfo?: ITeacherInfo;
   total?: number;
   revenue?: number;
   numOfDetailInvoice?: number;

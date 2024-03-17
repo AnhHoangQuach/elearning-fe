@@ -7,7 +7,7 @@ import BoxContent from "src/components/BoxContent";
 import MediaContent from "src/components/MediaContent";
 import NavigationHeader from "src/components/NavigationHeader";
 import TextContent from "src/components/TextContent";
-import { getPanelActive, getVideoView } from "src/reducers";
+import { getPanelActive } from "src/reducers";
 import { ICourse } from "src/types";
 import formatCharacter from "src/utils/formatCharacter";
 import translateVi from "src/utils/translateVi";
@@ -27,8 +27,6 @@ const CourseDetail = () => {
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getPanelActive(""));
-    dispatch(getVideoView(""));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {

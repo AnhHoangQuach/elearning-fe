@@ -33,9 +33,6 @@ const Register = React.lazy(
 
 //ADMIN PAGE
 const AdminPage = React.lazy(() => import("src/pages/AdminPage/AdminPage"));
-// const RevenueTeacherDetail = React.lazy(
-//   () => import('src/pages/AdminPage/StatisticManage/RevenueTeacherStatistic/RevenueTeacherDetail')
-// )
 
 //TEACHER PAGE
 const TeacherCourse = React.lazy(
@@ -65,33 +62,10 @@ const CouponList = React.lazy(
 const CourseList = React.lazy(
   () => import("src/pages/AdminPage/CoursesManage/CourseList")
 );
-const RevenueStatistic = React.lazy(
-  () =>
-    import(
-      "src/pages/AdminPage/StatisticManage/RevenueStatistic/RevenueStatistic"
-    )
-);
-
-const StatisticManage = React.lazy(
-  () => import("src/pages/AdminPage/StatisticManage/StatisticViews")
-);
-
-const BoughtCourses = React.lazy(
-  () => import("src/pages/CourseLearning/BoughtCourses/BoughtCourses")
-);
 
 const ProfilePage = React.lazy(
   () => import("src/pages/ProfilePage/ProfilePage")
 );
-
-const TeacherInfo = React.lazy(
-  () => import("src/pages/TeacherPage/ManageProfile/TeacherInfo")
-);
-
-//QUIZ PAGE
-const QuizPage = React.lazy(() => import("src/pages/QuizPage"));
-
-const QuizDetail = React.lazy(() => import("src/pages/QuizDetail"));
 
 //ALL PAGES COMPONENTS
 const MAIN_PAGE = {
@@ -110,7 +84,6 @@ const AUTH_PAGE = {
 
 const ADMIN_PAGE = {
   AdminPage: <AdminPage />,
-  QuizPage: <QuizPage />,
   CourseLearningDetail: <CourseLearningDetail />,
   ADMIN_DASHBOARD: {
     ProfilePage: <ProfilePage />,
@@ -119,18 +92,13 @@ const ADMIN_PAGE = {
     CategoryList: <CategoryList />,
     CourseList: <CourseList />,
     CouponList: <CouponList />,
-    StatisticManage: <StatisticManage />,
-    RevenueStatistic: <RevenueStatistic />,
   },
 };
 
 const STUDENT_PAGE = {
-  QuizPage: <QuizPage />,
   CourseLearningDetail: <CourseLearningDetail />,
   STUDENT_DASHBOARD: {
     ProfilePage: <ProfilePage />,
-    BoughtCourses: <BoughtCourses />,
-    QuizDetail: <QuizDetail />,
   },
 };
 
@@ -138,12 +106,9 @@ const TEACHER_PAGE = {
   TeacherCourse: <TeacherCourse />,
   TeacherCourseDetail: <TeacherCourseDetail />,
   CourseLearningDetail: <CourseLearningDetail />,
-  QuizPage: <QuizPage />,
-  QuizDetail: <QuizDetail />,
   TEACHER_DASHBOARD: {
     ProfilePage: <ProfilePage />,
     StudentList: <StudentList />,
-    TeacherInfo: <TeacherInfo />,
     ManagerCourse: <TeacherCourse />,
     CouponList: <CouponList />,
   },

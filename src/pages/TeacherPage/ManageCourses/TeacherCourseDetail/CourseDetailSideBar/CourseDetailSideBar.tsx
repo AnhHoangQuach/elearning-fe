@@ -16,7 +16,6 @@ const CourseDetailSideBar: React.FC<CourseDetailSideBarProps> = ({
 
   useEffect(() => {
     getSideBarId?.(navBar);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navBar]);
 
   return (

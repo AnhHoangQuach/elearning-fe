@@ -4,12 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MediaContent from "src/components/MediaContent";
 import TextContent from "src/components/TextContent";
-import {
-  getQuestionState,
-  getVideoView,
-  setLessonType,
-  setStudyLesson
-} from "src/reducers";
+import { getQuestionState, setLessonType, setStudyLesson } from "src/reducers";
 import { LessonProps } from "src/types";
 import "./CourseChapterLesson.scss";
 
@@ -27,11 +22,6 @@ const CourseChapterLesson: React.FC<CourseChapterLessonProps> = ({
   const dispatch = useDispatch();
 
   const { studyLesson } = useSelector(getQuestionState);
-
-  useEffect(() => {
-    lesson && dispatch(getVideoView(lesson));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson?._id]);
 
   const handleSetLesson = (item: any) => {
     setLesson(item);

@@ -1,5 +1,4 @@
 import { IUser } from "./user";
-import { IVideo } from "./video";
 
 export interface AuthSlice {
   isLoading: boolean;
@@ -7,7 +6,6 @@ export interface AuthSlice {
   isRole: string;
   amount_cart?: number;
   userInfo: IUser;
-  videoView: IVideo;
   panelActive?: string;
 }
 

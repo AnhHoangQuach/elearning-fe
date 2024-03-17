@@ -15,7 +15,6 @@ export const useCopyToClipBoard = (): useCopyToClipBoardType => {
       return false;
     }
 
-    // Try to save to clipboard then save it in the state if worked
     try {
       await navigator.clipboard.writeText(text);
       setCopiedText(text);
