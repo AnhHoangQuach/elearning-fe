@@ -106,8 +106,8 @@ const Blog: React.FC = () => {
         toast.success("Bài viết đã được xóa thành công!", {
           position: "bottom-right",
         });
-        // window.location.href = "https://anhngusparkle.edu.vn/blog";
-        window.location.reload();
+        window.location.href = "https://anhngusparkle.edu.vn/blog";
+        // window.location.reload();
       } else {
         console.log("Không tìm thấy bài viết hoặc id không hợp lệ.");
       }
