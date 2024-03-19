@@ -62,9 +62,9 @@ const Blog: React.FC = () => {
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required("Title is required"),
-    purpose: Yup.string().required("Purpose is required"),
-    content: Yup.string().required("Content is required"),
+    title: Yup.string().required("Nhập nội dung tiêu đề"),
+    purpose: Yup.string().required("Nhập nội dung mục tiêu"),
+    content: Yup.string().required("Nhập nội dung bài viết"),
   });
 
   const formik = useFormik({
@@ -235,7 +235,7 @@ const Blog: React.FC = () => {
                     {formatCreatedAt(blog.createdAt)}
                     <span className="text-gray-500"> | </span> {blog.purpose}
                   </p>
-                  <h1 className="font-bold break-normal text-xl md:text-2xl ">
+                  <h1 className="font-bold break-normal text-xl md:text-3xl">
                     {blog.title}
                   </h1>
                 </div>
@@ -271,18 +271,18 @@ const Blog: React.FC = () => {
                   ) : (
                     <></>
                   )}
-                  <p className="text-sm md:text-base text-green-500 font-bold mt-8">
+                  <p className="text-sm md:text-base text-green-500 font-bold mt-8 mb-2">
                     {formatCreatedAt(blog.createdAt)}
                     <span className="text-gray-900"> | </span> {blog.purpose}
                   </p>
-                  <h1 className="font-bold break-normal text-3xl md:text-5xl ">
+                  <h1 className="font-bold break-normal text-xl md:text-3xl">
                     {blog.title}
                   </h1>
                 </div>
                 <div className="container max-w-5xl mx-auto -mt-24">
                   <div className="mx-0 sm:mx-6">
                     <div
-                      className="bg-white w-full mb:p-16 md:text-2xl  text-xl text-gray-800 leading-normal"
+                      className="bg-white w-full mb:p-16 md:text-xl text-gray-800 leading-normal"
                       style={{
                         fontFamily: "Georgia, serif",
                         marginTop: "100px",
@@ -341,9 +341,6 @@ const Blog: React.FC = () => {
             theme="snow"
             placeholder="Nội dung của bài viết"
           />
-          <div
-            dangerouslySetInnerHTML={{ __html: formik.values.content }}
-          ></div>
         </form>
         <Box sx={{ marginTop: 4 }}>
           <Button
