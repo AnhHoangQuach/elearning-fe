@@ -13,13 +13,11 @@ import {
   TextField,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogTitle,
 } from "@mui/material";
 import { selectAuthorization } from "src/reducers/authSlice";
 import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import "./Blog.scss";
 
 const Blog: React.FC = () => {
@@ -54,6 +52,8 @@ const Blog: React.FC = () => {
     blogApi
       .getBlog()
       .then((response: any) => {
+        console.error("Failed to fetch blogs:", response.result);
+
         setBlogs(response.result);
       })
       .catch((error: any) => {
@@ -106,6 +106,7 @@ const Blog: React.FC = () => {
         toast.success("Bài viết đã được xóa thành công!", {
           position: "bottom-right",
         });
+        // window.location.href = "https://anhngusparkle.edu.vn/blog";
         window.location.reload();
       } else {
         console.log("Không tìm thấy bài viết hoặc id không hợp lệ.");
@@ -114,7 +115,7 @@ const Blog: React.FC = () => {
       toast.error("Không thể xóa bài viết", {
         position: "bottom-right",
       });
-      console.error("Failed to delete blog:", error);
+      console.error("Không thể xóa bài viết error:", error);
     }
   };
 
@@ -281,10 +282,11 @@ const Blog: React.FC = () => {
                 </div>
                 <div className="container max-w-5xl mx-auto -mt-24">
                   <div className="mx-0 sm:mx-6">
+                    {/* md:text-xl text-gray-800 leading-normal*/}
+                    {/* fontFamily: "Serif", */}
                     <div
-                      className="bg-white w-full mb:p-16 md:text-xl text-gray-800 leading-normal"
+                      className="bg-white w-full mb:p-16 "
                       style={{
-                        fontFamily: "Georgia, serif",
                         marginTop: "100px",
                       }}
                     >
@@ -340,7 +342,12 @@ const Blog: React.FC = () => {
             onChange={(value) => formik.setFieldValue("content", value)}
             theme="snow"
             placeholder="Nội dung của bài viết"
+            style={{ fontSize: "inherit", color: "inherit" }}
           />
+          <p
+            className="py-6"
+            dangerouslySetInnerHTML={{ __html: formik.values.content }}
+          ></p>
         </form>
         <Box sx={{ marginTop: 4 }}>
           <Button

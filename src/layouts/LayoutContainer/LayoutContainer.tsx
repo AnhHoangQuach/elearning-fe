@@ -14,9 +14,18 @@ const LayoutContainer: React.FC<LayoutContainerProps> = ({
   titleShow = true,
   footerShow = true,
 }) => {
+  const [showSupportItems, setShowSupportItems] = React.useState(false);
+  const toggleSupportItems = () => {
+    setShowSupportItems(!showSupportItems);
+  };
   return (
     <div className="layout-container">
       <Header titleShow={titleShow} />
+      <div className="support" onClick={toggleSupportItems}>
+        <i className="fa-solid fa-phone-volume"></i> Hotline <> </>
+        <i className="fa-solid fa-caret-up"></i>
+      </div>
+      {showSupportItems && <div className="support-items">ádasdasd</div>}
       <div className="body-container">{children}</div>
       {footerShow && <Footer />}
     </div>
