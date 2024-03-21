@@ -91,13 +91,37 @@
   .btn-search {
     position: absolute;
     right: 0;
-    background-color: rgb(60, 60, 190);
+    background-color: rgb(68, 173, 234);
     color: white;
     font-weight: bold;
   }
 }
 
-.container {
-  border-radius: 30px;
-  opacity: 1;
+.menu-blog-right {
+  position: fixed;
+  top: 150px;
+  right: 0;
+  width: 15%;
+  float: right;
+
+  img {
+    width: 100%;
+    float: right;
+  }
+}
+.menu-blog-left {
+  position: fixed;
+  top: 150px;
+  left: 0;
+  width: 15%;
+  float: left;
+
+  img {
+    width: 100%;
+    float: left;
+  }
+}
+.container-showBlog {
+  margin: -70px 245px 0px 245px;
+  padding: 0px 100px 0px 100px;
 }

@@ -18,6 +18,9 @@ import {
 import { selectAuthorization } from "src/reducers/authSlice";
 import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./Blog.scss";
 
 const Blog: React.FC = () => {
@@ -139,36 +142,29 @@ const Blog: React.FC = () => {
 
     return formattedDate;
   };
+
+  const settingsRight = {
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 1,
+    adaptiveHeight: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
+
+  const settingsLeft = {
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 1,
+    adaptiveHeight: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
+
   return (
     <React.Fragment>
-      <div>
-        <Dialog
-          open={openDelete}
-          onClose={handleClickCloseDelete}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Bạn có muốn xóa bài viết không?"}
-          </DialogTitle>
-
-          <DialogActions>
-            <Button
-              onClick={handleClickCloseDelete}
-              style={{ backgroundColor: "red", color: "white" }}
-            >
-              Hủy bỏ
-            </Button>
-            <Button
-              onClick={() => handleDelete(blogToDeleteId)}
-              autoFocus
-              style={{ backgroundColor: "blue", color: "white" }}
-            >
-              Xóa bài viết
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
       <div
         className="btn-return"
         onClick={() => {
@@ -219,7 +215,52 @@ const Blog: React.FC = () => {
           <></>
         )}
       </div>
-      <div className="container">
+
+      <div className="menu-blog-left">
+        <Slider {...settingsRight}>
+          <div>
+            <img
+              alt="myphoto"
+              src="https://file.hstatic.net/200000665395/article/mau-content-cho-trung-tam-tieng-anh-5_d4609222f68e4806ad584848fa109165.jpg"
+            ></img>
+          </div>
+          <div>
+            <img
+              alt="myphoto"
+              src="https://file.hstatic.net/200000665395/article/mau-content-cho-trung-tam-tieng-anh-5_d4609222f68e4806ad584848fa109165.jpg"
+            ></img>
+          </div>
+          <div>
+            <img
+              alt="myphoto"
+              src="https://file.hstatic.net/200000665395/article/mau-content-cho-trung-tam-tieng-anh-5_d4609222f68e4806ad584848fa109165.jpg"
+            ></img>
+          </div>
+        </Slider>
+      </div>
+      <div className="menu-blog-right">
+        <Slider {...settingsLeft}>
+          <div>
+            <img
+              alt="myphoto"
+              src="https://problogger.com/jobs/wp-content/uploads/2020/09/problogger-ultimate-guide-to-freelance-writing.png"
+            ></img>
+          </div>
+          <div>
+            <img
+              alt="myphoto"
+              src="https://problogger.com/jobs/wp-content/uploads/2020/09/problogger-ultimate-guide-to-freelance-writing.png"
+            ></img>
+          </div>
+          <div>
+            <img
+              alt="myphoto"
+              src="https://problogger.com/jobs/wp-content/uploads/2020/09/problogger-ultimate-guide-to-freelance-writing.png"
+            ></img>
+          </div>
+        </Slider>
+      </div>
+      <div className="container-showBlog">
         {searchKeyword
           ? filteredBlogs.map((blog: IBlog) => (
               <div key={blog._id}>
@@ -303,6 +344,7 @@ const Blog: React.FC = () => {
               </div>
             ))}
       </div>
+
       {/* Modal add Blog //////////////////////////////*/}
       <ModalContainer
         title="Thông tin chi tiết bài viết"
