@@ -186,13 +186,12 @@ const Blog: React.FC = () => {
           <Input
             id="standard-adornment-amount"
             type="text"
-            placeholder="Search ...."
+            placeholder=" Tìm kiếm bài viết ...."
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
           />
-          <Button type="submit" className="btn-search">
-            Search
-          </Button>
+
+          <i className="fa-solid fa-magnifying-glass btn-search"></i>
         </FormControl>
       </div>
       <div>
